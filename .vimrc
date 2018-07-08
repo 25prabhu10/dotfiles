@@ -22,4 +22,11 @@ call plug#begin('~/.vim/plugged')
     let NERDTreeShowHidden=1
     let NERDTreeIgnore=['\.pyc$', '\~$']
 
-call vundle#end()
+call plug#end()
+
+"***************************************************************
+"		Settings
+"***************************************************************
+
+""""""""""NERDTree""""""""""
+nnoremap <c-o> :NERDTreeToggle<CR>
