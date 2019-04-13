@@ -15,11 +15,17 @@
 
 ""  Untils
     Plug 'scrooloose/nerdtree'
+    Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+
     Plug 'mbbill/undotree'
+    Plug 'Yggdroot/indentLine'
+
+    Plug 'tpope/vim-fugitive'
+    Plug 'Xuyuanp/nerdtree-git-plugin'
+
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'mhartington/oceanic-next'
-    Plug 'Yggdroot/indentLine'
     Plug 'ryanoasis/vim-devicons'
 
   call plug#end()
@@ -27,37 +33,74 @@
 
 " System Settings  ----------------------------------------------------------{{{
 
+" This enhances the colors reproduced
   set nocompatible
-  filetype on "plugin indent on
-  syntax on
   if (has("termguicolors"))
     set termguicolors
   endif
 
+" This sets the different folding options depending on file type
+  autocmd BufNewFile,BufRead *.py set foldmethod=indent
+  autocmd BufNewFile,BufRead *.vimrc set foldmethod=marker
+
+" This adds the current directory to the :Find files feature (in-built)
+  set path+=**
+  "set dictionary+=/usr/share/dict/words
+
+" When new files are opened, they follow the bellow convention.
+  set splitbelow
+  set splitright
+
+" This stops Vim from redrawing the screen during complex operations and results
+" in much smoother looking plugins.
+  set lazyredraw
+
+" The same indent as the line you're currently on. Useful for READMEs, etc.
   set autoindent
+
   set expandtab
-  set softtabstop =4
-  set shiftwidth  =4
+  set softtabstop=4 " insert mode tab and backspace use 4 spaces
+  set shiftwidth=4 " normal mode indentation commands use 4 spaces
   "set shiftround
 
+" Show “invisible” characters
+  set lcs=trail:·,
+  set list
+
+" Highlight searches
   set hlsearch
   set ignorecase
+
+" Case-sensitive search if any caps
   set smartcase
   set incsearch
   set title
 
+" Enable use of the mouse for all modes - helpful for resizing buffers
   set mouse=a
   "set ttymouse=xterm2
+
+" Always display the status line, even if only one window is displayed
   set laststatus=2
+
+" Set the command window height to 2 lines, to avoid many cases of having to
+" press <Enter> to continue
   set cmdheight=2
+
+" Better command-line completion
   set wildmenu
 
   set relativenumber number
-  set foldmethod=marker
-  set pastetoggle=<F6>
   set conceallevel=0
   set autoread
   "set shortname
+
+" Don’t show the intro message when starting Vim
+  set shortmess=atI
+
+" Show partial commands in the last line of the screen
+  set showcmd
+  set noshowmode
 
   let mapleader=','
 
@@ -95,6 +138,23 @@
   nmap <leader>. :bnext<CR>
   nmap <leader>, :bprevious<CR>
 
+  nnoremap <C-h> <C-w><C-h>
+  nnoremap <C-j> <C-w><C-j>
+  nnoremap <C-k> <C-w><C-k>
+  nnoremap <C-l> <C-w><C-l>
+
+
+""These are mainly for python
+" maps sorting lines with alphabets
+  vnoremap <leader>s :sort<CR>
+
+" indent a code block
+  vnoremap < <gv
+  vnoremap > >gv
+
+  "autocmd ColorScheme * highlight ExtraWhitespace ctermbg=red
+  "au InsertLeave * match ExtraWhitespace /\s\+$/
+
 "}}}
 
 " NERDTree ------------------------------------------------------------------{{{
@@ -103,28 +163,15 @@
 
   let g:NERDTreeMouseMode = 3
   let NERDTreeShowHidden = 1
-  let NERDTreeIgnore = ['\.pyc$', '\~$']
-  " let g:NERDTreeChDirMode=2
+  let NERDTreeIgnore = ['\.pyc$', '\~$', '\.jpeg$', '\.png$', '\.jpg$', '\.gif$', '\.tif$', '\.mp4$']
 
-""  function! NERDTreeHighlightFile(extension, fg, bg, guifg, guibg)
-""  exec 'autocmd FileType nerdtree highlight ' . a:extension .' ctermbg='. a:bg .' ctermfg='. a:fg .'guibg='. a:guibg .' guifg='. a:guifg
-""  exec 'autocmd FileType nerdtree syn match ' . a:extension .' #^\s\+.*'. a:extension .'$#'
-""  endfunction
+  let NERDTreeHijackNetrw=0
 
-""  call NERDTreeHighlightFile('jade', 'green', 'none', 'green', 'none')
-""  call NERDTreeHighlightFile('md', 'blue', 'none', '#6699CC', 'none')
-""  call NERDTreeHighlightFile('config', 'yellow', 'none', '#d8a235', 'none')
-""  call NERDTreeHighlightFile('conf', 'yellow', 'none', '#d8a235', 'none')
-""  call NERDTreeHighlightFile('ison', 'green', 'none', '#d8a235', 'none')
-""  call NERDTreeHighlightFile('html', 'yellow', 'none', '#d8a235', 'none')
-""  call NERDTreeHighlightFile('css', 'cyan', 'none', '#5486C0', 'none')
-""  call NERDTreeHighlightFile('scss', 'cyan', 'none', '#5486C0', 'none')
-""  call NERDTreeHighlightFile('coffee', 'red', 'none', 'red', 'none')
-""  call NERDTreeHighlightFile('js', 'red', 'none', '#ffa500', 'none')
-""  call NERDTreeHighlightFile('ts', 'blue', 'none', '#6699cc', 'none')
-""  call NERDTreeHighlightFile('ds_store', 'gray', 'none', '#686868', 'none')
-""  call NERDTreeHighlightFile('gitconfig', 'black', 'none', '#686868', 'none')
-""  call NERDTreeHighlightFile('gitignore', 'gray', 'none', '#7F7F7F', 'none')
+  let g:netrw_liststyle = 3
+  let g:netrw_banner = 0
+
+  let g:NERDTreeDirArrowExpandable = ''
+  let g:NERDTreeDirArrowCollapsible = '▼'
 
 "}}}
 
@@ -162,27 +209,27 @@
   let g:airline_powerline_fonts = 1
 
 " unicode symbols
-  let g:airline_left_sep = '»'
-  let g:airline_left_sep = '▶'
-  let g:airline_right_sep = '«'
-  let g:airline_right_sep = '◀'
-  let g:airline_symbols.linenr = '␊'
-  let g:airline_symbols.linenr = '␤'
-  let g:airline_symbols.linenr = '¶'
-  let g:airline_symbols.branch = '⎇'
-  let g:airline_symbols.paste = 'ρ'
-  let g:airline_symbols.paste = 'Þ'
-  let g:airline_symbols.paste = '∥'
-  let g:airline_symbols.whitespace = 'Ξ'
+"  let g:airline_left_sep = '»'
+"  let g:airline_left_sep = '▶'
+"  let g:airline_right_sep = '«'
+"  let g:airline_right_sep = '◀'
+"  let g:airline_symbols.linenr = '␊'
+"  let g:airline_symbols.linenr = '␤'
+"  let g:airline_symbols.linenr = '¶'
+"  let g:airline_symbols.branch = '⎇'
+"  let g:airline_symbols.paste = 'ρ'
+"  let g:airline_symbols.paste = 'Þ'
+"  let g:airline_symbols.paste = '∥'
+"  let g:airline_symbols.whitespace = 'Ξ'
 
 " airline symbols
-  let g:airline_left_sep = ''
-  let g:airline_left_alt_sep = ''
-  let g:airline_right_sep = ''
-  let g:airline_right_alt_sep = ''
-  let g:airline_symbols.branch = ''
-  let g:airline_symbols.readonly = ''
-  let g:airline_symbols.linenr = ''
+"  let g:airline_left_sep = ''
+"  let g:airline_left_alt_sep = ''
+"  let g:airline_right_sep = ''
+"  let g:airline_right_alt_sep = ''
+"  let g:airline_symbols.branch = ''
+"  let g:airline_symbols.readonly = ''
+"  let g:airline_symbols.linenr = ''
 
   let g:airline#extensions#tabline#enabled = 1
   let g:airline#extensions#whitespace#enabled = 0
@@ -193,13 +240,30 @@
 
 "}}}
 
-" Themes, Commands, etc  ----------------------------------------------------{{{
+" Themes, Commands, etc ----------------------------------------------------{{{
 
+" Enable syntax highlighting
   syntax on
+
+" Attempt to determine the type of a file based on its name and possibly its
+" contents. Use this to allow intelligent auto-indenting for each filetype,
+" and for plugins that are filetype specific.
+  filetype plugin indent on
+
   let g:one_allow_italics = 1
   let g:oceanic_next_terminal_bold = 1
   let g:oceanic_next_terminal_italic = 1
   colorscheme OceanicNext 
   hi CursorLineNr guifg=#ffffff
+
+"}}}
+
+" NOTES  ----------------------------------------------------{{{
+
+" Use vim -b file while opening binary files or use :set binary
+
+"""Enable per-directory .vimrc files and disable unsafe commands in them
+  "set exrc
+  "set secure
 
 "}}}
