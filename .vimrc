@@ -1,7 +1,8 @@
-"
+" -----------------------------------------------------------------------------
 "  Author: Prabhu K H
-"  repo  : https://github.com/25prabhu10/dotfiles
-"
+"  Repo: https://github.com/25prabhu10/dotfiles
+" -----------------------------------------------------------------------------
+
 " Plugins  ------------------------------------------------------------------{{{
 
 " Install vim-plug if it isnt there
@@ -11,18 +12,38 @@
     autocmd VimEnter *   PlugInstall --sync | source $MYVIMRC
   endif
 
+" Specify a directory for plugins
   call plug#begin('~/.vim/plugged')
 
-""  Untils
+    " Markdown Plugins
+    Plug 'godlygeek/tabular'
+    Plug 'plasticboy/vim-markdown'
+
+    " File Management Plugins
     Plug 'scrooloose/nerdtree'
     Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 
+    " File History
     Plug 'mbbill/undotree'
+
+    " File Formating
     Plug 'Yggdroot/indentLine'
 
+    " Find and replace from multiple files
+    Plug 'mhinz/vim-grepper'
+
+    " A git wrapper
     Plug 'tpope/vim-fugitive'
     Plug 'Xuyuanp/nerdtree-git-plugin'
 
+    " Dim paragraphs above and below the active paragraph
+    Plug 'junegunn/limelight.vim'
+
+    " Distraction free writing
+    Plug 'junegunn/goyo.vim'
+
+    " Gruvbox theme
+    " Plug 'morhetz/gruvbox
     Plug 'vim-airline/vim-airline'
     Plug 'vim-airline/vim-airline-themes'
     Plug 'mhartington/oceanic-next'
@@ -157,7 +178,7 @@
 
 "}}}
 
-" NERDTree ------------------------------------------------------------------{{{
+" scrooloose/nerdtree --------------------------------------------------------{{{
 
   nnoremap <c-o> :NERDTreeToggle<CR>
 
@@ -175,7 +196,7 @@
 
 "}}}
 
-" Vim-Devicons --------------------------------------------------------------{{{
+" vim-devicons --------------------------------------------------------------{{{
 
   let g:NERDTreeGitStatusNodeColorization = 1
   let g:webdevicons_enable_denite = 0
@@ -237,6 +258,10 @@
 
   let g:airline#extensions#tabline#buffer_idx_mode = 1
   let g:webdevicons_enable_airline_statusline_fileformat_symbols = 0
+
+"}}}
+
+" vim-markdown ---------------------------------------------------------------{{{
 
 "}}}
 
