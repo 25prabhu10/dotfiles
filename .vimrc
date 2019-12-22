@@ -338,6 +338,13 @@
 
 "}}}
 
+" Copy dotfiles to dropbox --------------------------------------------------{{{
+
+  " Copy dotfiles to dropbox on save
+  autocmd BufWritePost .bashrc,.gitconfig,.profile,.vimrc !~/Scripts/copydotfiles.sh <afile>
+
+" }}}
+
 " NOTES  --------------------------------------------------------------------{{{
 
 " Use vim -b file while opening binary files or use :set binary
