@@ -1,0 +1,7 @@
+[user]
+	name = Prabhu K H
+	email = 25prabhu10@gmail.com
+[color]
+	ui = auto
+[alias]
+	lg = log --pretty=format:\"%C(auto)%h %Cgreen%aN%Creset %s %Cgreen(%cr)%C(auto)%d\" --graph --all
