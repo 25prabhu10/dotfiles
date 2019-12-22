@@ -31,7 +31,7 @@
       Plug 'Yggdroot/indentLine'
 
       " Find and replace from multiple files
-      Plug 'mhinz/vim-grepper'
+      Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)'] }
 
       " A git wrapper
       Plug 'tpope/vim-fugitive'
