@@ -5,3 +5,7 @@
 	ui = auto
 [alias]
 	lg = log --pretty=format:\"%C(auto)%h %Cgreen%aN%Creset %s %Cgreen(%cr)%C(auto)%d\" --graph --all
+	l = log --pretty=oneline -n 20 --graph --abbrev-commit
+	s = status -s
+	branches = branch -a
+	remotes = remote -v
