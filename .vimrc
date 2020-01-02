@@ -94,6 +94,7 @@
   " Show “invisible” characters
     set lcs=trail:·,
     set list
+    set showbreak=↪
 
   " Highlight searches
     set hlsearch
@@ -149,6 +150,24 @@
     set history=500
     set undolevels=700
     set undoreload=700
+
+  " Wildmode Options
+    set wildmenu
+    " Command <Tab> completion, list matches, then longest common part, then all
+    set wildmode=list:longest,full
+    " Version control
+    set wildignore+=.hg,.git,.svn
+    set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg
+    " compiled object files
+    set wildignore+=*.o,*.obj,*.exe,*.dll,*.manifest
+    " Vim swap files
+    set wildignore+=*.sw?
+    " OSX bullshit
+    set wildignore+=*.DS_Store
+    " Django migrations
+    set wildignore+=migrations
+    " Python byte code
+    set wildignore+=*.pyc
 
 " }}}
 
