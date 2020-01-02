@@ -138,11 +138,11 @@
     nnoremap <F9> :UndotreeToggle<CR>
 
     if has("persistent_undo")
-      set undodir=~/.vim/tmp/undo//
+      set undodir=~/.vim/tmp/undo/
       set undofile
     endif
-    set backupdir=~/.vim/tmp/backup//
-    set directory=~/.vim/tmp/swap//
+    set backupdir=~/.vim/tmp/backup/
+    set directory=~/.vim/tmp/swap/
     set backupskip=/tmp/*,/private/tmp/*"
     set backup
     set writebackup
@@ -150,6 +150,17 @@
     set history=500
     set undolevels=700
     set undoreload=700
+
+    " Make those folders automatically if they don't already exist.
+    if !isdirectory(expand(&undodir))
+        call mkdir(expand(&undodir), "p")
+    endif
+    if !isdirectory(expand(&backupdir))
+        call mkdir(expand(&backupdir), "p")
+    endif
+    if !isdirectory(expand(&directory))
+        call mkdir(expand(&directory), "p")
+    endif
 
   " Wildmode Options
     set wildmenu
