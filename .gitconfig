@@ -6,6 +6,16 @@
 [alias]
 	lg = log --pretty=format:\"%C(auto)%h %Cgreen%aN%Creset %s %Cgreen(%cr)%C(auto)%d\" --graph --all
 	l = log --pretty=oneline -n 20 --graph --abbrev-commit
-	s = status -s
-	branches = branch -a
+	s = status -sb
 	remotes = remote -v
+	p = push
+	c = commit
+	b = branch
+	bs = branch -av
+	unstage = reset HEAD --
+	last = log -1 HEAD
+	rank = shortlog -sn --no-merges
+	a = add --all
+	cm = commit --message
+	dd = diff --check --dirstat --find-copies --find-renames --histogram --color
+	ls = ls-files
