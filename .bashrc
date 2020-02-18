@@ -144,6 +144,13 @@ export YAOURT_COLORS="nb=1:pkg=1:ver=1;32:lver=1;45:installed=1;42:grp=1;34:od=1
 # my settings
 alias ll='ls -ahl'
 alias cls='clear'
+# my functions
+# git add, commit and push to the repo
+function lazygit() {
+    git add .
+    git commit -a -m "$1"
+    git push
+}
 # disable Software Flow Control (XON/XOFF)
 stty -ixon
 
