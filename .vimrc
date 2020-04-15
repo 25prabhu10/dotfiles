@@ -368,14 +368,18 @@
 
 "}}}
 
-" Copy dotfiles ------------------------------------------------------------{{{
+" Copy dotfiles -------------------------------------------------------------{{{
 
   " Copy dotfiles to dropbox on save
   autocmd BufWritePost .bashrc,.gitconfig,.profile,.vimrc !~/Scripts/copydotfiles.sh <afile>
 
 " }}}
 
-autocmd Filetype gitcommit setlocal spell textwidth=72
+" Limit Commit Words --------------------------------------------------------{{{
+
+  autocmd Filetype gitcommit setlocal spell textwidth=72
+
+" }}}
 
 " NOTES  --------------------------------------------------------------------{{{
 
