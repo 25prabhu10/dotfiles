@@ -116,9 +116,6 @@
   " press <Enter> to continue
     set cmdheight=2
 
-  " Better command-line completion
-    set wildmenu
-
     set relativenumber number
     set conceallevel=0
     set autoread
