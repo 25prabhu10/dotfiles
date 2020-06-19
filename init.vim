@@ -5,23 +5,36 @@
 
 " Plugins  ------------------------------------------------------------------{{{
 
-  call plug#begin('~/.config/nvim/plugged')
+  " Plugins directory
+    call plug#begin('~/.config/nvim/plugged')
+
+    " File History
+      Plug 'mbbill/undotree'
+
+    " Fuzzy finder
+      Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+      Plug 'junegunn/fzf.vim'
 
     " Git wrappers
-    Plug 'tpope/vim-fugitive'
-    Plug 'airblade/vim-gitgutter'
+      Plug 'tpope/vim-fugitive'
+      Plug 'airblade/vim-gitgutter'
 
     " color scheme
-    Plug 'joshdick/onedark.vim'
+      Plug 'joshdick/onedark.vim'
 
     " Status line
-    Plug 'itchyny/lightline.vim'
+      Plug 'itchyny/lightline.vim'
 
-  call plug#end()
+    call plug#end()
 
 " }}}
 
 " Settings ------------------------------------------------------------------{{{
+
+  " Non-compatible with VI
+    if &compatible
+        set nocompatible
+    end
 
   " This adds the current directory to the :Find files feature (in-built)
     set path+=**
@@ -31,11 +44,16 @@
   " in much smoother looking plugins.
     set lazyredraw
 
+  " No swap and No backup files
+    set noswapfile
+    set nobackup
+
   " The same indent as the line you're currently on. Useful for READMEs, etc.
     set autoindent
     set smartindent
 
     set expandtab
+    set tabstop=4
     set softtabstop=4 " insert mode tab and backspace use 4 spaces
     set shiftwidth=4 " normal mode indentation commands use 4 spaces
     "set shiftround
@@ -45,7 +63,7 @@
     set splitright
 
   " Show “invisible” characters
-    set lcs=trail:·,
+    set lcs=tab:»·,trail:·,nbsp:·
     set list
     set showbreak=↪
 
@@ -65,7 +83,8 @@
     set autoread
 
   " Vertical line on column 80
-    set colorcolumn=80
+    set textwidth=80
+    set colorcolumn=+1
 
   " Enable highlighting of the current line
     set cursorline
@@ -73,10 +92,13 @@
   " Copy paste between vim and everything else
     set clipboard=unnamedplus
 
+  " Autocomplete with dictionary words when spell check is on
+    set complete+=kspell
+
   " Wildmode Options
     set wildmenu
     " Command <Tab> completion, list matches, then longest common part, then all
-    set wildmode=list:longest,full
+    set wildmode=list:longest,list:full
     " Version control
     set wildignore+=.hg,.git,.svn
     set wildignore+=*.jpg,*.bmp,*.gif,*.png,*.jpeg
@@ -98,6 +120,25 @@
 
 " Function-------------------------------------------------------------------{{{
 
+  augroup vimrcEx
+      autocmd!
+      " When editing a file, always jump to the last known cursor position.
+      " Don't do it for commit messages, when the position is invalid, or when
+      " inside an event handler (happens when dropping a file on gvim).
+      autocmd BufReadPost *
+                  \ if &ft != 'gitcommit' && line("'\"") > 0 && line("'\"") <= line("$") |
+                  \   exe "normal g`\"" |
+                  \ endif
+
+      " Set syntax highlighting for specific file types
+      autocmd BufRead,BufNewFile *.md set filetype=markdown
+      autocmd BufRead,BufNewFile .{jscs,jshint,eslint,babel}rc set filetype=json
+      autocmd BufRead,BufNewFile aliases.local,zshrc.local,*/zsh/configs/* set filetype=sh
+      autocmd BufRead,BufNewFile gitconfig.local set filetype=gitconfig
+      autocmd BufRead,BufNewFile tmux.conf.local set filetype=tmux
+      autocmd BufRead,BufNewFile vimrc.local set filetype=vim
+  augroup END
+
   " This sets the different folding options depending on file type
     autocmd BufNewFile,BufRead *.py set foldmethod=indent
     autocmd BufNewFile,BufRead *.vimrc,*.vim set foldmethod=marker
@@ -112,6 +153,9 @@
   " Spelling Check
     nnoremap <F8> :set spell!<CR>
 
+  " Switch between the last two files
+    nnoremap <Leader><Leader> <C-^>
+
   " Folds
     nnoremap <Space> za
     vnoremap <Space> za
@@ -124,6 +168,36 @@
 
   " Clear search highlights
     map <leader><Space> <Esc>:let @/=''<CR>
+
+  " Increase and decrease split width
+    nnoremap <Leader>+ :vertical resize +5<CR>
+    nnoremap <Leader>- :vertical resize -5<CR>
+
+" }}}
+
+" UndoTree  -----------------------------------------------------------------{{{
+
+  if has("persistent_undo")
+      set undodir=~/.local/share/nvim/undodir
+      set undofile
+  endif
+  set history=500
+  set undolevels=700
+  set undoreload=700
+
+  " UndoTree toggle
+    nnoremap <F9> :UndotreeToggle<CR>
+
+" }}}
+
+" FZF.vim ----------------------------------------------------------{{{
+
+  " Find Files
+    nnoremap <leader>f <Esc>:FZF -m<CR>
+
+  " Search word in in multiple files
+    nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
+    nnoremap <leader>phw :h <C-R>=expand("<cword>")<CR><CR>
 
 " }}}
 
