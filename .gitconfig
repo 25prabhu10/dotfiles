@@ -19,3 +19,4 @@
 	cm = commit --message
 	dd = diff --check --dirstat --find-copies --find-renames --histogram --color
 	ls = ls-files
+	st = status
