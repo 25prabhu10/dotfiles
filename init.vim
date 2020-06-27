@@ -5,8 +5,27 @@
 
 " Plugins  ------------------------------------------------------------------{{{
 
+  " Download Vim-Plug if not present
+    let vimplug_exists=expand('~/.local/share/nvim/site/autoload/plug.vim')
+
+    if !filereadable(vimplug_exists)
+        if !executable("curl")
+            echoerr "You have to install curl or first install vim-plug yourself!"
+            execute "q!"
+        endif
+        echo "Installing Vim-Plug..."
+        echo ""
+        silent exec "!\curl -flo " . vimplug_exists . " --create-dirs https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+        let g:not_finish_vimplug="yes"
+
+        autocmd VimEnter * PlugInstall
+    endif
+
   " Plugins directory
     call plug#begin('~/.config/nvim/plugged')
+
+    " Startup view
+      Plug 'mhinz/vim-startify'
 
     " File History
       Plug 'mbbill/undotree'
@@ -19,7 +38,17 @@
       Plug 'tpope/vim-fugitive'
       Plug 'airblade/vim-gitgutter'
 
-    " color scheme
+    " Dim paragraphs above and below the active paragraph
+      Plug 'junegunn/limelight.vim', { 'on': ['Limelight', 'Goyo'] }
+
+    " Distraction free writing
+      Plug 'junegunn/goyo.vim', { 'on': ['Limelight', 'Goyo'] }
+
+    " Markdown Plugins
+      Plug 'godlygeek/tabular', { 'for': 'markdown' }
+      Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
+
+    " Color scheme
       Plug 'joshdick/onedark.vim'
 
     " Status line
@@ -58,12 +87,21 @@
     set shiftwidth=4 " normal mode indentation commands use 4 spaces
     "set shiftround
 
+  " Do not fold on file opening
+    set nofoldenable
+
+  " Mouse support
+    set mouse=a
+
+  " Disable soft wrapping
+    set wrap!
+
   " File split will follow the bellow convention.
     set splitbelow
     set splitright
 
   " Show “invisible” characters
-    set lcs=tab:»·,trail:·,nbsp:·
+    set lcs=tab:»·,trail:·,nbsp:·,extends:#
     set list
     set showbreak=↪
 
@@ -143,6 +181,9 @@
     autocmd BufNewFile,BufRead *.py set foldmethod=indent
     autocmd BufNewFile,BufRead *.vimrc,*.vim set foldmethod=marker
 
+  " remove trailing whitespaces
+    command! FixWhitespace :%s/\s\+$//e
+
 " }}}
 
 " Mappings  -----------------------------------------------------------------{{{
@@ -160,6 +201,12 @@
     nnoremap <Space> za
     vnoremap <Space> za
 
+  " Spell bindings
+    nnoremap <leader>sn ]s
+    nnoremap <leader>sp [s
+    nnoremap <leader>sa zg
+    nnoremap <leader>s? z=
+
   " Navigate around splits
     nnoremap <C-h> <C-w><C-h>
     nnoremap <C-j> <C-w><C-j>
@@ -168,6 +215,13 @@
 
   " Clear search highlights
     map <leader><Space> <Esc>:let @/=''<CR>
+
+  " Buffers
+    nnoremap <leader>b :Buffers<CR>
+
+  " Split
+    noremap <Leader>h :<C-u>split<CR>
+    noremap <Leader>v :<C-u>vsplit<CR>
 
   " Increase and decrease split width
     nnoremap <Leader>+ :vertical resize +5<CR>
@@ -199,6 +253,28 @@
     nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
     nnoremap <leader>phw :h <C-R>=expand("<cword>")<CR><CR>
 
+    " FZF pop up window
+    " let $FZF_DEFAULT_COMMAND =  \"find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
+    " " let $FZF_DEFAULT_OPTS=' --color=dark --color=fg:15,bg:-1,hl:1,fg+:#ffffff,bg+:0,hl+:1 --color=info:0,prompt:0,pointer:12,marker:4,spinner:11,header:-1 --layout=reverse  --margin=1,4'
+    " " let g:fzf_layout = { 'window': 'call FloatingFZF()' }
+    " " function! FloatingFZF()
+    " " let buf = nvim_create_buf(v:false, v:true)
+    " " call setbufvar(buf, '&signcolumn', 'no')
+    " " let height = float2nr(10)
+    " " let width = float2nr(80)
+    " " let horizontal = float2nr((&columns - width) / 2)
+    " " let vertical = 1
+    " " let opts = {
+    " " \ 'relative': 'editor',
+    " " \ 'row': vertical,
+    " " \ 'col': horizontal,
+    " " \ 'width': width,
+    " " \ 'height': height,
+    " " \ 'style': 'minimal'
+    " " \ }
+    " " call nvim_open_win(buf, v:true, opts)
+    " " endfunction
+
 " }}}
 
 " Lightline -----------------------------------------------------------------{{{
@@ -220,7 +296,7 @@
   function! LightlineFugitive()
       if exists('*FugitiveHead')
           let branch = FugitiveHead()
-          return branch !=# '' ? ''.branch : ''
+          return branch !=# '' ? ' '.branch : ''
       endif
       return ''
   endfunction
@@ -228,10 +304,68 @@
   let g:lightline.separator = {
                \ 'left': '', 'right': ''
                \ }
- 
+
   let g:lightline.subseparator = {
                \ 'left': '', 'right': ''
                \ }
+
+" }}}
+
+" Limelight -----------------------------------------------------------------{{{
+
+  " Activate Limelight
+    nnoremap <Leader>l :Limelight!!<CR>
+
+" }}}
+
+" Goyo ----------------------------------------------------------------------{{{
+
+  " Activate Goyo
+    nnoremap <Leader>g :Goyo<CR>
+
+" }}}
+
+" Vim-Markdown --------------------------------------------------------------{{{
+
+  " When Goyo is enabled, issue in opening new file.
+  " https://github.com/mhinz/vim-startify/wiki/Known-issues-with-other-plugins
+    autocmd BufEnter *
+       \ if !exists('t:startify_new_tab') && empty(expand('%')) && !exists('t:goyo_master') | 
+       \   let t:startify_new_tab = 1 |
+       \   Startify |
+       \ endif
+
+  " returns all modified files of the current git repo
+  " `2>/dev/null` makes the command fail quietly, so that when we are not
+  " in a git repo, the list will be empty
+    function! s:gitModified()
+        let files = systemlist('git ls-files -m 2>/dev/null')
+        return map(files, "{'line': v:val, 'path': v:val}")
+    endfunction
+    " same as above, but show untracked files, honouring .gitignore
+    function! s:gitUntracked()
+        let files = systemlist('git ls-files -o --exclude-standard 2>/dev/null')
+        return map(files, "{'line': v:val, 'path': v:val}")
+    endfunction
+    let g:startify_lists = [
+        \ { 'type': 'files',     'header': ['   Recent Files']            },
+        \ { 'type': 'dir',       'header': ['   Directory: '. getcwd()] },
+        \ { 'type': 'sessions',  'header': ['   Sessions']       },
+        \ { 'type': 'bookmarks', 'header': ['   Bookmarks']      },
+        \ { 'type': function('s:gitModified'),  'header': ['   git modified']},
+        \ { 'type': function('s:gitUntracked'), 'header': ['   git untracked']},
+        \ { 'type': 'commands',  'header': ['   Commands']       },
+        \ ]
+
+" }}}
+
+" Vim-Markdown --------------------------------------------------------------{{{
+
+  " Enable TOC window auto-fit
+    let g:vim_markdown_toc_autofit = 1
+
+  " Disable Syntax Concealing
+    let g:vim_markdown_conceal = 0
 
 " }}}
 
@@ -267,6 +401,6 @@
 " Copy dotfiles -------------------------------------------------------------{{{
 
   " Copy dotfiles to dropbox on save
-  autocmd BufWritePost .bashrc,.gitconfig,.profile,.vimrc,init.vim !~/Scripts/copydotfiles.sh <afile>
+  autocmd BufWritePost .bashrc,.gitconfig,.profile,.vimrc,init.vim,*.zsh* !~/Scripts/copydotfiles.sh <afile>
 
 " }}}
