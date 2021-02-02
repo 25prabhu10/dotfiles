@@ -48,6 +48,9 @@
       Plug 'godlygeek/tabular', { 'for': 'markdown' }
       Plug 'plasticboy/vim-markdown', { 'for': 'markdown' }
 
+    " Linter
+      Plug 'dense-analysis/ale'
+
     " Color scheme
       Plug 'joshdick/onedark.vim'
 
@@ -121,8 +124,7 @@
     set autoread
 
   " Vertical line on column 80
-    set textwidth=80
-    set colorcolumn=+1
+    set colorcolumn=80
 
   " Enable highlighting of the current line
     set cursorline
@@ -229,6 +231,22 @@
 
 " }}}
 
+" Netrw  --------------------------------------------------------------------{{{
+
+  " Remove banner
+    let g:netrw_banner=0
+
+  " Folders list style
+    let g:netrw_liststyle=3
+
+  " Split size
+    let g:netrw_winsize=20
+
+  " Open files in new tab
+    let g:netrw_browse_split=2
+
+" }}}
+
 " UndoTree  -----------------------------------------------------------------{{{
 
   if has("persistent_undo")
@@ -325,12 +343,12 @@
 
 " }}}
 
-" Vim-Markdown --------------------------------------------------------------{{{
+" Startify ------------------------------------------------------------------{{{
 
   " When Goyo is enabled, issue in opening new file.
   " https://github.com/mhinz/vim-startify/wiki/Known-issues-with-other-plugins
     autocmd BufEnter *
-       \ if !exists('t:startify_new_tab') && empty(expand('%')) && !exists('t:goyo_master') | 
+       \ if !exists('t:startify_new_tab') && empty(expand('%')) && !exists('t:goyo_master') |
        \   let t:startify_new_tab = 1 |
        \   Startify |
        \ endif
@@ -362,10 +380,39 @@
 " Vim-Markdown --------------------------------------------------------------{{{
 
   " Enable TOC window auto-fit
-    let g:vim_markdown_toc_autofit = 1
+    let g:vim_markdown_toc_autofit=1
 
   " Disable Syntax Concealing
-    let g:vim_markdown_conceal = 0
+    let g:vim_markdown_conceal=0
+
+  " Disable folding by default
+    let g:vim_markdown_folding_disabled=1
+
+" }}}
+
+" ALE -----------------------------------------------------------------------{{{
+
+  " Lint Only Specific File Formats
+  let g:ale_linters_explicit = 1
+  " Stop Linting On File Open
+  let g:ale_lint_on_enter = 0
+  " Format On Save
+  let g:ale_fix_on_save = 1
+  let g:ale_sign_error = '●'
+  let g:ale_sign_warning = '.'
+  let g:ale_linters = {
+              \ 'markdown': ['writegood', 'proselint']
+              \ }
+  let b:ale_fixers = {
+              \ '*': ['remove_trailing_lines', 'trim_whitespace'],
+              \ 'markdown': ['prettier']
+              \ }
+
+  " Lint
+  nnoremap <S-A-l> :ALELint<CR>
+  " Format Document
+  nnoremap <S-A-f> :ALEFix<CR>
+
 
 " }}}
 
@@ -401,6 +448,6 @@
 " Copy dotfiles -------------------------------------------------------------{{{
 
   " Copy dotfiles to dropbox on save
-  autocmd BufWritePost .bashrc,.gitconfig,.profile,.vimrc,init.vim,*.zsh* !~/Scripts/copydotfiles.sh <afile>
+  " autocmd BufWritePost .bashrc,.gitconfig,.profile,.vimrc,init.vim,*.zsh* !~/Scripts/copydotfiles.sh <afile>
 
 " }}}

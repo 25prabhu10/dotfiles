@@ -12,7 +12,7 @@
       autocmd VimEnter *   PlugInstall --sync | source $MYVIMRC
     endif
 
-  " Specify a directory for plugins
+  " Plugins directory
     call plug#begin('~/.vim/plugged')
 
       " Markdown Plugins
@@ -30,16 +30,16 @@
       " File Formatting
       Plug 'Yggdroot/indentLine'
 
+      " Git wrappers
+      Plug 'tpope/vim-fugitive'
+      Plug 'airblade/vim-gitgutter'
+      Plug 'Xuyuanp/nerdtree-git-plugin'
+
       " Find and replace from multiple files
       Plug 'mhinz/vim-grepper', { 'on': ['Grepper', '<plug>(GrepperOperator)'] }
 
-      " A git wrapper
-      Plug 'tpope/vim-fugitive'
-      Plug 'Xuyuanp/nerdtree-git-plugin'
-
       " Comment stuff
       Plug 'tpope/vim-commentary'
-
 
       " Dim paragraphs above and below the active paragraph
       Plug 'junegunn/limelight.vim'
@@ -330,9 +330,6 @@
 
 " plasticboy/vim-markdown ---------------------------------------------------{{{
 
-  " Disable Folding
-  let g:vim_markdown_folding_disabled = 1
-
   " Enable TOC window auto-fit
   let g:vim_markdown_toc_autofit = 1
 
@@ -360,7 +357,7 @@
     let g:one_allow_italics = 1
     let g:oceanic_next_terminal_bold = 1
     let g:oceanic_next_terminal_italic = 1
-    colorscheme OceanicNext 
+    colorscheme OceanicNext
     hi CursorLineNr guifg=#ffffff
 
 "}}}
@@ -368,7 +365,7 @@
 " Copy dotfiles -------------------------------------------------------------{{{
 
   " Copy dotfiles to dropbox on save
-  autocmd BufWritePost .bashrc,.gitconfig,.profile,.vimrc !~/Scripts/copydotfiles.sh <afile>
+  " autocmd BufWritePost .bashrc,.gitconfig,.profile,.vimrc !~/Scripts/copydotfiles.sh <afile>
 
 " }}}
 
