@@ -97,7 +97,7 @@
     set mouse=a
 
   " Disable soft wrapping
-    set wrap!
+    set wrap
 
   " File split will follow the bellow convention.
     set splitbelow
