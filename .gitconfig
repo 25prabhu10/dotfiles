@@ -4,19 +4,20 @@
 [color]
 	ui = auto
 [alias]
-	lg = log --pretty=format:\"%C(auto)%h %Cgreen%aN%Creset %s %Cgreen(%cr)%C(auto)%d\" --graph --all
-	l = log --pretty=oneline -n 20 --graph --abbrev-commit
-	s = status -sb
-	remotes = remote -v
-	p = push
-	c = commit
-	b = branch
+	a = add --all
+	br = branch
 	bs = branch -av
-	unstage = reset HEAD --
+	ci = commit
+	cm = commit --message
+	co = checkout
+	dd = diff --check --dirstat --find-copies --find-renames --histogram --color
+	l = log --pretty=oneline -n 20 --graph --abbrev-commit
+	lg = log --pretty=format:\"%C(auto)%h %Cgreen%aN%Creset %s %Cgreen(%cr)%C(auto)%d\" --graph --all
+	ls = ls-files
 	last = log -1 HEAD
 	rank = shortlog -sn --no-merges
-	a = add --all
-	cm = commit --message
-	dd = diff --check --dirstat --find-copies --find-renames --histogram --color
-	ls = ls-files
+	p = push
+	remotes = remote -v
+	s = status -sb
 	st = status
+	unstage = reset HEAD --
