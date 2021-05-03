@@ -9,7 +9,7 @@
 	bs = branch -av
 	ci = commit
 	cm = commit --message
-	co = checkout
+	ch = checkout
 	dd = diff --check --dirstat --find-copies --find-renames --histogram --color
 	l = log --pretty=oneline -n 20 --graph --abbrev-commit
 	lg = log --pretty=format:\"%C(auto)%h %Cgreen%aN%Creset %s %Cgreen(%cr)%C(auto)%d\" --graph --all
@@ -21,3 +21,7 @@
 	s = status -sb
 	st = status
 	unstage = reset HEAD --
+[core]
+	editor = nvim
+[github]
+	user = 25prabhu10
