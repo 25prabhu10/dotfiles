@@ -134,6 +134,8 @@
 
   " Autocomplete with dictionary words when spell check is on
     set complete+=kspell
+    " set dictionary+=/usr/share/dict/words
+    " set thesaurus+=/home/prabhu/Thesaurus/words
 
   " Wildmode Options
     set wildmenu
@@ -192,6 +194,18 @@
 
   " Remap leader key
     let mapleader=','
+
+  " Cursor movement when word wrap is on
+    nnoremap <silent> k gk
+    nnoremap <silent> j gj
+
+  " Move lines
+    nnoremap <A-j> :m .+1<CR>==
+    nnoremap <A-k> :m .-2<CR>==
+    inoremap <A-j> <Esc>:m .+1<CR>==gi
+    inoremap <A-k> <Esc>:m .-2<CR>==gi
+    vnoremap <A-j> :m '>+1<CR>gv=gv
+    vnoremap <A-k> :m '<-2<CR>gv=gv
 
   " Spelling Check
     nnoremap <F8> :set spell!<CR>
