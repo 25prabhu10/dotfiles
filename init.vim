@@ -36,7 +36,7 @@
 
     " Git wrappers
       Plug 'tpope/vim-fugitive'
-      Plug 'airblade/vim-gitgutter'
+      " Plug 'airblade/vim-gitgutter'
 
     " Dim paragraphs above and below the active paragraph
       Plug 'junegunn/limelight.vim', { 'on': ['Limelight', 'Goyo'] }
@@ -414,13 +414,7 @@
   let g:ale_fix_on_save = 1
   let g:ale_sign_error = '●'
   let g:ale_sign_warning = '.'
-  let g:ale_linters = {
-              \ 'markdown': ['writegood', 'proselint']
-              \ }
-  let b:ale_fixers = {
-              \ '*': ['remove_trailing_lines', 'trim_whitespace'],
-              \ 'markdown': ['prettier']
-              \ }
+  let b:ale_fixers = {'*': ['remove_trailing_lines', 'trim_whitespace']}
 
   " Lint
   nnoremap <S-A-l> :ALELint<CR>
