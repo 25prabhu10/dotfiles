@@ -101,7 +101,7 @@ fi
 # Custom alias
 alias ll='ls -ahl'
 alias cls='clear'
-alias tmux='tmux -u'
+alias tmux='tmux -u2'
 
 # Custom functions
 # git add, commit and push to the repo
@@ -134,7 +134,6 @@ zstyle ':completion:*' cache-path ~/.zsh/cache
 HISTFILE=~/.zhistory
 HISTSIZE=1000
 SAVEHIST=500
-#export EDITOR=/usr/bin/nano
 #export VISUAL=/usr/bin/nano
 WORDCHARS=${WORDCHARS//\/[&.;]}                                 # Don't consider certain characters part of the word
 
