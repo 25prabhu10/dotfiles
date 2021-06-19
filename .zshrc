@@ -107,7 +107,7 @@ alias tmux='tmux -u'
 # git add, commit and push to the repo
 function lazygit() {
     git add .
-    git commit -a -m "$1"
+    git commit -m "$1"
     git push
 }
 
