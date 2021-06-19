@@ -81,9 +81,9 @@ source $ZSH/oh-my-zsh.sh
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='vi'
+  export EDITOR='/usr/bin/vi'
 else
-  export EDITOR='nvim'
+  export EDITOR='/usr/bin/nvim'
 fi
 
 # Compilation flags
@@ -101,7 +101,7 @@ fi
 # Custom alias
 alias ll='ls -ahl'
 alias cls='clear'
-alias vim='nvim'
+alias tmux='tmux -u'
 
 # Custom functions
 # git add, commit and push to the repo
@@ -126,7 +126,7 @@ setopt autocd                                                   # if only direct
 
 zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}'       # Case insensitive tab completion
 zstyle ':completion:*' list-colors "${(s.:.)LS_COLORS}"         # Colored completion (different colors for dirs/files/etc)
-zstyle ':completion:*' rehash true                              # automatically find new executables in path 
+zstyle ':completion:*' rehash true                              # automatically find new executables in path
 # Speed up completions
 zstyle ':completion:*' accept-exact '*(N)'
 zstyle ':completion:*' use-cache on
@@ -162,7 +162,7 @@ source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring
 zmodload zsh/terminfo
 bindkey "$terminfo[kcuu1]" history-substring-search-up
 bindkey "$terminfo[kcud1]" history-substring-search-down
-bindkey '^[[A' history-substring-search-up			
+bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
 
