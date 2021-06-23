@@ -52,6 +52,7 @@
       Plug 'dense-analysis/ale'
 
     " Color scheme
+      Plug 'chriskempson/base16-vim' " fall-back color scheme
       Plug 'joshdick/onedark.vim'
 
     " Status line
@@ -77,8 +78,10 @@
     set lazyredraw
 
   " No swap and No backup files
-    set noswapfile
-    set nobackup
+    set noswapfile " don't create swapfiles for new buffers
+    set nobackup " don't use backup files
+    set nowritebackup " don't backup the file while editing
+    set updatecount=0 " don't try to write swap files after some number of upda
 
   " The same indent as the line you're currently on. Useful for READMEs, etc.
     set autoindent
@@ -88,13 +91,15 @@
     set tabstop=4
     set softtabstop=4 " insert mode tab and backspace use 4 spaces
     set shiftwidth=4 " normal mode indentation commands use 4 spaces
-    "set shiftround
+    "set shiftround " round indent to a multiple of 'shiftwidth'
 
   " Do not fold on file opening
     set nofoldenable
 
   " Mouse support
-    set mouse=a
+    if has('mouse')
+        set mouse=a
+    endif
 
   " Disable soft wrapping
     set wrap
@@ -104,8 +109,8 @@
     set splitright
 
   " Show “invisible” characters
-    set lcs=tab:»·,trail:·,nbsp:·,extends:#
     set list
+    set listchars=tab:»·,trail:·,nbsp:·,extends:❯,precedes:❮
     set showbreak=↪
 
   " Highlight searches
@@ -158,11 +163,17 @@
   " Always show tabs
     " set showtabline=2
 
+  " Show live replace
+    if (has('nvim'))
+        " show results of substition as they're happening
+        set inccommand=split
+    endif
+
 " }}}
 
 " Function-------------------------------------------------------------------{{{
 
-  augroup vimrcEx
+  augroup configgroup
       autocmd!
       " When editing a file, always jump to the last known cursor position.
       " Don't do it for commit messages, when the position is invalid, or when
@@ -178,14 +189,13 @@
       autocmd BufRead,BufNewFile aliases.local,zshrc.local,*/zsh/configs/* set filetype=sh
       autocmd BufRead,BufNewFile gitconfig.local set filetype=gitconfig
       autocmd BufRead,BufNewFile tmux.conf.local set filetype=tmux
-      autocmd BufRead,BufNewFile vimrc.local set filetype=vim
   augroup END
 
   " This sets the different folding options depending on file type
     autocmd BufNewFile,BufRead *.py set foldmethod=indent
     autocmd BufNewFile,BufRead *.vimrc,*.vim set foldmethod=marker
 
-  " remove trailing whitespaces
+  " remove trailing whitespace
     command! FixWhitespace :%s/\s\+$//e
 
 " }}}
@@ -206,6 +216,9 @@
     inoremap <A-k> <Esc>:m .-2<CR>==gi
     vnoremap <A-j> :m '>+1<CR>gv=gv
     vnoremap <A-k> :m '<-2<CR>gv=gv
+
+  " Shortcut to save
+    nnoremap <Leader>s :w<cr>
 
   " Spelling Check
     nnoremap <F8> :set spell!<CR>
@@ -232,9 +245,6 @@
   " Clear search highlights
     map <leader><Space> <Esc>:let @/=''<CR>
 
-  " Buffers
-    nnoremap <leader>b :Buffers<CR>
-
   " Split
     noremap <Leader>h :<C-u>split<CR>
     noremap <Leader>v :<C-u>vsplit<CR>
@@ -242,6 +252,10 @@
   " Increase and decrease split width
     nnoremap <Leader>+ :vertical resize +5<CR>
     nnoremap <Leader>- :vertical resize -5<CR>
+
+  " scroll the viewport faster
+    nnoremap <C-e> 3<C-e>
+    nnoremap <C-y> 3<C-y>
 
 " }}}
 
@@ -276,16 +290,27 @@
 
 " }}}
 
-" FZF.vim ----------------------------------------------------------{{{
-
-  " Find Files
-    nnoremap <leader>f <Esc>:FZF -m<CR>
+" Fsickill/vim-pastaZF.vim ----------------------------------------------------------{{{
 
   " Search word in in multiple files
     nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
     nnoremap <leader>phw :h <C-R>=expand("<cword>")<CR><CR>
 
-    " FZF pop up window
+  " FZF pop up window
+    if isdirectory(".git")
+        " if in a git project, use :GFiles
+        nnoremap <leader>f <Esc>:GitFiles --cached --others --exclude-standard<CR>
+    else
+        " otherwise, use :FZF
+        nnoremap <leader>f <Esc>:FZF -m<CR>
+    endif
+
+  " Show modified files
+    nmap <silent> <leader>s :GFiles?<cr>
+
+  " Buffers
+    nnoremap <leader>b :Buffers<CR>
+
     " let $FZF_DEFAULT_COMMAND =  \"find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
     " " let $FZF_DEFAULT_OPTS=' --color=dark --color=fg:15,bg:-1,hl:1,fg+:#ffffff,bg+:0,hl+:1 --color=info:0,prompt:0,pointer:12,marker:4,spinner:11,header:-1 --layout=reverse  --margin=1,4'
     " " let g:fzf_layout = { 'window': 'call FloatingFZF()' }
@@ -316,11 +341,11 @@
                \ 'active': {
                \ 'left': [ [ 'mode', 'paste' ],
                \    [ 'gitbranch', 'readonly', 'filename', 'modified' ] ]
-               \ },
+               \  },
                \ 'component_function': {
                \    'readonly': 'LightlineReadonly',
                \    'gitbranch': 'LightlineFugitive'
-               \ },
+               \  },
                \ }
   function! LightlineReadonly()
       return &readonly ? '' : ''
@@ -437,18 +462,19 @@
     let g:onedark_terminal_italics=1
     let g:onedark_termcolors=256
 
+    let base16colorspace=256 " 256 color support for base-16
+
   " Enable syntax highlighting
     syntax on
     colorscheme onedark
 
   " Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
-    if (empty($TMUX))
-	    if (has("nvim"))
-		    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-	    endif
-	    if (has("termguicolors"))
-		    set termguicolors
-	    endif
+"    if (empty($TMUX))
+"	    if (has("nvim"))
+"		    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+"	    endif
+	if (has("termguicolors"))
+        set termguicolors
     endif
 
 "}}}
