@@ -193,7 +193,7 @@
 
   " This sets the different folding options depending on file type
     autocmd BufNewFile,BufRead *.py set foldmethod=indent
-    autocmd BufNewFile,BufRead *.vimrc,*.vim set foldmethod=marker
+    autocmd BufNewFile,BufRead *.vimrc,*.vim,*.tmux.conf set foldmethod=marker
 
   " remove trailing whitespace
     command! FixWhitespace :%s/\s\+$//e
