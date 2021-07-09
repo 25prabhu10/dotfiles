@@ -8,7 +8,9 @@ export ZSH="/home/prabhu/.oh-my-zsh"
 # load a random theme each time oh-my-zsh is loaded, in which case,
 # to know which specific one was loaded, run: echo $RANDOM_THEME
 # See https://github.com/ohmyzsh/ohmyzsh/wiki/Themes
-ZSH_THEME="powerlevel10k/powerlevel10k"
+if [ `tput colors` -eq "256" ]; then
+    ZSH_THEME="powerlevel10k/powerlevel10k"
+fi
 
 # Set list of themes to pick from when loading at random
 # Setting this variable when ZSH_THEME=random will cause zsh to load
@@ -70,7 +72,9 @@ ZSH_THEME="powerlevel10k/powerlevel10k"
 # Add wisely, as too many plugins slow down shell startup.
 plugins=(nvm)
 
-source $ZSH/oh-my-zsh.sh
+if [ `tput colors` -eq "256" ]; then
+    source $ZSH/oh-my-zsh.sh
+fi
 
 # User configuration
 
@@ -102,6 +106,7 @@ fi
 alias ll='ls -ahl'
 alias cls='clear'
 alias tmux='tmux -u2'
+alias dconfig='/usr/bin/git --git-dir=$HOME/.dotfiles --work-tree=$HOME'
 
 # Custom functions
 # git add, commit and push to the repo
@@ -138,6 +143,8 @@ SAVEHIST=500
 WORDCHARS=${WORDCHARS//\/[&.;]}                                 # Don't consider certain characters part of the word
 
 # Theming section
+# prompt colors
+# compinit: auto/tab complete
 autoload -U compinit colors zcalc
 compinit -d
 colors

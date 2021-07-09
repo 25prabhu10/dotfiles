@@ -459,23 +459,23 @@
   " Color Schema
     hi Comment cterm=italic
     let g:onedark_hide_endofbuffer=1
-    let g:onedark_terminal_italics=1
     let g:onedark_termcolors=256
+    let g:onedark_terminal_italics=1
 
     let base16colorspace=256 " 256 color support for base-16
+
+  " Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
+    "if (empty($TMUX))
+    "    if (has("nvim"))
+    "        let $NVIM_TUI_ENABLE_TRUE_COLOR=1
+    "    endif
+    if (has("termguicolors"))
+        set termguicolors
+    endif
 
   " Enable syntax highlighting
     syntax on
     colorscheme onedark
-
-  " Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
-"    if (empty($TMUX))
-"	    if (has("nvim"))
-"		    let $NVIM_TUI_ENABLE_TRUE_COLOR=1
-"	    endif
-	if (has("termguicolors"))
-        set termguicolors
-    endif
 
 "}}}
 
