@@ -51,6 +51,9 @@
     " Linter
       Plug 'dense-analysis/ale'
 
+    " CSS colors
+      Plug 'ap/vim-css-color'
+
     " Color scheme
       Plug 'chriskempson/base16-vim' " fall-back color scheme
       Plug 'joshdick/onedark.vim'
