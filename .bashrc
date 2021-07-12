@@ -110,7 +110,7 @@ shopt -s expand_aliases
 
 # export QT_SELECT=4
 
-# Enable history appending instead of overwriting.  #139609
+# Enable history appending instead of overwriting.
 shopt -s histappend
 
 #
@@ -154,6 +154,7 @@ function lazygit() {
     git push
 }
 
+eval "$(starship init bash)"
 source /usr/share/fzf/key-bindings.bash
 source /usr/share/fzf/completion.bash
 source /usr/share/nvm/init-nvm.sh
