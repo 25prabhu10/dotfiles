@@ -1,6 +1,6 @@
 zmodload -i zsh/complist
 
-WORDCHARS=''
+#WORDCHARS=''
 
 unsetopt MENU_COMPLETE   # do not autoselect the first completion entry
 unsetopt FLOW_CONTROL
@@ -8,15 +8,12 @@ setopt AUTO_MENU         # show completion menu on successive tab press
 setopt COMPLETE_IN_WORD
 setopt ALWAYS_TO_END
 
-# Standard style used by default for 'list-colors'
-#LS_COLORS=${LS_COLORS:-'di=34:ln=35:so=32:pi=33:ex=31:bd=36;01:cd=33;01:su=31;40;07:sg=36;40;07:tw=32;40;07:ow=33;40;07:'}
-
 # Autocomplete
 zstyle ':completion:*:*:*:*:*' menu select
-zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'       # Case insensitive tab completion
-zstyle ':completion:*' special-dirs true                        # Complete . and .. special directories
+zstyle ':completion:*' matcher-list 'm:{a-zA-Z}={A-Za-z}' 'r:|[._-]=* r:|=*' 'l:|=* r:|=*'          # Case insensitive tab completion
+zstyle ':completion:*' special-dirs true                                                            # Complete . and .. special directories
 
-zstyle ':completion:*:default' list-colors '${(s.:.)LS_COLORS}'         # Colored completion (different colors for dirs/files/etc)
+zstyle ':completion:*' list-colors ${(s.:.)LS_COLORS} 'ow=31;40'                                    # Colored completion (different colors for dirs/files/etc)
 
 #zstyle ':completion:*:*:kill:*:processes' list-colors '=(#b) #([0-9]#) ([0-9a-z-]#)*=01;34=0=01'
 #zstyle ':completion:*:*:*:*:processes' command "ps -u $USERNAME -o pid,user,comm -w -w"
@@ -25,7 +22,7 @@ zstyle ':completion:*:cd:*' tag-order local-directories directory-stack path-dir
 zstyle ':completion:*:*:cd:*:directory-stack' menu yes select
 
 zstyle '*' single-ignored show
-zstyle ':completion:*' rehash true                              # automatically find new executables in path
+zstyle ':completion:*' rehash true                                                                  # automatically find new executables in path
 
 # Speed up completions
 zstyle ':completion:*' accept-exact '*(N)'
