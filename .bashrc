@@ -79,6 +79,7 @@ if ${use_color} ; then
 	alias grep='grep --colour=auto'
 	alias egrep='egrep --colour=auto'
 	alias fgrep='fgrep --colour=auto'
+	alias diff='diff --color=auto'
 else
 	if [[ ${EUID} == 0 ]] ; then
 		# show root@ when we don't have colors
@@ -145,6 +146,7 @@ export EDITOR="nvim"
 alias ll='ls -ahl'
 alias cls='clear'
 alias tmux='tmux -u'
+alias vim="nvim" vimdiff="nvim -d"
 
 # my functions
 # git add, commit and push to the repo
@@ -157,4 +159,3 @@ function lazygit() {
 eval "$(starship init bash)"
 source /usr/share/fzf/key-bindings.bash
 source /usr/share/fzf/completion.bash
-source /usr/share/nvm/init-nvm.sh
