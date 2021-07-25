@@ -4,24 +4,25 @@
 [color]
 	ui = auto
 [alias]
-	a = add --all
+	a = add
 	br = branch
-	bs = branch -av
+	brs = branch -av
 	ci = commit
 	cm = commit --message
-	ch = checkout
-	dd = diff --check --dirstat --find-copies --find-renames --histogram --color
-	l = log --pretty=oneline -n 20 --graph --abbrev-commit
-	lg = log --pretty=format:\"%C(auto)%h %Cgreen%aN%Creset %s %Cgreen(%cr)%C(auto)%d\" --graph --all
+	co = checkout
+	di = diff
+	dis = diff --staged
+	l = log --pretty=format:'%C(auto)%h %Cgreen%aN%Creset %s %Cgreen(%cr)%C(auto)%d' --graph --all
+	lg = log --pretty=format:'%Cred%h%Creset -%C(auto)%d% %s %Cgreen(%cr)%Creset' --graph --abbrev-commit --date=relative
 	ls = ls-files
 	last = log -1 HEAD
 	rank = shortlog -sn --no-merges
 	p = push
-	remotes = remote -v
+	re = remote -v
 	s = status -sb
 	st = status
 	unstage = reset HEAD --
 [core]
-	editor = nvim
+	editor = vim
 [github]
 	user = 25prabhu10
