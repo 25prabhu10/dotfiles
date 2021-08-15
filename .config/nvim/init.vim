@@ -34,6 +34,12 @@
       Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
       Plug 'junegunn/fzf.vim'
 
+    " File manager
+      Plug 'preservim/nerdtree'
+
+    " Native LSP config
+      Plug 'neovim/nvim-lspconfig'
+
     " Git wrappers
       Plug 'tpope/vim-fugitive'
       " Plug 'airblade/vim-gitgutter'
@@ -54,8 +60,13 @@
     " CSS colors
       Plug 'ap/vim-css-color'
 
+    " For comments and auto close pairs
+      Plug 'tpope/vim-commentary'
+      Plug 'tpope/vim-surround'
+
     " Color scheme
       Plug 'chriskempson/base16-vim' " fall-back color scheme
+      Plug 'gruvbox-community/gruvbox'
       Plug 'joshdick/onedark.vim'
 
     " Status line
@@ -104,6 +115,9 @@
         set mouse=a
     endif
 
+  " Add scroll offset
+    set scrolloff=4
+
   " Disable soft wrapping
     set wrap
 
@@ -118,9 +132,9 @@
 
   " Highlight searches
     set hlsearch
-    set ignorecase
 
   " Case-sensitive search if any caps
+    set ignorecase
     set smartcase
     set incsearch
     set title
@@ -162,13 +176,18 @@
     set wildignore+=migrations
     " Python byte code
     set wildignore+=*.pyc
+    " Node modules
+    set wildignore+=**/node_modules/*
 
   " Always show tabs
     " set showtabline=2
 
+  " Source .vimrc present in the project directory
+    "set exrc
+
   " Show live replace
     if (has('nvim'))
-        " show results of substition as they're happening
+        " show results of substitution as they're happening
         set inccommand=split
     endif
 
@@ -196,7 +215,7 @@
 
   " This sets the different folding options depending on file type
     autocmd BufNewFile,BufRead *.py set foldmethod=indent
-    autocmd BufNewFile,BufRead *.vimrc,*.vim,*.tmux.conf set foldmethod=marker
+    autocmd BufNewFile,BufRead *.vimrc,*.vim,*tmux.conf set foldmethod=marker
 
   " remove trailing whitespace
     command! FixWhitespace :%s/\s\+$//e
@@ -206,7 +225,8 @@
 " Mappings  -----------------------------------------------------------------{{{
 
   " Remap leader key
-    let mapleader=','
+    let mapleader=' '
+    let maplocalleader='\\'
 
   " Cursor movement when word wrap is on
     nnoremap <silent> k gk
@@ -221,44 +241,65 @@
     vnoremap <A-k> :m '<-2<CR>gv=gv
 
   " Shortcut to save
-    nnoremap <Leader>s :w<cr>
+    nnoremap <C-s> :update<cr>
 
   " Spelling Check
     nnoremap <F8> :set spell!<CR>
 
-  " Switch between the last two files
-    nnoremap <Leader><Leader> <C-^>
-
-  " Folds
-    nnoremap <Space> za
-    vnoremap <Space> za
+  " Close current buffer
+    nnoremap <Leader>q :bd<CR>
 
   " Spell bindings
-    nnoremap <leader>sn ]s
-    nnoremap <leader>sp [s
-    nnoremap <leader>sa zg
-    nnoremap <leader>s? z=
+    "nnoremap <Leader>sn ]s
+    "nnoremap <Leader>sp [s
+    "nnoremap <Leader>sa zg
+    "nnoremap <Leader>s? z=
 
   " Navigate around splits
     nnoremap <C-h> <C-w><C-h>
-    nnoremap <C-j> <C-w><C-j>
-    nnoremap <C-k> <C-w><C-k>
+    "nnoremap <C-j> <C-w><C-j>
+    "nnoremap <C-k> <C-w><C-k>
     nnoremap <C-l> <C-w><C-l>
 
   " Clear search highlights
-    map <leader><Space> <Esc>:let @/=''<CR>
-
-  " Split
-    noremap <Leader>h :<C-u>split<CR>
-    noremap <Leader>v :<C-u>vsplit<CR>
+    map <Leader><Leader> <Esc>:let @/=''<CR>
 
   " Increase and decrease split width
-    nnoremap <Leader>+ :vertical resize +5<CR>
+    nnoremap <Leader>_ :vertical resize +5<CR>
     nnoremap <Leader>- :vertical resize -5<CR>
 
-  " scroll the viewport faster
-    nnoremap <C-e> 3<C-e>
-    nnoremap <C-y> 3<C-y>
+  " TAB in general mode will move to text buffer
+    nnoremap <F10> :bnext<CR>
+    nnoremap <F11> :bprevious<CR>
+
+  " TAB in general mode will move to text buffer
+    nnoremap <Leader><TAB> :tabnext<CR>
+    nnoremap <Leader><S-TAB> :tabprevious<CR>
+
+  " Page Scroll
+    nnoremap <C-j> 3<C-e>
+    nnoremap <C-k> 3<C-y>
+
+  " Add new line below and above current line
+    nnoremap <Leader>o o<Esc>k
+    nnoremap <Leader>O O<Esc>j
+
+  " qq to record, Q to replay
+    nnoremap Q @q
+
+  " Make Y behave like other capital letters do
+    nnoremap Y yg_
+
+  " GOTO next or previous local errors in local list
+    nnoremap <Leader>j :lnext<CR>zz
+    nnoremap <Leader>k :lprev<CR>zz
+
+  " Keep search text centered
+    nnoremap n nzzzv
+    nnoremap N Nzzzv
+
+  " Map kj to esc in insert mode
+    inoremap kj <Esc>
 
 " }}}
 
@@ -271,10 +312,18 @@
     let g:netrw_liststyle=3
 
   " Split size
-    let g:netrw_winsize=20
+   "let g:netrw_winsize=20
 
   " Open files in new tab
-    let g:netrw_browse_split=2
+   "let g:netrw_browse_split=2
+
+" }}}
+
+" Commentary  ---------------------------------------------------------------{{{
+
+  nmap <C-e> gcc
+  imap <C-e> <C-o>gcc
+  vmap <C-e> gc
 
 " }}}
 
@@ -289,30 +338,33 @@
   set undoreload=700
 
   " UndoTree toggle
-    nnoremap <F9> :UndotreeToggle<CR>
+    nnoremap <F5> :UndotreeToggle<CR>
 
 " }}}
 
-" Fsickill/vim-pastaZF.vim ----------------------------------------------------------{{{
+" Fsickill/vim-pastaZF.vim --------------------------------------------------{{{
 
-  " Search word in in multiple files
-    nnoremap <leader>pw :Rg <C-R>=expand("<cword>")<CR><CR>
-    nnoremap <leader>phw :h <C-R>=expand("<cword>")<CR><CR>
+  " This is the default extra key bindings
+    let g:fzf_action = {
+      \ 'ctrl-t': 'tab split',
+      \ 'ctrl-x': 'split',
+      \ 'ctrl-v': 'vsplit' }
+
 
   " FZF pop up window
-    if isdirectory(".git")
-        " if in a git project, use :GFiles
-        nnoremap <leader>f <Esc>:GitFiles --cached --others --exclude-standard<CR>
-    else
-        " otherwise, use :FZF
-        nnoremap <leader>f <Esc>:FZF -m<CR>
-    endif
-
-  " Show modified files
-    nmap <silent> <leader>s :GFiles?<cr>
+    nnoremap <C-p> <Esc>:Files<CR>
 
   " Buffers
-    nnoremap <leader>b :Buffers<CR>
+    nnoremap <Leader>b :Buffers<CR>
+
+  " Search word in in multiple files
+    nnoremap <Leader>iw :Rg <C-R>=expand("<cword>")<CR><CR>
+
+  " Search words
+    nnoremap <leader>w :Rg<CR>
+
+  " Show modified files
+    nnoremap <Leader>s :GFiles?<cr>
 
     " let $FZF_DEFAULT_COMMAND =  \"find * -path '*/\.*' -prune -o -path 'node_modules/**' -prune -o -path 'target/**' -prune -o -path 'dist/**' -prune -o  -type f -print -o -type l -print 2> /dev/null"
     " " let $FZF_DEFAULT_OPTS=' --color=dark --color=fg:15,bg:-1,hl:1,fg+:#ffffff,bg+:0,hl+:1 --color=info:0,prompt:0,pointer:12,marker:4,spinner:11,header:-1 --layout=reverse  --margin=1,4'
@@ -350,9 +402,11 @@
                \    'gitbranch': 'LightlineFugitive'
                \  },
                \ }
+
   function! LightlineReadonly()
       return &readonly ? '' : ''
   endfunction
+
   function! LightlineFugitive()
       if exists('*FugitiveHead')
           let branch = FugitiveHead()
@@ -385,15 +439,21 @@
 
 " }}}
 
-" Startify ------------------------------------------------------------------{{{
+" NERDTree ------------------------------------------------------------------{{{
 
-  " When Goyo is enabled, issue in opening new file.
-  " https://github.com/mhinz/vim-startify/wiki/Known-issues-with-other-plugins
-    autocmd BufEnter *
-       \ if !exists('t:startify_new_tab') && empty(expand('%')) && !exists('t:goyo_master') |
-       \   let t:startify_new_tab = 1 |
-       \   Startify |
-       \ endif
+  let g:NERDTreeMouseMode = 3
+  let g:NERDTreeShowHidden = 1
+  let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', 'node_modules', '\.git$']
+
+  " Save buffer to new file
+  " let g:NERDTreeAutoDeleteBuffer = 1
+
+  " Toggle NERDTree
+    nnoremap <silent> <expr> <Leader>n g:NERDTree.IsOpen() ? "\:NERDTreeClose<CR>" : bufexists(expand('%')) ? "\:NERDTreeFind<CR>" : "\:NERDTree<CR>"
+
+" }}}
+
+" Startify ------------------------------------------------------------------{{{
 
   " returns all modified files of the current git repo
   " `2>/dev/null` makes the command fail quietly, so that when we are not
@@ -402,11 +462,15 @@
         let files = systemlist('git ls-files -m 2>/dev/null')
         return map(files, "{'line': v:val, 'path': v:val}")
     endfunction
+
     " same as above, but show untracked files, honouring .gitignore
     function! s:gitUntracked()
         let files = systemlist('git ls-files -o --exclude-standard 2>/dev/null')
         return map(files, "{'line': v:val, 'path': v:val}")
     endfunction
+
+    let g:startify_bookmarks = [ {'n': '~/.config/nvim/init.vim'}, {'z': '~/.zshrc'} ]
+
     let g:startify_lists = [
         \ { 'type': 'files',     'header': ['   Recent Files']            },
         \ { 'type': 'dir',       'header': ['   Directory: '. getcwd()] },
@@ -427,28 +491,28 @@
   " Disable Syntax Concealing
     let g:vim_markdown_conceal=0
 
-  " Disable folding by default
-    let g:vim_markdown_folding_disabled=1
+  " Highlight YAML front matter
+    let g:vim_markdown_frontmatter=1
 
 " }}}
 
 " ALE -----------------------------------------------------------------------{{{
 
   " Lint Only Specific File Formats
-  let g:ale_linters_explicit = 1
+    let g:ale_linters_explicit = 1
   " Stop Linting On File Open
-  let g:ale_lint_on_enter = 0
+    let g:ale_lint_on_enter = 0
   " Format On Save
-  let g:ale_fix_on_save = 1
-  let g:ale_sign_error = '●'
-  let g:ale_sign_warning = '.'
-  let b:ale_fixers = {'*': ['remove_trailing_lines', 'trim_whitespace']}
+    let g:ale_fix_on_save = 1
+    let g:ale_sign_error = '●'
+    let g:ale_sign_warning = '.'
+    let b:ale_fixers = {'*': ['remove_trailing_lines', 'trim_whitespace']}
 
   " Lint
-  nnoremap <S-A-l> :ALELint<CR>
-  " Format Document
-  nnoremap <S-A-f> :ALEFix<CR>
+    nnoremap <S-A-l> :ALELint<CR>
 
+  " Format Document
+    nnoremap <S-A-f> :ALEFix<CR>
 
 " }}}
 
@@ -466,6 +530,10 @@
     let g:onedark_terminal_italics=1
 
     let base16colorspace=256 " 256 color support for base-16
+
+  " Gruvbox settings
+    let g:gruvbox_contrast_dark='hard'
+    let g:gruvbox_invert_selection='0'
 
   " Use 24-bit (true-color) mode in Vim/Neovim when outside tmux.
     "if (empty($TMUX))
