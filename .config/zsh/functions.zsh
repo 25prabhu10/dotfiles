@@ -5,3 +5,9 @@ function zsh_stats() {
     | grep -v "./" | sort -nr | head -20 | column -c3 -s " " -t | nl
 }
 
+# Search pacman packages
+# https://www.youtube.com/watch?v=QeJkAs_PEQQ&t=414s
+# nixcasts
+pacs() {
+    pacman -Ssq | fzf -m --preview="pacman -Si {}" --preview-window=:hidden --bind=space:toggle-preview
+}
