@@ -1,0 +1,13 @@
+command_timeout = 1000
+
+# Inserts a blank line between shell prompts
+add_newline = true
+
+[battery]
+disabled = true
+
+[directory]
+truncation_length = 8
+truncation_symbol = "…/"
+truncate_to_repo  = false
+read_only = " 🔒"
