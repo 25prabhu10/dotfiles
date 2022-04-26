@@ -38,10 +38,10 @@
       Plug 'preservim/nerdtree'
 
     " Native LSP config
-      Plug 'neovim/nvim-lspconfig'
+      "Plug 'neovim/nvim-lspconfig'
 
     " Git wrappers
-      Plug 'tpope/vim-fugitive'
+      "Plug 'tpope/vim-fugitive'
       " Plug 'airblade/vim-gitgutter'
 
     " Dim paragraphs above and below the active paragraph
@@ -63,10 +63,13 @@
     " For comments and auto close pairs
       Plug 'tpope/vim-commentary'
       Plug 'tpope/vim-surround'
+      Plug 'tpope/vim-repeat'
 
     " Color scheme
-      Plug 'chriskempson/base16-vim' " fall-back color scheme
+      "Plug 'chriskempson/base16-vim' " fall-back color scheme
       Plug 'gruvbox-community/gruvbox'
+      Plug 'rebelot/kanagawa.nvim'
+      Plug 'NLKNguyen/papercolor-theme'
       Plug 'joshdick/onedark.vim'
 
     " Status line
@@ -84,6 +87,7 @@
     end
 
   " This adds the current directory to the :Find files feature (in-built)
+  " Provides tab-completion for all file-related tasks
     set path+=**
     "set dictionary+=/usr/share/dict/words
 
@@ -441,6 +445,7 @@
 
 " NERDTree ------------------------------------------------------------------{{{
 
+  let g:NERDTreeWinPos = "right"
   let g:NERDTreeMouseMode = 3
   let g:NERDTreeShowHidden = 1
   let g:NERDTreeIgnore=['\.rbc$', '\~$', '\.pyc$', '\.db$', '\.sqlite$', '__pycache__', 'node_modules', '\.git$']
@@ -503,7 +508,7 @@
   " Stop Linting On File Open
     let g:ale_lint_on_enter = 0
   " Format On Save
-    let g:ale_fix_on_save = 1
+    let g:ale_fix_on_save = 0
     let g:ale_sign_error = '●'
     let g:ale_sign_warning = '.'
     let b:ale_fixers = {'*': ['remove_trailing_lines', 'trim_whitespace']}
@@ -522,6 +527,19 @@
   " contents. Use this to allow intelligent auto-indenting for each filetype,
   " and for plugins that are file type specific.
     filetype plugin indent on
+
+  " onedark.vim override: Don't set a background color when running in a terminal;
+  " just use the terminal's background color
+  " `gui` is the hex color code used in GUI mode/nvim true-color mode
+  " `cterm` is the color code used in 256-color mode
+  " `cterm16` is the color code used in 16-color mode
+    if (has("autocmd") && !has("gui_running"))
+      augroup colorset
+        autocmd!
+        let s:white = { "gui": "#ABB2BF", "cterm": "145", "cterm16" : "7" }
+        autocmd ColorScheme * call onedark#set_highlight("Normal", { "fg": s:white }) " `bg` will not be styled since there is no `bg` setting
+      augroup END
+    endif
 
   " Color Schema
     hi Comment cterm=italic
