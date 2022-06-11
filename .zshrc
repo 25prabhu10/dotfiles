@@ -86,6 +86,15 @@ export LESS=-r
 
 export XDG_CONFIG_HOME=$HOME/.config/
 
+# Don't put duplicate lines or lines starting with space in the history.
+# Hide sensitive commands by adding a space at the start
+# See bash(1) for more options
+# export HISTCONTROL=ignoreboth
+
+# Set time stamp for bash commands in history
+# Will not work with zsh, look it up for solutions
+# export HISTTIMEFORMAT="%Y-%m-%d %T "
+
 # Load histroy config
 source ~/.config/zsh/history.zsh
 
