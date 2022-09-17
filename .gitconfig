@@ -13,7 +13,7 @@
 	d = diff
 	ds = diff --staged
     l = log --pretty=format:'%C(auto)%h {%cr} %Cblue[%cN]%Creset %s %C(auto)%d%Creset' --graph --all
-    lg = log --pretty=format:'%Cred%h%Creset - %C(auto)%d% %s %Cgreen(%cr)%Creset' --graph --abbrev-commit --date=relative
+    lg = log --pretty=format:'%Cred%h%Creset - %C(auto)%d%Creset %s %Cgreen(%cr)%Creset' --graph --abbrev-commit --date=relative
     ll = log --graph --name-status --pretty=format:'%C(red)%h %C(reset)(%cd) %C(green)%an %Creset%s %C(yellow)%d%Creset' --date=relative
 	ls = ls-files
 	last = log -1 HEAD
