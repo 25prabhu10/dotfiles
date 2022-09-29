@@ -1,0 +1,12 @@
+let g:netrw_dirhistmax  =10
+let g:netrw_dirhistcnt =2
+let g:netrw_dirhist_2='/home/prabhu/.config/ncmpcpp'
+let g:netrw_dirhist_1='/home/prabhu/.cache/zsh'
+let g:netrw_dirhist_0='/etc/profile.d'
+let g:netrw_dirhist_9='/usr/share/doc/mpc/contrib'
+let g:netrw_dirhist_8='/usr/share'
+let g:netrw_dirhist_7='/usr/share/doc'
+let g:netrw_dirhist_6='/usr/share/doc/mpc'
+let g:netrw_dirhist_5='/home/prabhu/.config/mpd/playlists'
+let g:netrw_dirhist_4='/home/prabhu/.config/mpd'
+let g:netrw_dirhist_3='/usr/share/doc/mpc/contrib'
