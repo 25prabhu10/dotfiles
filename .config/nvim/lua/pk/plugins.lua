@@ -165,8 +165,9 @@ function M.setup()
     use "jose-elias-alvarez/null-ls.nvim"
 
     -- Colorschemes
-    -- use "EdenEast/nightfox.nvim"
-    -- use "sam4llis/nvim-tundra"
+    use "EdenEast/nightfox.nvim"
+    use "sam4llis/nvim-tundra"
+    use "ayu-theme/ayu-vim"
     use "folke/tokyonight.nvim"
     use "rebelot/kanagawa.nvim"
 
