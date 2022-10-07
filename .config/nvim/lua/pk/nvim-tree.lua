@@ -134,10 +134,8 @@ function M.setup()
     },
     filters = {
       dotfiles = false,
-      -- custom = {},
-      exclude = {
-        "node_modules",
-      },
+      custom = { "node_modules" },
+      -- exclude = {},
     },
     filesystem_watchers = {
       enable = true,

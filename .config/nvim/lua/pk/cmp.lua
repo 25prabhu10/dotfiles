@@ -46,10 +46,12 @@ function M.setup()
       end,
     },
     mapping = cmp.mapping.preset.insert {
+      ["<C-y>"] = cmp.mapping.confirm { select = true },
       ["<C-b>"] = cmp.mapping.scroll_docs(-4),
       ["<C-f>"] = cmp.mapping.scroll_docs(4),
       ["<C-e>"] = cmp.mapping.close(),
-      ["<CR>"] = cmp.mapping.confirm { select = true },
+      ["<C-Space>"] = cmp.mapping.complete(),
+      ["<Tab>"] = cmp.config.disable,
       --["<C-y"] = cmp.mapping(
       --cmp.mapping.confirm {
       --behavior = cmp.ConfirmBehavior.Insert,
@@ -72,7 +74,6 @@ function M.setup()
       --end
       --end,
       --},
-      ["<Tab>"] = cmp.config.disable,
     },
     sources = {
       { name = "nvim_lsp" },

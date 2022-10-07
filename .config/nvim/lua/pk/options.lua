@@ -84,8 +84,8 @@ vim.opt.cursorline = true
 --set_cursorline("WinEnter", true)
 --set_cursorline("FileType", false, "TelescopePrompt")
 
--- Copy paste between vim and everything else
-vim.opt.clipboard = "unnamedplus"
+-- vim.opt.clipboard = "unnamedplus" -- Copy paste between vim and everything else
+vim.opt.clipboard = ""
 
 -- Autocomplete with dictionary words when spell check is on
 --set complete+=kspell
@@ -122,7 +122,7 @@ vim.opt.inccommand = "split" --show live replace
 
 vim.opt.matchpairs:append { "<:>" }
 
---vim.opt.updatetime = 500        --faster completion
+vim.opt.updatetime = 500 --faster completion
 
 --vim.opt.iskeywork:append { "-" }  --conside words split by '-' as one
 
@@ -146,9 +146,22 @@ vim.opt.formatoptions = vim.opt.formatoptions
 -- - "t" -- Don't auto format my code. Linters can do that.
 
 -- Highlight yanked text
-vim.cmd [[
-    autocmd TextYankPost * silent! lua vim.highlight.on_yank { higroup=”IncSearch”, timeout=150, on_visual=false }
-]]
+local augroup = vim.api.nvim_create_augroup
+
+local autocmd = vim.api.nvim_create_autocmd
+local yank_group = augroup("HighlightYank", {})
+
+autocmd("TextYankPost", {
+  group = yank_group,
+  pattern = "*",
+  callback = function()
+    vim.highlight.on_yank {
+      higroup = "IncSearch",
+      timeout = 150,
+      on_visual = false,
+    }
+  end,
+})
 
 vim.cmd [[
   augroup configgroup

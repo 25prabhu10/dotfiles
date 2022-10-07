@@ -41,6 +41,24 @@ vim.keymap.set("n", "<Leader>q", "<cmd>bd<CR>", opts)
 -- Paste over currently selected text without yanking it
 vim.keymap.set("v", "p", '"_dP', opts)
 
+-- Make "Y" yank behave like other capital letters do
+vim.keymap.set("n", "Y", "yg_", opts)
+
+-- Yank to clipboard
+vim.keymap.set("n", "<Leader>y", '"+y', opts)
+vim.keymap.set("v", "<Leader>y", '"+y', opts)
+vim.keymap.set("n", "<Leader>Y", '"+Yg_')
+
+-- Paste from clipboard
+vim.keymap.set("n", "<Leader>p", '"+p', opts)
+vim.keymap.set("n", "<Leader>P", '"+P')
+-- vim.keymap.set("x", "<Leader>p", '"_dP', opts)
+
+-- Delete without yank
+vim.keymap.set("n", "<Leader>d", '"_d', opts)
+vim.keymap.set("v", "<Leader>d", '"_d', opts)
+vim.keymap.set("n", "x", '"_x', opts)
+
 -- Spell bindings
 -- "nnoremap <Leader>sn ]s
 -- "nnoremap <Leader>sp [s
@@ -70,9 +88,20 @@ vim.keymap.set("n", "<Leader><S-TAB>", "<cmd>bprevious<CR>", opts)
 -- nnoremap <Leader>j <cmd>lnext<CR>zz
 -- nnoremap <Leader>k <cmd>lprev<CR>zz
 
+-- Join lines and place cursor back to original place
+-- vim.keymap.set("n", "J", "mzJ`z", opts)
+
 -- Page Scroll
 vim.keymap.set("n", "<C-j>", "3<C-e>", opts)
 vim.keymap.set("n", "<C-k>", "3<C-y>", opts)
+
+-- Page up and down centered
+vim.keymap.set("n", "<C-d>", "<C-d>zz", opts)
+vim.keymap.set("n", "<C-u>", "<C-u>zz", opts)
+
+-- Keep search text centered
+vim.keymap.set("n", "n", "nzzzv", opts)
+vim.keymap.set("n", "N", "Nzzzv", opts)
 
 -- Add new line below and above current line
 vim.keymap.set("n", "<Leader>o", "o<Esc>j", opts)
@@ -81,20 +110,9 @@ vim.keymap.set("n", "<Leader>O", "O<Esc>j", opts)
 -- qq to record, Q to replay
 vim.keymap.set("n", "Q", "@q")
 
--- Make Y behave like other capital letters do
-vim.keymap.set("n", "Y", "yg_", opts)
-
--- Keep search text centered
-vim.keymap.set("n", "n", "nzzzv", opts)
-vim.keymap.set("n", "N", "Nzzzv", opts)
-
 -- Increment/decrement
 vim.keymap.set("n", "+", "<C-a>", opts)
 vim.keymap.set("n", "-", "<C-x>", opts)
-
--- Delete without yank
-vim.keymap.set("n", "<Leader>d", '"_d', opts)
-vim.keymap.set("n", "x", '"_x', opts)
 
 -- Nvim-Tree Mappings
 vim.keymap.set("n", "<Leader>n", "<cmd>NvimTreeToggle<CR>", opts)
