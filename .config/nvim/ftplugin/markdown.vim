@@ -9,5 +9,6 @@
 setlocal wrap
 setlocal suffixesadd+=.md
 setlocal conceallevel=0
+setlocal spell
 
 let g:markdown_fenced_languages = ['c', 'cpp', 'javascript', 'jsx=javascriptreact', 'html', 'css', 'bash=sh', 'python', 'sql', 'json', 'scss', 'csharp=cs']

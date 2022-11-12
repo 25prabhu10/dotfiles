@@ -175,3 +175,39 @@ vim.cmd [[
                   \ endif
   augroup END
 ]]
+
+-- File templates
+vim.cmd [[
+  autocmd BufNewFile *.sh 0r ~/.config/nvim/skeletons/bash.sh
+  autocmd BufNewFile *.md 0r ~/.config/nvim/skeletons/markdown.md
+]]
+
+vim.cmd [[
+  autocmd BufNewFile *.md |call PageCreated()|
+  fun PageCreated()
+    if line("$") > 20
+      let l = 20
+    else
+      let l = line("$")
+    endif
+    exe "1," .. l .. "g/date: /s/date: .*/date: " ..
+    \ strftime("%Y-%m-%d")
+    exe "1," .. l .. "g/title: /s/title: .*/title: " ..
+    \ expand('%:t:r')
+    exe "1," .. l .. "g/# /s/# .*/# " ..
+    \ expand('%:t:r')
+  endfun
+]]
+
+vim.cmd [[
+  autocmd BufWritePre,FileWritePre *.md   ks|call LastMod()|'s
+  fun LastMod()
+    if line("$") > 20
+      let l = 20
+    else
+      let l = line("$")
+    endif
+    exe "1," .. l .. "g/lastmod: /s/lastmod: .*/lastmod: " ..
+    \ strftime("%Y-%m-%d")
+  endfun
+]]
