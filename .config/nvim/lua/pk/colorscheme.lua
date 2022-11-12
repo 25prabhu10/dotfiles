@@ -5,8 +5,11 @@
 --filetype plugin indent on
 
 vim.opt.termguicolors = true -- Enable 24bit colors
+vim.opt.background = "dark"
 
-vim.g.tokyonight_style = "night" -- Possible values: storm, night and day
+-- require("tokyonight").setup {
+--   style = "night", -- Possible values: storm, night and day
+-- }
 
 -- Enable syntax highlighting
 vim.cmd [[colorscheme kanagawa]]

@@ -32,7 +32,7 @@ local function lsp_keymaps(bufnr)
   vim.keymap.set("n", "<Leader>dp", vim.diagnostic.goto_next, opts_global)
   vim.keymap.set("n", "<Leader>dl", "<cmd>Telescope diagnostics<CR>", opts_global)
   --vim.keymap.set("n", "<Leader>q", vim.diagnostic.setloclist, opts_global)
-  vim.cmd [[ command! Format execute 'lua vim.lsp.buf.formatting()' ]]
+  vim.cmd [[ command! Format execute 'lua vim.lsp.buf.format { async = true }' ]]
 end
 
 -- See `:help vim.diagnostic.*` for documentation on any of the below functions
@@ -42,8 +42,8 @@ end
 M.on_attach = function(client, bufnr)
   -- disable autoformatting for JavaScript, HTML
   if client.name == "sumneko_lua" then
-    client.resolved_capabilities.document_formatting = false
-    client.resolved_capabilities.document_range_formatting = false
+    client.server_capabilities.documentFormattingProvider = false
+    client.server_capabilities.documentRangeFormattingProvider = false
   end
 
   lsp_keymaps(bufnr)
@@ -51,6 +51,6 @@ end
 
 -- The nvim-cmp almost supports LSP's capabilities so You should advertise it to LSP servers..
 local capabilities = vim.lsp.protocol.make_client_capabilities()
-M.capabilities = require("cmp_nvim_lsp").update_capabilities(capabilities)
+M.capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
 return M

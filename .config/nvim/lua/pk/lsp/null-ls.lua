@@ -10,11 +10,11 @@ function M.setup()
     -- nls.builtins.formatting.eslint_d,
     -- nls.builtins.diagnostics.shellcheck,
     nls.builtins.formatting.stylua,
-    -- nls.builtins.formatting.black,
+    -- nls.builtins.formatting.black.with { extra_args = { "--fast" } },
     -- nls.builtins.diagnostics.flake8,
     -- nls.builtins.code_actions.gitsigns,
     -- nls.builtins.formatting.prettier,
-    -- nls.builtins.diagnostics.markdownlint,
+    -- nls.builtins.diagnostics.markdownlint_cli2,
     -- nls.builtins.diagnostics.vale,
   }
 
