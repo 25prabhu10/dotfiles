@@ -4,7 +4,8 @@
 # Compilation flags
 # export ARCHFLAGS="-arch x86_64"
 
-export LANG=en_IN.UTF-8                                         # system language environment
+# system language environment
+export LANG=en_IN.UTF-8
 
 # dircolors is a GNU utility that's not on macOS by default. With this not
 # being used on macOS it means zsh's complete menu won't have colors.
@@ -18,9 +19,9 @@ fi
 
 # Preferred editor for local and remote sessions
 if [[ -n $SSH_CONNECTION ]]; then
-  export EDITOR='/usr/bin/vi'
+    export EDITOR='/usr/bin/vi'
 else
-  export EDITOR='/usr/bin/nvim'
+    export EDITOR='/usr/bin/nvim'
 fi
 #export VISUAL=/usr/bin/nano
 
@@ -56,15 +57,15 @@ function lazygit() {
 
 
 ## Options section
-unsetopt CASE_GLOB                                              # Case insensitive globbing
-setopt NO_BEEP                                                  # No beep
-setopt EXTENDED_GLOB                                            # Extended globbing. Allows using regular expressions with *
-setopt RC_EXPAND_PARAM                                          # Array expension with parameters
-setopt CHECK_JOBS                                               # Warn about running processes when exiting
-setopt NUMERIC_GLOB_SORT                                        # Sort filenames numerically when it makes sense
-setopt AUTO_CD                                                  # if only directory path is entered, cd there.
-setopt PROMPT_SUBST                                             # enable substitution for prompt
-setopt INTERACTIVE_COMMENTS                                     # recognize comments
+unsetopt CASE_GLOB              # Case insensitive globbing
+setopt NO_BEEP                  # No beep
+setopt EXTENDED_GLOB            # Extended globbing. Allows using regular expressions with *
+setopt RC_EXPAND_PARAM          # Array expension with parameters
+setopt CHECK_JOBS               # Warn about running processes when exiting
+setopt NUMERIC_GLOB_SORT        # Sort filenames numerically when it makes sense
+setopt AUTO_CD                  # if only directory path is entered, cd there
+setopt PROMPT_SUBST             # enable substitution for prompt
+setopt INTERACTIVE_COMMENTS     # recognize comments
 
 
 # compinit: auto/tab complete
@@ -118,8 +119,8 @@ source /usr/share/zsh/plugins/zsh-syntax-highlighting/zsh-syntax-highlighting.zs
 source /usr/share/zsh/plugins/zsh-history-substring-search/zsh-history-substring-search.zsh
 # bind UP and DOWN arrow keys to history substring search
 zmodload zsh/terminfo
-bindkey "$terminfo[kcuu1]" history-substring-search-up
-bindkey "$terminfo[kcud1]" history-substring-search-down
+bindkey "${terminfo[kcuu1]}" history-substring-search-up
+bindkey "${terminfo[kcud1]}" history-substring-search-down
 bindkey '^[[A' history-substring-search-up
 bindkey '^[[B' history-substring-search-down
 
