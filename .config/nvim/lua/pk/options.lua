@@ -123,6 +123,7 @@ vim.opt.inccommand = "split" --show live replace
 vim.opt.matchpairs:append { "<:>" }
 
 vim.opt.updatetime = 500 --faster completion
+vim.wo.signcolumn = "yes"
 
 --vim.opt.iskeywork:append { "-" }  --conside words split by '-' as one
 
@@ -147,9 +148,9 @@ vim.opt.formatoptions = vim.opt.formatoptions
 
 -- Highlight yanked text
 local augroup = vim.api.nvim_create_augroup
-
 local autocmd = vim.api.nvim_create_autocmd
-local yank_group = augroup("HighlightYank", {})
+
+local yank_group = augroup("HighlightYank", { clear = true })
 
 autocmd("TextYankPost", {
   group = yank_group,

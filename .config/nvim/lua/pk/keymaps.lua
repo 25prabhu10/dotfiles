@@ -138,21 +138,3 @@ vim.keymap.set("n", "Q", "@q")
 -- Increment/decrement
 vim.keymap.set("n", "+", "<C-a>", opts)
 vim.keymap.set("n", "-", "<C-x>", opts)
-
--- Nvim-Tree Mappings
-vim.keymap.set("n", "<Leader>n", "<cmd>NvimTreeToggle<CR>", opts)
-
--- Telescope Mappings
--- Files
-vim.keymap.set("n", "<Leader>ff", "<cmd>Telescope find_files<cr>", opts)
-vim.keymap.set("n", "<Leader>fw", "<cmd>Telescope live_grep<cr>", opts)
-vim.keymap.set("n", "<Leader>fo", "<cmd>Telescope oldfiles<cr>", opts)
-vim.keymap.set("n", "<Leader>fb", "<cmd>Telescope buffers<cr>", opts)
-vim.keymap.set("n", "<Leader>fm", "<cmd>Telescope man_pages<cr>", opts)
-
--- Git
-vim.keymap.set("n", "<Leader>gs", "<cmd>Telescope git_status<cr>", opts)
-vim.keymap.set("n", "<Leader>gc", "<cmd>Telescope git_commits<cr>", opts)
-
--- Vim Options
-vim.keymap.set("n", "<Leader>bo", "<cmd>Telescope vim_options<cr>", opts)

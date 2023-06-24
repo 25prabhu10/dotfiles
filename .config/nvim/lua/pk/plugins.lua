@@ -3,11 +3,10 @@ local M = {}
 local PACKER_BOOTSTRAP = false
 
 local function packer_init()
-  local fn = vim.fn
   -- Automatically install packer
-  local install_path = fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
-  if fn.empty(fn.glob(install_path)) > 0 then
-    PACKER_BOOTSTRAP = fn.system {
+  local install_path = vim.fn.stdpath "data" .. "/site/pack/packer/start/packer.nvim"
+  if vim.fn.empty(vim.fn.glob(install_path)) > 0 then
+    PACKER_BOOTSTRAP = vim.fn.system {
       "git",
       "clone",
       "--depth",
@@ -16,7 +15,7 @@ local function packer_init()
       install_path,
     }
 
-    print "Installing packer close and reopen Neovim..."
+    print "Installing packer, close and reopen Neovim..."
     vim.cmd [[packadd packer.nvim]]
   end
   -- vim.cmd "autocmd BufWritePost plugins.lua source <afile> | PackerCompile"
@@ -54,20 +53,16 @@ function M.setup()
       config = [[vim.g.undotree_SetFocusWhenToggle = 1]],
     }
 
-    -- File icons
+    -- Nvim-Tree: file explorer & File icons
     use {
-      "kyazdani42/nvim-web-devicons",
-      config = function()
-        require("nvim-web-devicons").setup { default = true }
-      end,
-    }
-
-    -- Nvim-Tree: file explorer
-    use {
-      "kyazdani42/nvim-tree.lua",
+      "nvim-tree/nvim-tree.lua",
       event = "BufWinEnter",
       opt = true,
+      requires = {
+        "nvim-tree/nvim-web-devicons",
+      },
       config = function()
+        require("nvim-web-devicons").setup { default = true }
         require("pk.nvim-tree").setup()
       end,
     }
@@ -92,6 +87,46 @@ function M.setup()
       end,
     }
 
+    -- Treesitter
+    use {
+      "nvim-treesitter/nvim-treesitter",
+      as = "nvim-treesitter",
+      run = ":TSUpdate",
+      requires = {
+        { "nvim-treesitter/playground", cmd = "TSHighlightCapturesUnderCursor" },
+        { "JoosepAlviste/nvim-ts-context-commentstring" },
+      },
+      config = function()
+        require("pk.treesitter").setup()
+      end,
+    }
+
+    -- Additional text objects via treesitter
+    -- use {
+    --   "nvim-treesitter/nvim-treesitter-textobjects",
+    --   after = "nvim-treesitter",
+    -- }
+
+    -- LSP Config
+    use {
+      "neovim/nvim-lspconfig",
+      after = "nvim-treesitter",
+      requires = {
+        -- Automatically install LSPs to stdpath for neovim
+        "williamboman/mason.nvim",
+        "williamboman/mason-lspconfig.nvim",
+
+        -- Useful status updates for LSP
+        "j-hui/fidget.nvim",
+
+        -- Additional lua configuration, makes nvim stuff amazing
+        -- "folke/neodev.nvim",
+      },
+      config = function()
+        require("pk.lsp").setup()
+      end,
+    }
+
     -- Auto Complete
     use {
       "hrsh7th/nvim-cmp",
@@ -108,6 +143,10 @@ function M.setup()
       end,
     }
 
+    -- Snippets
+    use "L3MON4D3/LuaSnip"
+    use "rafamadriz/friendly-snippets"
+
     -- Comments
     use {
       "numToStr/Comment.nvim",
@@ -118,57 +157,48 @@ function M.setup()
       end,
     }
 
-    -- Snippets
-    use "L3MON4D3/LuaSnip"
-    use "rafamadriz/friendly-snippets"
-
-    -- Treesitter
-    use {
-      "nvim-treesitter/nvim-treesitter",
-      as = "nvim-treesitter",
-      run = ":TSUpdate",
-      requires = {
-        { "nvim-treesitter/playground", cmd = "TSHighlightCapturesUnderCursor" },
-        { "JoosepAlviste/nvim-ts-context-commentstring" },
-      },
-      config = function()
-        require("pk.treesitter").setup()
-      end,
-    }
-
-    -- LSP Config
-    use {
-      "neovim/nvim-lspconfig",
-      after = "nvim-treesitter",
-      config = function()
-        require("pk.lsp").setup()
-      end,
-    }
-    use "williamboman/nvim-lsp-installer"
-
     -- Telescope 🔭
-    use "nvim-lua/plenary.nvim"
     use {
       "nvim-telescope/telescope.nvim",
-      requires = {
-        {
-          "nvim-telescope/telescope-fzf-native.nvim",
-          run = "make",
-        },
-      },
+      requires = { "nvim-lua/plenary.nvim" },
       config = function()
         require("pk.telescope").setup()
       end,
     }
 
+    -- Fuzzy Finder Algorithm which requires local dependencies to be built
+    -- Only load if `make` is available
+    use {
+      "nvim-telescope/telescope-fzf-native.nvim",
+      run = "make",
+    }
+
     -- For formatters and linters
     use "jose-elias-alvarez/null-ls.nvim"
 
+    -- Git related plugins
+    -- use 'tpope/vim-fugitive'
+    -- use 'tpope/vim-rhubarb'
+    -- use {
+    --   "lewis6991/gitsigns.nvim",
+    --   config = function()
+    --     require("gitsigns").setup {
+    --       signs = {
+    --         add = { text = "+" },
+    --         change = { text = "~" },
+    --         delete = { text = "_" },
+    --         topdelete = { text = "‾" },
+    --         changedelete = { text = "~" },
+    --       },
+    --     }
+    --   end,
+    -- }
+
     -- Colorschemes
-    use "EdenEast/nightfox.nvim"
-    use "sam4llis/nvim-tundra"
-    use "ayu-theme/ayu-vim"
-    use "folke/tokyonight.nvim"
+    -- use "EdenEast/nightfox.nvim"
+    -- use "sam4llis/nvim-tundra"
+    -- use "ayu-theme/ayu-vim"
+    -- use "folke/tokyonight.nvim"
     use "rebelot/kanagawa.nvim"
 
     -- CSS Colors
@@ -224,7 +254,11 @@ function M.setup()
 
     -- Automatically set up your configuration after cloning packer.nvim
     if PACKER_BOOTSTRAP then
-      print "Setting up Neovim. Restart required after installation!"
+      print "=================================="
+      print "    Plugins are being installed"
+      print "    Wait until Packer completes,"
+      print "       then restart nvim"
+      print "=================================="
       require("packer").sync()
     end
   end

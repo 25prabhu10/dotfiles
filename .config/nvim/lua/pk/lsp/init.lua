@@ -1,35 +1,43 @@
 local M = {}
 
 local function setup_servers()
-  local lspconfig = require "lspconfig"
-  local lsp_installer = require "nvim-lsp-installer"
+  -- setup mason so it can manage external tooling
+  require("mason").setup()
+  local mason_lspconfig = require "mason-lspconfig"
 
-  require("pk.lsp.null-ls").setup()
+  local servers = { "bashls", "clangd", "lua_ls", "tsserver" }
 
-  local servers = { "sumneko_lua", "tsserver" }
-
-  lsp_installer.setup {
+  mason_lspconfig.setup {
     ensure_installed = servers,
   }
 
-  for _, server in pairs(servers) do
-    local opts = {
-      on_attach = require("pk.lsp.handlers").on_attach,
-      capabilities = require("pk.lsp.handlers").capabilities,
-    }
+  mason_lspconfig.setup_handlers {
+    function(server_name)
+      local opts = {
+        on_attach = require("pk.lsp.handlers").on_attach,
+        capabilities = require("pk.lsp.handlers").capabilities,
+      }
+      local has_custom_opts, server_custom_opts = pcall(require, "pk.lsp." .. server_name)
 
-    local has_custom_opts, server_custom_opts = pcall(require, "pk.lsp." .. server)
+      if has_custom_opts then
+        opts = vim.tbl_deep_extend("force", server_custom_opts, opts)
+      end
 
-    if has_custom_opts then
-      opts = vim.tbl_deep_extend("force", server_custom_opts, opts)
-    end
-
-    lspconfig[server].setup(opts)
-  end
+      require("lspconfig")[server_name].setup(opts)
+    end,
+  }
 end
 
 function M.setup()
+  require("pk.lsp.null-ls").setup()
+
+  -- Setup neovim lua configuration
+  -- require("neodev").setup()
+
   setup_servers()
+
+  -- Turn on lsp status information
+  require("fidget").setup()
 end
 
 return M

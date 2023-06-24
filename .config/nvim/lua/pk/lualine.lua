@@ -1,17 +1,12 @@
 local M = {}
 
 function M.setup()
-  local lualine = require "lualine"
-
   -- Config
-  local config = {
+  require("lualine").setup {
     options = {
-      icons_enabled = true,
-      theme = "kanagawa",
+      theme = "auto",
       component_separators = { left = "", right = "" },
       section_separators = { left = "", right = "" },
-      disabled_filetypes = {},
-      always_divide_middle = true,
       globalstatus = true,
     },
     sections = {
@@ -40,8 +35,6 @@ function M.setup()
     },
     extensions = { "nvim-tree" },
   }
-
-  lualine.setup(config)
 end
 
 return M
