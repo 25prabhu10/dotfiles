@@ -5,6 +5,7 @@
 
 require "config.options"
 require "config.keymaps"
+require "config.autocmds"
 
 -- Install plugin manager and load configs
 local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
@@ -24,4 +25,4 @@ vim.opt.rtp:prepend(lazypath)
 
 require("lazy").setup { { import = "plugins" } }
 
-vim.cmd.colorscheme "catppuccin" -- Set colour scheme
+vim.cmd.colorscheme "tokyonight" -- Set colour scheme
