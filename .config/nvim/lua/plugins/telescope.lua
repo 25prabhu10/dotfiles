@@ -30,6 +30,12 @@ return {
           find_command = { "fd", "--type", "f", "--hidden", "--color", "never", "--strip-cwd-prefix", "--exclude", ".git" },
           --find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
         },
+        --live_grep = {
+        --previewer = false,
+        --fzf_separator = "|>",
+        --winblend = 10,
+        --shorten_path = false,
+        --},
       },
       extensions = {
         fzf = { fuzzy = true, override_generic_sorter = true, override_file_sorter = true, case_mode = "smart_case" },

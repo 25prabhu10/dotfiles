@@ -96,6 +96,8 @@ opt.wildignore:append { "migrations" }
 opt.wildignore:append { "__pycache__", "*.pyc" }
 -- Node modules
 opt.wildignore:append { "node_modules" }
+-- Rust
+opt.wildignore:append { "Cargo.lock", "Cargo.Bazel.lock" }
 
 --"set showtabline=2 -- Always show tabs
 
@@ -103,7 +105,7 @@ opt.wildignore:append { "node_modules" }
 
 opt.inccommand = "split" -- Show live replace
 opt.matchpairs:append { "<:>" }
-opt.updatetime = 500 -- Faster completion
+opt.updatetime = 1000 -- Faster completion
 opt.signcolumn = "yes"
 
 --opt.iskeywork:append { "-" }  -- Consider words split by '-' as one
@@ -131,14 +133,16 @@ opt.formatoptions = vim.opt.formatoptions
 opt.grepformat = "%f:%l:%c:%m"
 opt.grepprg = "rg --vimgrep"
 
--- opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
--- opt.timeloutlen = 300
+opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
+--opt.timeloutlen = 300
 
---opt.shortmess:append({ W = true, I = true, c = true })
---if vim.fn.has("nvim-0.9.0") == 1 then
---opt.splitkeep = "screen"
---opt.shortmess:append({ C = true })
---end
+opt.shortmess:append { W = true, I = true, c = true }
+if vim.fn.has "nvim-0.9.0" == 1 then
+  --opt.splitkeep = "screen"
+  opt.shortmess:append { C = true }
+end
+
+--opt.diffopt = { "internal", "filler", "closeoff", "hiddenoff", "algorithm:minimal" }
 
 -- Fix markdown indentation settings
 --vim.g.markdown_recommended_style = 0
