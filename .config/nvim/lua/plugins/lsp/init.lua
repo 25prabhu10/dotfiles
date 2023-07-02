@@ -15,10 +15,13 @@ return {
       "folke/neodev.nvim",
     },
     event = { "BufReadPre", "bufNewFile" },
+    opts = {
+      inlay_hints = { enabled = true },
+    },
     config = function()
       --  This function gets run when an LSP connects to a particular buffer.
       local on_attach = function(client, bufnr)
-        if client.name == "lua_ls" or client.name == "tsserver" then
+        if client.name == "tsserver" then
           client.server_capabilities.documentFormattingProvider = false
           client.server_capabilities.documentRangeFormattingProvider = false
         end
@@ -68,7 +71,8 @@ return {
         end, "[W]orkspace [L]ist Folders")
 
         -- Diagnostics
-        -- See `:help vim.diagnostic.*` for documentation on any of the below functions
+        -- See `:help vim.diagnostic.*` for documentation on any of the below
+        -- functions
         map("n", "[d", vim.diagnostic.goto_prev, "goto prev [d]iagnostic")
         map("n", "]d", vim.diagnostic.goto_next, "goto next [d]iagnostic")
         map("n", "<leader>e", vim.diagnostic.open_float, "Open floating diagnostic message")
@@ -78,7 +82,8 @@ return {
       -- Setup neovim lua configuration
       require("neodev").setup()
 
-      -- nvim-cmp supports additional completion capabilities, so broadcast that to servers
+      -- nvim-cmp supports additional completion capabilities, so broadcast
+      -- that to servers
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
 
@@ -117,6 +122,14 @@ return {
             },
             workspace = { checkThirdParty = false },
             telemetry = { enable = false },
+            format = {
+              enable = false,
+              defaultConfig = {
+                indent_style = "space",
+                indent_size = "2",
+                continuation_indent_size = "2",
+              },
+            },
           },
         },
       }
@@ -138,6 +151,28 @@ return {
           },
           import_all_scan_buffers = 100,
           import_all_select_source = false,
+          typescript = {
+            inlayHints = {
+              includeInlayParameterNameHints = "literal",
+              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = false,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true,
+            },
+          },
+          javascript = {
+            inlayHints = {
+              includeInlayParameterNameHints = "all",
+              includeInlayParameterNameHintsWhenArgumentMatchesName = false,
+              includeInlayFunctionParameterTypeHints = true,
+              includeInlayVariableTypeHints = true,
+              includeInlayPropertyDeclarationTypeHints = true,
+              includeInlayFunctionLikeReturnTypeHints = true,
+              includeInlayEnumMemberValueHints = true,
+            },
+          },
         },
       }
     end,
@@ -152,12 +187,14 @@ return {
         debug = false,
         sources = {
           null_ls.builtins.formatting.stylua,
-          --null_ls.builtins.diagnostics.eslint,
+          null_ls.builtins.diagnostics.eslint,
+          null_ls.builtins.formatting.prettier,
+          null_ls.builtins.diagnostics.markdownlint,
           --null_ls.builtins.completion.spell,
-          --null_ls.builtins.formatting.fish_indent,
           --null_ls.builtins.diagnostics.fish,
-          --null_ls.builtins.formatting.shfmt,
-          -- nls.builtins.diagnostics.flake8,
+          --null_ls.builtins.formatting.isort,
+          --null_ls.builtins.formatting.black,
+          --nls.builtins.diagnostics.flake8,
         },
       }
     end,

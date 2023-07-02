@@ -19,6 +19,7 @@ return {
       "hrsh7th/cmp-path",
       --Plug 'hrsh7th/cmp-cmdline'
     },
+    event = "InsertEnter",
     config = function()
       -- Autocompletion setup
       local kind_icons = {
@@ -53,7 +54,8 @@ return {
       require("luasnip.loaders.from_vscode").lazy_load()
       --luasnip.config.setup {}
 
-      -- This will expand the current item or jump to the next item within the snippet.
+      -- This will expand the current item or jump to the next item within the
+      -- snippet.
       vim.keymap.set({ "i", "s" }, "<C-k>", function()
         if luasnip.expand_or_jumpable() then
           luasnip.expand_or_jump()

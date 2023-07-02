@@ -16,8 +16,8 @@ opt.mouse = "a" -- Mouse support
 opt.path:append "**"
 --"set dictionary+=/usr/share/dict/words
 
--- This stops Vim from redrawing the screen during complex operations and results
--- in much smoother looking plugins.
+-- This stops Vim from redrawing the screen during complex operations and
+-- results in much smoother looking plugins.
 opt.lazyredraw = true
 
 -- No swap and No backup files
@@ -108,7 +108,7 @@ opt.matchpairs:append { "<:>" }
 opt.updatetime = 1000 -- Faster completion
 opt.signcolumn = "yes"
 
---opt.iskeywork:append { "-" }  -- Consider words split by '-' as one
+opt.iskeyword:append { "-" }  -- Consider words split by '-' as one
 
 --vim.g.python3_host_prog = '/usr/bin/python3'    --Python 3 provider (optional)
 -- Disable providers we do not care a about

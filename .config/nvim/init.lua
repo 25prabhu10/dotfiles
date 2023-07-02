@@ -6,26 +6,18 @@
 require "config.options"
 require "config.keymaps"
 require "config.autocmds"
+require "config.usercmds"
 
--- Install plugin manager and load configs
-local lazypath = vim.fn.stdpath "data" .. "/lazy/lazy.nvim"
-
-if not vim.loop.fs_stat(lazypath) then
-  vim.fn.system {
-    "git",
-    "clone",
-    "--filter=blob:none",
-    "https://github.com/folke/lazy.nvim.git",
-    "--branch=stable", -- latest stable release
-    lazypath,
-  }
-end
-
-vim.opt.rtp:prepend(lazypath)
-
-require("lazy").setup { { import = "plugins" } }
+-- Plugin manager
+require "config.lazy"
 
 vim.cmd.colorscheme "tokyonight" -- Set colour scheme
+
+--local status, _ = pcall(vim.cmd, "colorscheme vimasd")
+--if not status then
+--print("Colorscheme not found!")
+--return
+--end
 
 -- TODO: Checkout plugins
 -- "Eandrju/cellular-automaton.nvim"
@@ -37,6 +29,8 @@ vim.cmd.colorscheme "tokyonight" -- Set colour scheme
 -- "folke/zen-mode.nvim"
 -- "folke/twilight.nvim"
 -- "nvim-treesitter/nvim-treesitter-context"
+-- "mattn/emmet-vim"
+-- "ThePrimeagen/refactoring.nvim"
 
 -- Disable builtin vim
 --vim.g.loaded_gzip = 1

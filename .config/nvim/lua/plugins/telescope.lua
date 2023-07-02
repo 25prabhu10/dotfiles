@@ -27,7 +27,17 @@ return {
       },
       pickers = {
         find_files = {
-          find_command = { "fd", "--type", "f", "--hidden", "--color", "never", "--strip-cwd-prefix", "--exclude", ".git" },
+          find_command = {
+            "fd",
+            "--type",
+            "f",
+            "--hidden",
+            "--color",
+            "never",
+            "--strip-cwd-prefix",
+            "--exclude",
+            ".git",
+          },
           --find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
         },
         --live_grep = {
@@ -36,6 +46,20 @@ return {
         --winblend = 10,
         --shorten_path = false,
         --},
+        git_status = {
+          prompt_prefix = "󰊢  ",
+          show_untracked = true,
+          initial_mode = "normal",
+        },
+        git_commits = {
+          prompt_prefix = "󰊢  ",
+          initial_mode = "normal",
+          results_title = "git log (current buffer)",
+        },
+        git_branches = {
+          prompt_prefix = "󰊢  ",
+          initial_mode = "normal",
+        },
       },
       extensions = {
         fzf = { fuzzy = true, override_generic_sorter = true, override_file_sorter = true, case_mode = "smart_case" },
@@ -44,7 +68,11 @@ return {
     keys = {
       -- Files
       { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files (root dir)" },
-      { "<leader>fo", "<cmd>Telescope oldfiles include_current_session=false<cr>", desc = "[F]ind recently [o]pened files" },
+      {
+        "<leader>fo",
+        "<cmd>Telescope oldfiles include_current_session=false<cr>",
+        desc = "[F]ind recently [o]pened files",
+      },
       { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "[F]ind existing [b]uffers" },
       { "<leader>fB", "<cmd>Telescope buffers show_all_buffers=true<cr>", desc = "Switch Buffer" },
 
@@ -55,6 +83,7 @@ return {
       -- Git
       { "<leader>gc", "<cmd>Telescope git_commits<CR>", desc = "commits" },
       { "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "status" },
+      { "<leader>gt", "<cmd>Telescope git_branches<CR>", desc = "Git branches" },
       { "<C-p>", "<cmd>Telescope git_files<cr>", desc = "Word (root dir)" },
 
       -- LSP

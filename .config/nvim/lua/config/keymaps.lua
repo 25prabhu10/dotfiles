@@ -56,10 +56,7 @@ map("n", "x", '"_x')
 map("n", "<C-h>", "<C-w>h", { desc = "Go to left window", remap = true })
 map("n", "<C-j>", "<C-w>j", { desc = "Go to lower window", remap = true })
 map("n", "<C-k>", "<C-w>k", { desc = "Go to upper window", remap = true })
-map("n", "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
-
--- Clear search highlights
-map("n", "<Leader><Leader>", "<cmd>let @/=''<CR>", { desc = "Clear hlsearch" })
+--map("n", "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
 
 -- Resize window using <ctrl> arrow keys (respecting `v:count`)
 map("n", "<C-Up>", '"<cmd>resize +" . v:count1 . "<cr>"', { expr = true, replace_keycodes = false, desc = "Increase window height" })
@@ -93,12 +90,19 @@ map("n", "<C-u>", "<C-u>zz", { desc = "Page down" })
 -- Keep search text centered
 map("n", "n", "nzzzv")
 map("n", "N", "Nzzzv")
+-- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
+--map("n", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+--map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+--map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
+--map("n", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+--map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
+--map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
 
 -- Add new line below and above current line
 map("n", "<Leader>o", "o<Esc>j", { desc = "Add an empty line above" })
 map("n", "<Leader>O", "O<Esc>j", { desc = "Add an empty line below" })
 
--- qq to record, Q to replay
+-- `qq` to record, `Q` to replay
 map("n", "Q", "@q")
 
 -- Open Netrw
@@ -117,20 +121,3 @@ map("n", "<Leader>us", function()
     print "Disabled Spell Check"
   end
 end, { desc = "Toggle spell check" })
-
--- Clear search, diff update and redraw
--- taken from runtime/lua/_editor.lua
---map(
---"n",
---"<leader>ur",
---"<Cmd>nohlsearch<Bar>diffupdate<Bar>normal! <C-L><CR>",
---{ desc = "Redraw / clear hlsearch / diff update" }
---)
-
--- https://github.com/mhinz/vim-galore#saner-behavior-of-n-and-n
---map("n", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
---map("x", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
---map("o", "n", "'Nn'[v:searchforward]", { expr = true, desc = "Next search result" })
---map("n", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
---map("x", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
---map("o", "N", "'nN'[v:searchforward]", { expr = true, desc = "Prev search result" })
