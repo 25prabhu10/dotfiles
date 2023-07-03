@@ -59,6 +59,18 @@ return {
             ["ac"] = { query = "@class.outer", desc = "" },
             ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
             ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
+            -- ['af'] = '@function.outer',
+            -- ['if'] = '@function.inner',
+            -- ['ip'] = '@parameter.inner',
+            -- ['ap'] = '@parameter.outer',
+            -- ['ib'] = '@block.inner',
+            -- ['ab'] = '@block.outer',
+            -- ['im'] = '@class.inner', -- m as in "(M)odule"
+            -- ['am'] = '@class.outer',
+            -- ['aa'] = '@call.outer', -- a as in "function (A)pplication"
+            -- ['ia'] = '@call.inner',
+            -- ['a/'] = '@comment.outer',
+            -- ['i/'] = '@comment.outer',
           },
         },
         move = {
@@ -81,6 +93,42 @@ return {
             ["[M"] = { query = "@function.outer", desc = "" },
             ["[]"] = { query = "@class.outer", desc = "" },
           },
+          -- goto_next_start = {
+          --   ["]f"] = "@function.outer",
+          --   ["]m"] = "@class.outer",
+          --   ["]p"] = "@parameter.outer",
+          --   ["]]"] = "@block.outer",
+          --   ["]b"] = "@block.outer",
+          --   ["]a"] = "@call.outer",
+          --   ["]/"] = "@comment.outer",
+          -- },
+          -- goto_next_end = {
+          --   ["]F"] = "@function.outer",
+          --   ["]M"] = "@class.outer",
+          --   ["]P"] = "@parameter.outer",
+          --   ["]["] = "@block.outer",
+          --   ["]B"] = "@block.outer",
+          --   ["]A"] = "@call.outer",
+          --   ["]\\"] = "@comment.outer",
+          -- },
+          -- goto_previous_start = {
+          --   ["[f"] = "@function.outer",
+          --   ["[m"] = "@class.outer",
+          --   ["[p"] = "@parameter.outer",
+          --   ["[["] = "@block.outer",
+          --   ["[b"] = "@block.outer",
+          --   ["[a"] = "@call.outer",
+          --   ["[/"] = "@comment.outer",
+          -- },
+          -- goto_previous_end = {
+          --   ["[F"] = "@function.outer",
+          --   ["[M"] = "@class.outer",
+          --   ["[P"] = "@parameter.outer",
+          --   ["[]"] = "@block.outer",
+          --   ["[B"] = "@block.outer",
+          --   ["[A"] = "@call.outer",
+          --   ["[\\"] = "@comment.outer",
+          -- },
         },
         swap = {
           enable = true,
@@ -91,19 +139,37 @@ return {
             ["<leader>A"] = { query = "@parameter.inner", desc = "" },
           },
         },
+        -- playground = {
+        --   enable = true,
+        --   disable = {},
+        --   updatetime = 25, -- Debounced time for highlighting nodes in the playground from source code
+        --   persist_queries = false, -- Whether the query persists across vim sessions
+        --   keybindings = {
+        --     toggle_query_editor = "o",
+        --     toggle_hl_groups = "i",
+        --     toggle_injected_languages = "t",
+        --     toggle_anonymous_nodes = "a",
+        --     toggle_language_display = "I",
+        --     focus_language = "f",
+        --     unfocus_language = "F",
+        --     update = "R",
+        --     goto_node = "<cr>",
+        --     show_help = "?",
+        --   },
+        -- },
       },
     },
     config = function(_, opts)
-      --if type(opts.ensure_installed) == "table" then
-      --local added = {}
-      --opts.ensure_installed = vim.tbl_filter(function(lang)
-      --if added[lang] then
-      --return false
-      --end
-      --added[lang] = true
-      --return true
-      --end, opts.ensure_installed)
-      --end
+      if type(opts.ensure_installed) == "table" then
+        local added = {}
+        opts.ensure_installed = vim.tbl_filter(function(lang)
+          if added[lang] then
+            return false
+          end
+          added[lang] = true
+          return true
+        end, opts.ensure_installed)
+      end
       require("nvim-treesitter.configs").setup(opts)
     end,
   },

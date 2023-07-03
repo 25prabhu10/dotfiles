@@ -20,12 +20,12 @@ map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true
 map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
 
 -- Move Lines
-map("n", "<A-j>", "<cmd>m .+1<cr>==", { desc = "Move down" })
-map("n", "<A-k>", "<cmd>m .-2<cr>==", { desc = "Move up" })
-map("i", "<A-j>", "<esc><cmd>m .+1<cr>==gi", { desc = "Move down" })
-map("i", "<A-k>", "<esc><cmd>m .-2<cr>==gi", { desc = "Move up" })
-map("v", "<A-j>", ":m '>+1<cr>gv=gv", { desc = "Move down" })
-map("v", "<A-k>", ":m '<-2<cr>gv=gv", { desc = "Move up" })
+map("n", "<A-j>", "<Cmd>m .+1<CR>==", { desc = "Move down" })
+map("n", "<A-k>", "<Cmd>m .-2<CR>==", { desc = "Move up" })
+map("i", "<A-j>", "<Esc><Cmd>m .+1<CR>==gi", { desc = "Move down" })
+map("i", "<A-k>", "<Esc><Cmd>m .-2<CR>==gi", { desc = "Move up" })
+map("v", "<A-j>", ":m '>+1<CR>gv=gv", { desc = "Move down" })
+map("v", "<A-k>", ":m '<-2<CR>gv=gv", { desc = "Move up" })
 
 -- Stay in indent mode
 map("v", "<", "<gv")
@@ -59,22 +59,42 @@ map("n", "<C-k>", "<C-w>k", { desc = "Go to upper window", remap = true })
 --map("n", "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
 
 -- Resize window using <ctrl> arrow keys (respecting `v:count`)
-map("n", "<C-Up>", '"<cmd>resize +" . v:count1 . "<cr>"', { expr = true, replace_keycodes = false, desc = "Increase window height" })
-map("n", "<C-Down>", '"<cmd>resize -" . v:count1 . "<cr>"', { expr = true, replace_keycodes = false, desc = "Decrease window height" })
-map("n", "<C-Left>", '"<cmd>vertical resize -" . v:count1 . "<cr>"', { expr = true, replace_keycodes = false, desc = "Decrease window width" })
-map("n", "<C-Right>", '"<cmd>vertical resize +" . v:count1 . "<cr>"', { expr = true, replace_keycodes = false, desc = "Increase window width" })
+map(
+  "n",
+  "<C-Up>",
+  '"<Cmd>resize +" . v:count1 . "<CR>"',
+  { expr = true, replace_keycodes = false, desc = "Increase window height" }
+)
+map(
+  "n",
+  "<C-Down>",
+  '"<Cmd>resize -" . v:count1 . "<CR>"',
+  { expr = true, replace_keycodes = false, desc = "Decrease window height" }
+)
+map(
+  "n",
+  "<C-Left>",
+  '"<Cmd>vertical resize -" . v:count1 . "<CR>"',
+  { expr = true, replace_keycodes = false, desc = "Decrease window width" }
+)
+map(
+  "n",
+  "<C-Right>",
+  '"<Cmd>vertical resize +" . v:count1 . "<CR>"',
+  { expr = true, replace_keycodes = false, desc = "Increase window width" }
+)
 
 -- Close current buffer
-map("n", "<Leader>q", "<cmd>bd<CR>", { desc = "Close current buffer" })
+map("n", "<Leader>q", "<Cmd>bd<CR>", { desc = "Close current buffer" })
 
 -- Navigate buffers
-map("n", "]b", "<cmd>bnext<CR>", { desc = "Next buffer" })
-map("n", "[b", "<cmd>bprevious<CR>", { desc = "Prev buffer" })
-map("n", "<leader>bb", "<cmd>e #<cr>", { desc = "Switch to Other Buffer" })
+map("n", "]b", "<Cmd>bnext<CR>", { desc = "Next buffer" })
+map("n", "[b", "<Cmd>bprevious<CR>", { desc = "Prev buffer" })
+map("n", "<Leader>bb", "<Cmd>e #<CR>", { desc = "Switch to Other Buffer" })
 
 -- GOTO next or previous local errors in local list
--- nnoremap <Leader>j <cmd>lnext<CR>zz
--- nnoremap <Leader>k <cmd>lprev<CR>zz
+-- nnoremap <Leader>j <Cmd>lnext<CR>zz
+-- nnoremap <Leader>k <Cmd>lprev<CR>zz
 
 -- Join lines and place cursor back to original place
 -- map("n", "J", "mzJ`z", {desc =""})
@@ -106,10 +126,10 @@ map("n", "<Leader>O", "O<Esc>j", { desc = "Add an empty line below" })
 map("n", "Q", "@q")
 
 -- Open Netrw
-map("n", "<leader>pv", vim.cmd.Ex, { desc = "Open Netrw" })
+map("n", "<Leader>pv", vim.cmd.Ex, { desc = "Open Netrw" })
 
 -- Save file
-map({ "i", "v", "n", "s" }, "<C-s>", "<cmd>w<cr><esc>", { desc = "Save file" })
+map({ "i", "v", "n", "s" }, "<C-s>", "<Cmd>w<CR><Esc>", { desc = "Save file" })
 
 -- Spelling Check
 map("n", "<Leader>us", function()

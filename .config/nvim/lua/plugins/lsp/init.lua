@@ -39,7 +39,7 @@ return {
         vim.api.nvim_buf_set_option(bufnr, "omnifunc", "v:lua.vim.lsp.omnifunc")
 
         -- Format document
-        map("n", "<leader>fd", function()
+        map("n", "<Leader>fd", function()
           vim.lsp.buf.format { async = true }
         end, "Format current buffer with LSP")
 
@@ -56,27 +56,27 @@ return {
         map("n", "K", vim.lsp.buf.hover, "Hover documentation")
         map("n", "<C-k>", vim.lsp.buf.signature_help, "Signature documentation")
 
-        map("n", "<F2>", vim.lsp.buf.rename, "[R]e[n]ame")
-        map("n", "<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
+        map("n", "<F2>", vim.lsp.buf.rename, "Rename")
+        map("n", "<Leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction")
 
         map("n", "gd", vim.lsp.buf.definition, "[G]oto [D]efinition")
         map("n", "gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
         map("n", "gI", vim.lsp.buf.implementation, "[G]oto [I]mplementation")
         map("n", "gt", vim.lsp.buf.type_definition, "[G]oto [T]ype Definition")
 
-        map("n", "<leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
-        map("n", "<leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
-        map("n", "<leader>wl", function()
+        map("n", "<Leader>wa", vim.lsp.buf.add_workspace_folder, "[W]orkspace [A]dd Folder")
+        map("n", "<Leader>wr", vim.lsp.buf.remove_workspace_folder, "[W]orkspace [R]emove Folder")
+        map("n", "<Leader>wl", function()
           print(vim.inspect(vim.lsp.buf.list_workspace_folders()))
         end, "[W]orkspace [L]ist Folders")
 
         -- Diagnostics
         -- See `:help vim.diagnostic.*` for documentation on any of the below
         -- functions
-        map("n", "[d", vim.diagnostic.goto_prev, "goto prev [d]iagnostic")
-        map("n", "]d", vim.diagnostic.goto_next, "goto next [d]iagnostic")
-        map("n", "<leader>e", vim.diagnostic.open_float, "Open floating diagnostic message")
-        --map('n', '<leader>q', vim.diagnostic.setloclist, 'Open diagnostics list')
+        map("n", "[d", vim.diagnostic.goto_prev, "Goto prev [D]iagnostic")
+        map("n", "]d", vim.diagnostic.goto_next, "Goto next [D]iagnostic")
+        map("n", "<Leader>e", vim.diagnostic.open_float, "Open floating diagnostic message")
+        --map('n', '<Leader>q', vim.diagnostic.setloclist, 'Open diagnostics list')
       end
 
       -- Setup neovim lua configuration
@@ -86,6 +86,24 @@ return {
       -- that to servers
       local capabilities = vim.lsp.protocol.make_client_capabilities()
       capabilities = require("cmp_nvim_lsp").default_capabilities(capabilities)
+
+      -- capabilities.textDocument.completion.completionItem = {
+      --   documentationFormat = { "markdown", "plaintext" },
+      --   snippetSupport = true,
+      --   preselectSupport = true,
+      --   insertReplaceSupport = true,
+      --   labelDetailsSupport = true,
+      --   deprecatedSupport = true,
+      --   commitCharactersSupport = true,
+      --   tagSupport = { valueSet = { 1 } },
+      --   resolveSupport = {
+      --     properties = {
+      --       "documentation",
+      --       "detail",
+      --       "additionalTextEdits",
+      --     },
+      --   },
+      -- }
 
       -- Configure LSP servers
       local lspconfig = require "lspconfig"
@@ -138,6 +156,10 @@ return {
         capabilities = capabilities,
         cmd = { "typescript-language-server", "--stdio" },
         on_attach = on_attach,
+        keys = {
+          { "<Leader>co", "<Cmd>TypescriptOrganizeImports<CR>", desc = "Typescript Organize Imports" },
+          { "<Leader>cr", "<Cmd>TypescriptRenameFile<CR>", desc = "Typescript Rename File" },
+        },
         settings = {
           enable_import_on_completion = true,
 
@@ -172,6 +194,9 @@ return {
               includeInlayFunctionLikeReturnTypeHints = true,
               includeInlayEnumMemberValueHints = true,
             },
+          },
+          completions = {
+            completeFunctionCalls = true,
           },
         },
       }

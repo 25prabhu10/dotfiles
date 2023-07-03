@@ -67,41 +67,40 @@ return {
     },
     keys = {
       -- Files
-      { "<leader>ff", "<cmd>Telescope find_files<cr>", desc = "Find Files (root dir)" },
+      { "<Leader>ff", "<Cmd>Telescope find_files<CR>", desc = "Find Files" },
       {
-        "<leader>fo",
-        "<cmd>Telescope oldfiles include_current_session=false<cr>",
-        desc = "[F]ind recently [o]pened files",
+        "<Leader>fo",
+        "<Cmd>Telescope oldfiles include_current_session=false<CR>",
+        desc = "[f]ind recently [o]pened files",
       },
-      { "<leader>fb", "<cmd>Telescope buffers<cr>", desc = "[F]ind existing [b]uffers" },
-      { "<leader>fB", "<cmd>Telescope buffers show_all_buffers=true<cr>", desc = "Switch Buffer" },
+      { "<Leader>fb", "<Cmd>Telescope buffers show_all_buffers=true<CR>", desc = "[f]ind [b]uffers" },
 
       -- Find words
-      { "<leader>/", "<cmd>Telescope live_grep<cr>", desc = "Grep (root dir)" },
-      { "<leader>fw", "<cmd>Telescope grep_string<cr>", desc = "Word (root dir)" },
+      { "<Leader>/", "<Cmd>Telescope live_grep<CR>", desc = "Find word" },
+      { "<Leader>fw", "<Cmd>Telescope grep_string<CR>", desc = "[f]ind current [w]ord" },
 
       -- Git
-      { "<leader>gc", "<cmd>Telescope git_commits<CR>", desc = "commits" },
-      { "<leader>gs", "<cmd>Telescope git_status<CR>", desc = "status" },
-      { "<leader>gt", "<cmd>Telescope git_branches<CR>", desc = "Git branches" },
-      { "<C-p>", "<cmd>Telescope git_files<cr>", desc = "Word (root dir)" },
+      { "<Leader>gc", "<Cmd>Telescope git_commits<CR>", desc = "[g]it [c]ommits" },
+      { "<Leader>gs", "<Cmd>Telescope git_status<CR>", desc = "[g]it [s]tatus" },
+      { "<Leader>gb", "<Cmd>Telescope git_branches<CR>", desc = "[g]it [b]ranches" },
+      { "<C-p>", "<Cmd>Telescope git_files<CR>", desc = "Find Git tracked files" },
 
       -- LSP
-      { "<leader>gr", "<cmd>Telescope lsp_references<cr>", desc = "[G]oto [R]eferences" },
-      { "<leader>gd", "<cmd>Telescope definition<cr>", desc = "[G]oto [D]efinition" },
-      { "<leader>gD", "<cmd>Telescope declaration<cr>", desc = "[G]oto [D]eclaration" },
-      { "<leader>gI", "<cmd>Telescope implementation<cr>", desc = "[G]oto [I]mplementation" },
-      { "<leader>gt", "<cmd>Telescope type_definition<cr>", desc = "[G]oto [T]ype Definition" },
-      { "<leader>ds", "<cmd>Telescope lsp_document_symbols", desc = "[D]ocument [S]ymbols" },
-      { "<leader>ws", "<cmd>Telescope lsp_dynamic_workspace_symbols", desc = "[W]orkspace [S]ymbols" },
-      { "<leader>sd", "<cmd>Telescope diagnostics bufnr=0<cr>", desc = "Document diagnostics" },
-      { "<leader>sD", "<cmd>Telescope diagnostics<cr>", desc = "Workspace diagnostics" },
+      { "<Leader>gr", "<Cmd>Telescope lsp_references<CR>", desc = "[g]oto [r]eferences" },
+      { "<Leader>gd", "<Cmd>Telescope definition<CR>", desc = "[g]oto [d]efinition" },
+      { "<Leader>gD", "<Cmd>Telescope declaration<CR>", desc = "[g]oto [d]eclaration" },
+      { "<Leader>gI", "<Cmd>Telescope implementation<CR>", desc = "[g]oto [I]mplementation" },
+      { "<Leader>gt", "<Cmd>Telescope type_definition<CR>", desc = "[g]oto [t]ype definition" },
+      { "<Leader>ds", "<Cmd>Telescope lsp_document_symbols", desc = "[d]ocument [s]ymbols" },
+      { "<Leader>ws", "<Cmd>Telescope lsp_dynamic_workspace_symbols", desc = "[w]orkspace [s]ymbols" },
+      { "<Leader>sd", "<Cmd>Telescope diagnostics bufnr=0<CR>", desc = "[s]earch [d]ocument diagnostics" },
+      { "<Leader>sD", "<Cmd>Telescope diagnostics<CR>", desc = "[s]earch Workspace [D]iagnostics" },
 
       -- Others
-      { "<leader>so", "<cmd>Telescope vim_options<cr>", desc = "Vim Options" },
-      { "<leader>sk", "<cmd>Telescope keymaps<cr>", desc = "Key Maps" },
-      { "<leader>:", "<cmd>Telescope command_history<cr>", desc = "Command History" },
-      { "<leader>sm", "<cmd>Telescope man_pages<cr>", desc = "[S]earch in [M]an Pages" },
+      { "<Leader>so", "<Cmd>Telescope vim_options<CR>", desc = "[s]earch Vim [o]ptions" },
+      { "<Leader>sk", "<Cmd>Telescope keymaps<CR>", desc = "[s]earch [k]ey Maps" },
+      { "<Leader>sm", "<Cmd>Telescope man_pages<CR>", desc = "[s]earch in [m]an Pages" },
+      { "<Leader>:", "<Cmd>Telescope command_history<CR>", desc = "Command History" },
     },
   },
   -- Fuzzy Finder Algorithm which requires local dependencies to be built.

@@ -4,5 +4,6 @@ return {
 
   -- For comments and auto close pairs
   { "tpope/vim-surround" },
-  { "tpope/vim-repeat" },
+  { "tpope/vim-repeat", event = "VeryLazy" },
+  { "mbbill/undotree" },
 }

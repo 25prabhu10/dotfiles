@@ -8,8 +8,14 @@ return {
         "saadparwaiz1/cmp_luasnip",
         dependencies = {
           "L3MON4D3/LuaSnip",
-          -- Adds a number of user-friendly snippets
-          dependencies = { "rafamadriz/friendly-snippets" },
+          dependencies = {
+            -- Adds a number of user-friendly snippets
+            "rafamadriz/friendly-snippets",
+            config = function()
+              require("luasnip.loaders.from_vscode").lazy_load()
+            end,
+          },
+          opts = { history = true, updateevents = "TextChanged,TextChangedI" },
         },
       },
 
@@ -51,8 +57,6 @@ return {
       }
 
       local luasnip = require "luasnip"
-      require("luasnip.loaders.from_vscode").lazy_load()
-      --luasnip.config.setup {}
 
       -- This will expand the current item or jump to the next item within the
       -- snippet.
@@ -60,14 +64,14 @@ return {
         if luasnip.expand_or_jumpable() then
           luasnip.expand_or_jump()
         end
-      end, { silent = true })
+      end, { silent = true, desc = "Expand or Jump in snippet" })
 
       -- This always moves to the previous item within the snippet
       vim.keymap.set({ "i", "s" }, "<C-j>", function()
         if luasnip.jumpable(-1) then
           luasnip.jump(-1)
         end
-      end, { silent = true })
+      end, { silent = true, desc = "Jump back in snippet" })
 
       local cmp = require "cmp"
       cmp.setup {
