@@ -108,7 +108,7 @@ opt.matchpairs:append { "<:>" }
 opt.updatetime = 1000 -- Faster completion
 opt.signcolumn = "yes"
 
-opt.iskeyword:append { "-" }  -- Consider words split by '-' as one
+opt.iskeyword:append { "-" } -- Consider words split by '-' as one
 
 --vim.g.python3_host_prog = '/usr/bin/python3'    --Python 3 provider (optional)
 -- Disable providers we do not care a about
@@ -130,8 +130,10 @@ opt.formatoptions = vim.opt.formatoptions
 -- - "a" -- Auto formatting is BAD.
 -- - "t" -- Don't auto format my code. Linters can do that.
 
-opt.grepformat = "%f:%l:%c:%m"
-opt.grepprg = "rg --vimgrep"
+if vim.fn.executable "rg" then
+  opt.grepformat = "%f:%l:%c:%m,%f:%l:%m"
+  opt.grepprg = "rg --vimgrep --no-heading"
+end
 
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
 --opt.timeloutlen = 300
@@ -142,7 +144,7 @@ if vim.fn.has "nvim-0.9.0" == 1 then
   opt.shortmess:append { C = true }
 end
 
---opt.diffopt = { "internal", "filler", "closeoff", "hiddenoff", "algorithm:minimal" }
+opt.diffopt = { "internal", "filler", "closeoff", "hiddenoff", "algorithm:minimal" }
 
--- Fix markdown indentation settings
---vim.g.markdown_recommended_style = 0
+-- Don't highlight long lines
+opt.synmaxcol = 250

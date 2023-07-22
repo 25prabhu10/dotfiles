@@ -67,7 +67,8 @@ return {
     },
     keys = {
       -- Files
-      { "<Leader>ff", "<Cmd>Telescope find_files<CR>", desc = "Find Files" },
+      -- { "<Leader>ff", "<Cmd>Telescope find_files<CR>", desc = "[f]ind [f]iles" },
+      { "<C-p>", "<Cmd>Telescope find_files<CR>", desc = "[f]ind [f]iles" },
       {
         "<Leader>fo",
         "<Cmd>Telescope oldfiles include_current_session=false<CR>",
@@ -79,12 +80,6 @@ return {
       { "<Leader>/", "<Cmd>Telescope live_grep<CR>", desc = "Find word" },
       { "<Leader>fw", "<Cmd>Telescope grep_string<CR>", desc = "[f]ind current [w]ord" },
 
-      -- Git
-      { "<Leader>gc", "<Cmd>Telescope git_commits<CR>", desc = "[g]it [c]ommits" },
-      { "<Leader>gs", "<Cmd>Telescope git_status<CR>", desc = "[g]it [s]tatus" },
-      { "<Leader>gb", "<Cmd>Telescope git_branches<CR>", desc = "[g]it [b]ranches" },
-      { "<C-p>", "<Cmd>Telescope git_files<CR>", desc = "Find Git tracked files" },
-
       -- LSP
       { "<Leader>gr", "<Cmd>Telescope lsp_references<CR>", desc = "[g]oto [r]eferences" },
       { "<Leader>gd", "<Cmd>Telescope definition<CR>", desc = "[g]oto [d]efinition" },
@@ -92,16 +87,25 @@ return {
       { "<Leader>gI", "<Cmd>Telescope implementation<CR>", desc = "[g]oto [I]mplementation" },
       { "<Leader>gt", "<Cmd>Telescope type_definition<CR>", desc = "[g]oto [t]ype definition" },
       { "<Leader>ds", "<Cmd>Telescope lsp_document_symbols", desc = "[d]ocument [s]ymbols" },
-      { "<Leader>ws", "<Cmd>Telescope lsp_dynamic_workspace_symbols", desc = "[w]orkspace [s]ymbols" },
+      { "<Leader>ws", "<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>", desc = "[w]orkspace [s]ymbols" },
       { "<Leader>sd", "<Cmd>Telescope diagnostics bufnr=0<CR>", desc = "[s]earch [d]ocument diagnostics" },
-      { "<Leader>sD", "<Cmd>Telescope diagnostics<CR>", desc = "[s]earch Workspace [D]iagnostics" },
+      { "<Leader>sD", "<Cmd>Telescope diagnostics<CR>", desc = "[s]earch workspace [D]iagnostics" },
 
       -- Others
-      { "<Leader>so", "<Cmd>Telescope vim_options<CR>", desc = "[s]earch Vim [o]ptions" },
-      { "<Leader>sk", "<Cmd>Telescope keymaps<CR>", desc = "[s]earch [k]ey Maps" },
-      { "<Leader>sm", "<Cmd>Telescope man_pages<CR>", desc = "[s]earch in [m]an Pages" },
-      { "<Leader>:", "<Cmd>Telescope command_history<CR>", desc = "Command History" },
+      { "<Leader>so", "<Cmd>Telescope vim_options<CR>", desc = "[s]earch vim [o]ptions" },
+      { "<Leader>sk", "<Cmd>Telescope keymaps<CR>", desc = "[s]earch [k]ey maps" },
+      { "<Leader>sm", "<Cmd>Telescope man_pages<CR>", desc = "[s]earch in [m]an pages" },
+      { "<Leader>:", "<Cmd>Telescope command_history<CR>", desc = "Command history" },
     },
+    config = function()
+      if require("util").check_git_workspace() then
+        -- Git
+        vim.keymap.set("n", "<Leader>ggs", "<Cmd>Telescope git_status<CR>", { desc = "Git Status" })
+        vim.keymap.set("n", "<Leader>ggc", "<Cmd>Telescope git_commits<CR>", { desc = "Git Commits" })
+        vim.keymap.set("n", "<Leader>ggb", "<Cmd>Telescope git_branches<CR>", { desc = "Git Branches" })
+        vim.keymap.set("n", "<Leader>ggf", "<Cmd>Telescope git_files<CR>", { desc = "Find Git tracked Files" })
+      end
+    end,
   },
   -- Fuzzy Finder Algorithm which requires local dependencies to be built.
   -- Only load if `make` is available. Make sure you have the system

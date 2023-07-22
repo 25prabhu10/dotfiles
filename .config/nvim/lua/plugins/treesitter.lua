@@ -5,19 +5,16 @@ return {
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
-      "JoosepAlviste/nvim-ts-context-commentstring",
+      { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
     },
     cmd = { "TSUpdateSync" },
-    keys = {
-      { "<c-space>", desc = "Increment selection" },
-      { "<bs>", desc = "Decrement selection", mode = "x" },
-    },
     opts = {
       highlight = { enable = true },
       indent = { enable = true },
       ensure_installed = {
         "bash",
         "c",
+        "css",
         "html",
         "javascript",
         "json",
@@ -36,10 +33,10 @@ return {
       incremental_selection = {
         enable = true,
         keymaps = {
-          init_selection = "<C-Space>",
-          node_incremental = "<C-Space>",
-          scope_incremental = "<C-CR>",
-          node_decremental = "<C-BS>",
+          init_selection = "gnn",
+          node_incremental = "gnn",
+          scope_incremental = "grc",
+          node_decremental = "grm",
         },
       },
       context_commentstring = {
@@ -52,46 +49,46 @@ return {
           lookahead = true, -- Automatically jump forward to textobj, similar to targets.vim
           keymaps = {
             -- You can use the capture groups defined in textobjects.scm
-            ["aa"] = { query = "@parameter.outer", desc = "" },
-            ["ia"] = { query = "@parameter.inner", desc = "" },
-            ["af"] = { query = "@function.outer", desc = "" },
-            ["if"] = { query = "@function.inner", desc = "" },
-            ["ac"] = { query = "@class.outer", desc = "" },
+            ["ap"] = { query = "@parameter.outer", desc = "Outer parameter" },
+            ["ip"] = { query = "@parameter.inner", desc = "Inner parameter" },
+
+            ["af"] = { query = "@function.outer", desc = "Outer function" },
+            ["if"] = { query = "@function.inner", desc = "Inner function" },
+
+            ["ac"] = { query = "@class.outer", desc = "Outer class" },
             ["ic"] = { query = "@class.inner", desc = "Select inner part of a class region" },
+
+            ["ab"] = { query = "@block.outer", desc = "Outer block" },
+            ["ib"] = { query = "@block.inner", desc = "Inner block" },
+
+            ["av"] = { query = "@variable.outer", desc = "Outer variable" },
+            ["iv"] = { query = "@variable.inner", desc = "Inner variable" },
+
+            -- ['ac'] = '@conditional.outer',
+            -- ['ic'] = '@conditional.inner',
+
             ["as"] = { query = "@scope", query_group = "locals", desc = "Select language scope" },
-            -- ['af'] = '@function.outer',
-            -- ['if'] = '@function.inner',
-            -- ['ip'] = '@parameter.inner',
-            -- ['ap'] = '@parameter.outer',
-            -- ['ib'] = '@block.inner',
-            -- ['ab'] = '@block.outer',
-            -- ['im'] = '@class.inner', -- m as in "(M)odule"
-            -- ['am'] = '@class.outer',
-            -- ['aa'] = '@call.outer', -- a as in "function (A)pplication"
-            -- ['ia'] = '@call.inner',
-            -- ['a/'] = '@comment.outer',
-            -- ['i/'] = '@comment.outer',
           },
         },
         move = {
           enable = true,
           set_jumps = true, -- Whether to set jumps in the jumplist
           goto_next_start = {
-            ["]m"] = { query = "@function.outer", desc = "" },
+            ["]m"] = { query = "@function.outer", desc = "Next function start" },
             ["]]"] = { query = "@class.outer", desc = "Next class start" },
-            ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold" },
+            ["]z"] = { query = "@fold", query_group = "folds", desc = "Next fold start" },
           },
           goto_next_end = {
-            ["]M"] = { query = "@function.outer", desc = "" },
+            ["]M"] = { query = "@function.outer", desc = "Next function end" },
             ["]["] = { query = "@class.outer", desc = "Next class end" },
           },
           goto_previous_start = {
-            ["[m"] = { query = "@function.outer", desc = "" },
-            ["[["] = { query = "@class.outer", desc = "" },
+            ["[m"] = { query = "@function.outer", desc = "Previous function start" },
+            ["[["] = { query = "@class.outer", desc = "Previous class start" },
           },
-          {
-            ["[M"] = { query = "@function.outer", desc = "" },
-            ["[]"] = { query = "@class.outer", desc = "" },
+          goto_previous_end = {
+            ["[M"] = { query = "@function.outer", desc = "Previous function end" },
+            ["[]"] = { query = "@class.outer", desc = "Previous class end" },
           },
           -- goto_next_start = {
           --   ["]f"] = "@function.outer",
@@ -133,10 +130,10 @@ return {
         swap = {
           enable = true,
           swap_next = {
-            ["<leader>a"] = { query = "@parameter.inner", desc = "" },
+            ["<leader>cn"] = { query = "@parameter.inner", desc = "Swap with next parameter" },
           },
           swap_previous = {
-            ["<leader>A"] = { query = "@parameter.inner", desc = "" },
+            ["<leader>cp"] = { query = "@parameter.inner", desc = "Swap with previous parameter" },
           },
         },
         -- playground = {
