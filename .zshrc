@@ -130,6 +130,12 @@ source /usr/share/zsh/plugins/zsh-autosuggestions/zsh-autosuggestions.zsh
 ZSH_AUTOSUGGEST_BUFFER_MAX_SIZE=20
 ZSH_AUTOSUGGEST_HIGHLIGHT_STYLE='fg=8'
 
+# Custom Functions
+pdfcompress ()
+{
+   gs -q -dNOPAUSE -dQUIET -dBATCH -dSAFER -sDEVICE=pdfwrite -dCompatibilityLevel=1.4 -dPDFSETTINGS=/screen -dEmbedAllFonts=true -dSubsetFonts=true -dColorImageDownsampleType=/Bicubic -dColorImageResolution=144 -dGrayImageDownsampleType=/Bicubic -dGrayImageResolution=144 -dMonoImageDownsampleType=/Bicubic -dMonoImageResolution=144 -sOutputFile=${1%.*}.compressed.pdf $1; 
+}
+
 # nvm support
 #[ -z "$NVM_DIR" ] && export NVM_DIR="$HOME/.nvm"
 #source /usr/share/nvm/nvm.sh
@@ -147,3 +153,10 @@ export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 # Customized prompt using starship
 eval "$(starship init zsh)"
+
+# bun completions
+[ -s "/home/prabhu/.bun/_bun" ] && source "/home/prabhu/.bun/_bun"
+
+# bun
+export BUN_INSTALL="$HOME/.bun"
+export PATH="$BUN_INSTALL/bin:$PATH"
