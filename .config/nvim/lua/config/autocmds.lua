@@ -45,6 +45,75 @@ autocmd("BufReadPost", {
   end,
 })
 
+-- File templates
+autocmd({ "BufNewFile" }, {
+  group = augroup "skeleton_sh",
+  pattern = "*.sh",
+  command = "0r ~/.config/nvim/skeletons/bash.sh",
+})
+
+autocmd({ "BufNewFile" }, {
+  group = augroup "skeleton_md",
+  pattern = "*.md",
+  command = "0r ~/.config/nvim/skeletons/markdown.md",
+})
+
+autocmd({ "BufNewFile" }, {
+  group = augroup "skeleton_md_new",
+  pattern = "*.md",
+  callback = function()
+    local l
+    if vim.fn.line "$" > 20 then
+      l = 20
+    else
+      l = vim.fn.line "$"
+    end
+    vim.fn.execute("1," .. l .. "g/date: /s/date: .*/date: " .. vim.fn.strftime "%Y-%m-%d")
+    vim.fn.execute("1," .. l .. "g/title: /s/title: .*/title: " .. vim.fn.expand "%:t:r")
+    vim.fn.execute("1," .. l .. "g/# /s/# .*/# " .. vim.fn.expand "%:t:r")
+  end,
+})
+
+autocmd({ "BufWritePre", "FileWritePre" }, {
+  group = augroup "skeleton_md_update",
+  pattern = "*.md",
+  callback = function()
+    local save_cursor = vim.fn.getpos "."
+    local l
+    if vim.fn.line "$" > 20 then
+      l = 20
+    else
+      l = vim.fn.line "$"
+    end
+    vim.fn.execute("1," .. l .. "g/lastmod: /s/lastmod: .*/lastmod: " .. vim.fn.strftime "%Y-%m-%d")
+    vim.fn.setpos(".", save_cursor)
+  end,
+})
+
+-- close some filetypes with <q>
+-- vim.api.nvim_create_autocmd("FileType", {
+--   group = augroup "close_with_q",
+--   pattern = {
+--     "PlenaryTestPopup",
+--     "help",
+--     "lspinfo",
+--     "man",
+--     "notify",
+--     "qf",
+--     "spectre_panel",
+--     "startuptime",
+--     "tsplayground",
+--     "neotest-output",
+--     "checkhealth",
+--     "neotest-summary",
+--     "neotest-output-panel",
+--   },
+--   callback = function(event)
+--     vim.bo[event.buf].buflisted = false
+--     vim.keymap.set("n", "q", "<cmd>close<cr>", { buffer = event.buf, silent = true })
+--   end,
+-- })
+
 -- Autoformatting
 --vim.api.nvim_create_autocmd('BufWritePre', {
 --callback = function()

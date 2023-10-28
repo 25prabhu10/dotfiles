@@ -136,7 +136,7 @@ map("n", "<LocalLeader>s", function()
 end, { desc = "Toggle spell check" })
 
 -- Change `cwd`
-map("n", "<Leader>cd", "<Cmd>cd %:p:h | pwd<CR>", { desc = "Change `cwd` to currently opened directory" })
+-- map("n", "<Leader>cd", "<Cmd>cd %:p:h | pwd<CR>", { desc = "Change `cwd` to currently opened directory" })
 
 -- Execute selected lines
 map("v", "<Leader>cx", "yPgv:!", { desc = "Execute selected lines" })

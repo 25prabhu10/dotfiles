@@ -72,10 +72,12 @@ opt.cursorline = true -- Enable highlighting of the current line
 -- opt.clipboard = "unnamedplus" -- Copy paste between vim and everything else
 opt.clipboard = ""
 
+opt.spelllang = "en_gb"
+
 -- Autocomplete with dictionary words when spell check is on
---set complete+=kspell
---" set dictionary+=/usr/share/dict/words
---" set thesaurus+=/home/prabhu/Thesaurus/words
+-- opt.complete:append "kspell"
+-- opt.dictionary:append "/usr/share/dict/words"
+-- opt.thesaurus:append "~/Thesaurus/english.txt"
 
 -- Wildmode Options
 opt.wildmenu = true

@@ -275,7 +275,7 @@ return {
         sources = {
           null_ls.builtins.formatting.stylua,
           null_ls.builtins.formatting.prettier.with {
-            prefer_local = "node_modules/.bin",
+            prefer_local = "node_modules/prettier",
             extra_args = { "--no-semi", "--single-quote" },
             filetypes = {
               "javascript",

@@ -1,10 +1,14 @@
 local M = {}
 
 M.check_git_workspace = function()
-  local filepath = vim.fn.expand "%:p:h"
-  local gitdir = vim.fn.finddir(".git", filepath .. ";")
-  print(gitdir and #gitdir > 0 and #gitdir < #filepath)
-  return gitdir and #gitdir > 0 and #gitdir < #filepath
+  vim.fn.system "git rev-parse --is-inside-work-tree"
+
+  local is_git_workspace = vim.v.shell_error == 0
+
+  if not is_git_workspace then
+    vim.notify "Not a Git repository"
+  end
+  return is_git_workspace
 end
 
 return M

@@ -11,7 +11,7 @@ require "config.usercmds"
 -- Plugin manager
 require "config.lazy"
 
-vim.cmd.colorscheme "tokyonight" -- Set colour scheme
+vim.cmd.colorscheme "catppuccin" -- Set colour scheme
 
 --local status, _ = pcall(vim.cmd, "colorscheme vimasd")
 --if not status then

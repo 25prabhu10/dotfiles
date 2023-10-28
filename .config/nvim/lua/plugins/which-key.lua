@@ -8,6 +8,8 @@ return {
       ["<Leader><Tab>"] = { name = "+tabs" },
       ["<Leader>b"] = { name = "+buffer" },
       ["<Leader>c"] = { name = "+code" },
+      ["<Leader>d"] = { name = "+debug" },
+      ["<Leader>da"] = { name = "+adapters" },
       ["<Leader>f"] = { name = "+file/find" },
       ["<Leader>g"] = { name = "+goto/git" },
       ["<Leader>gg"] = { name = "+git" },

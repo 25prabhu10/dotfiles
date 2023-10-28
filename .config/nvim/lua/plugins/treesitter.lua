@@ -15,6 +15,7 @@ return {
         "bash",
         "c",
         "css",
+        "cpp",
         "html",
         "javascript",
         "json",
@@ -35,8 +36,8 @@ return {
         keymaps = {
           init_selection = "gnn",
           node_incremental = "gnn",
-          scope_incremental = "grc",
-          node_decremental = "grm",
+          scope_incremental = "gns",
+          node_decremental = "gnd",
         },
       },
       context_commentstring = {
