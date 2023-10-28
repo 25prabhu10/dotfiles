@@ -1,9 +1,22 @@
 return {
+  -- gruvbox
+  -- { "morhetz/gruvbox" },
+  -- { "ellisonleao/gruvbox.nvim", lazy = true, config = true },
+
+  -- { "rose-pine/neovim", name = "rose-pine", lazy = true },
+
+  -- Theme inspired by Atom
+  -- {
+  --   "navarasu/onedark.nvim",
+  --   lazy = true,
+  --   config = function()
+  --     vim.cmd.colorscheme "onedark"
+  --   end,
+  -- },
   -- tokyonight
   {
     "folke/tokyonight.nvim",
-    lazy = false,
-    priority = 1000,
+    lazy = true,
     opts = { style = "night" },
   },
   -- kanagawa
@@ -14,7 +27,8 @@ return {
   -- catppuccin
   {
     "catppuccin/nvim",
-    lazy = true,
+    lazy = false,
+    priority = 1000,
     name = "catppuccin",
     opts = {
       transparent_background = true,

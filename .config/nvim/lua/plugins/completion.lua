@@ -74,6 +74,7 @@ return {
       end, { silent = true, desc = "Jump back in snippet" })
 
       local cmp = require "cmp"
+      ---@diagnostic disable-next-line missing-fields
       cmp.setup {
         sources = {
           { name = "nvim_lsp" },
@@ -115,6 +116,7 @@ return {
             luasnip.lsp_expand(args.body)
           end,
         },
+        ---@diagnostic disable-next-line missing-fields
         formatting = {
           fields = { "abbr", "menu", "kind" },
           format = function(entry, item)

@@ -171,6 +171,19 @@ return {
         settings = {},
       }
 
+      lspconfig["jsonls"].setup {
+        capabilities = capabilities,
+        on_attach = on_attach,
+        settings = {
+          json = {
+            format = {
+              enable = true,
+            },
+            validate = { enable = true },
+          },
+        },
+      }
+
       lspconfig["pyright"].setup {
         capabilities = capabilities,
         on_attach = on_attach,

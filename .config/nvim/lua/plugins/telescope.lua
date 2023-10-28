@@ -3,16 +3,31 @@ return {
   {
     "nvim-telescope/telescope.nvim",
     -- cmd = "Telescope",
-    dependencies = { "nvim-lua/plenary.nvim" },
+    -- branch = "0.1.x",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+      -- Fuzzy Finder Algorithm which requires local dependencies to be built.
+      -- Only load if `make` is available. Make sure you have the system
+      -- requirements installed.
+      {
+        "nvim-telescope/telescope-fzf-native.nvim",
+        -- NOTE: If you are having trouble with this installation,
+        --       refer to the README for telescope-fzf-native for more instructions.
+        build = "make",
+        cond = function()
+          return vim.fn.executable "make" == 1
+        end,
+      },
+    },
     keys = {
       -- Files
-      { "<C-p>", "<Cmd>Telescope find_files<CR>", desc = "[f]ind [f]iles" },
+      { "<C-p>", "<Cmd>Telescope find_files<CR>", desc = "Find files" },
       {
         "<Leader>fo",
         "<Cmd>Telescope oldfiles include_current_session=false<CR>",
-        desc = "[f]ind recently [o]pened files",
+        desc = "Find recently opened files",
       },
-      { "<Leader>fb", "<Cmd>Telescope buffers show_all_buffers=true<CR>", desc = "[f]ind [b]uffers" },
+      { "<Leader><Space>", "<Cmd>Telescope buffers<CR>", desc = "Find current buffers" },
 
       -- Git
       {
@@ -51,26 +66,36 @@ return {
         end,
         desc = "Find Git tracked Files",
       },
-      -- end
+
       -- Find words
       { "<Leader>/", "<Cmd>Telescope live_grep<CR>", desc = "Find word" },
-      { "<Leader>fw", "<Cmd>Telescope grep_string<CR>", desc = "[f]ind current [w]ord" },
+      { "<Leader>fw", "<Cmd>Telescope grep_string<CR>", desc = "Find word under the cursor" },
+      {
+        "<Leader>f/",
+        function()
+          require("telescope.builtin").current_buffer_fuzzy_find(require("telescope.themes").get_dropdown {
+            winblend = 10,
+            previewer = false,
+          })
+        end,
+        desc = "Find word under the cursor",
+      },
 
       -- LSP
-      { "<Leader>gr", "<Cmd>Telescope lsp_references<CR>", desc = "[g]oto [r]eferences" },
-      { "<Leader>gd", "<Cmd>Telescope definition<CR>", desc = "[g]oto [d]efinition" },
-      { "<Leader>gD", "<Cmd>Telescope declaration<CR>", desc = "[g]oto [d]eclaration" },
-      { "<Leader>gI", "<Cmd>Telescope implementation<CR>", desc = "[g]oto [I]mplementation" },
-      { "<Leader>gt", "<Cmd>Telescope type_definition<CR>", desc = "[g]oto [t]ype definition" },
-      { "<Leader>ds", "<Cmd>Telescope lsp_document_symbols<CR>", desc = "[d]ocument [s]ymbols" },
-      { "<Leader>ws", "<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>", desc = "[w]orkspace [s]ymbols" },
-      { "<Leader>sd", "<Cmd>Telescope diagnostics bufnr=0<CR>", desc = "[s]earch [d]ocument diagnostics" },
-      { "<Leader>sD", "<Cmd>Telescope diagnostics<CR>", desc = "[s]earch workspace [D]iagnostics" },
+      { "<Leader>gr", "<Cmd>Telescope lsp_references<CR>", desc = "Goto references" },
+      { "<Leader>gd", "<Cmd>Telescope definition<CR>", desc = "Goto definition" },
+      { "<Leader>gD", "<Cmd>Telescope declaration<CR>", desc = "Goto declaration" },
+      { "<Leader>gI", "<Cmd>Telescope implementation<CR>", desc = "Goto Implementation" },
+      { "<Leader>gt", "<Cmd>Telescope type_definition<CR>", desc = "Goto type definition" },
+      { "<Leader>ds", "<Cmd>Telescope lsp_document_symbols<CR>", desc = "Document symbols" },
+      { "<Leader>ws", "<Cmd>Telescope lsp_dynamic_workspace_symbols<CR>", desc = "Workspace symbols" },
+      { "<Leader>sd", "<Cmd>Telescope diagnostics bufnr=0<CR>", desc = "Search document diagnostics" },
+      { "<Leader>sD", "<Cmd>Telescope diagnostics<CR>", desc = "Search workspace Diagnostics" },
 
       -- Others
-      { "<Leader>so", "<Cmd>Telescope vim_options<CR>", desc = "[s]earch vim [o]ptions" },
-      { "<Leader>sk", "<Cmd>Telescope keymaps<CR>", desc = "[s]earch [k]ey maps" },
-      { "<Leader>sm", "<Cmd>Telescope man_pages<CR>", desc = "[s]earch in [m]an pages" },
+      { "<Leader>so", "<Cmd>Telescope vim_options<CR>", desc = "Search vim options" },
+      { "<Leader>sk", "<Cmd>Telescope keymaps<CR>", desc = "Search key maps" },
+      { "<Leader>sm", "<Cmd>Telescope man_pages<CR>", desc = "Search in man pages" },
       { "<Leader>:", "<Cmd>Telescope command_history<CR>", desc = "Command history" },
     },
     config = function()
@@ -157,15 +182,5 @@ return {
 
       _ = pcall(require("telescope").load_extension, "fzf")
     end,
-  },
-  -- Fuzzy Finder Algorithm which requires local dependencies to be built.
-  -- Only load if `make` is available. Make sure you have the system
-  -- requirements installed.
-  {
-    "nvim-telescope/telescope-fzf-native.nvim",
-    lazy = true,
-    -- NOTE: If you are having trouble with this installation,
-    --       refer to the README for telescope-fzf-native for more instructions.
-    build = "make",
   },
 }

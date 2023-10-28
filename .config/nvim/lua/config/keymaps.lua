@@ -12,6 +12,10 @@ local function map(mode, lhs, rhs, opts)
   vim.keymap.set(mode, lhs, rhs, opts)
 end
 
+-- Keymaps for better default experience
+-- See `:help vim.keymap.set()`
+map({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
+
 -- Map kj to esc in insert mode
 map("i", "kj", "<Esc>", { desc = "Escape!!!" })
 

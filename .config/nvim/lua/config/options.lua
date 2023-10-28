@@ -59,8 +59,8 @@ opt.smartcase = true -- Case-sensitive search
 opt.incsearch = true
 opt.title = true
 
-opt.relativenumber = true -- Relative line numbers
-opt.number = true -- Line numbering
+vim.wo.relativenumber = true -- Relative line numbers
+vim.wo.number = true -- Line numbering
 
 opt.showmode = false -- Don't show mode since we have a status line
 
@@ -107,8 +107,9 @@ opt.wildignore:append { "Cargo.lock", "Cargo.Bazel.lock" }
 
 opt.inccommand = "split" -- Show live replace
 opt.matchpairs:append { "<:>" }
-opt.updatetime = 1000 -- Faster completion
-opt.signcolumn = "yes"
+opt.updatetime = 250 -- Faster completion
+opt.timeoutlen = 300
+vim.wo.signcolumn = "yes"
 
 opt.iskeyword:append { "-" } -- Consider words split by '-' as one
 
@@ -138,7 +139,6 @@ if vim.fn.executable "rg" then
 end
 
 opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
---opt.timeloutlen = 300
 
 opt.shortmess:append { W = true, I = true, c = true }
 if vim.fn.has "nvim-0.9.0" == 1 then
@@ -150,3 +150,6 @@ opt.diffopt = { "internal", "filler", "closeoff", "hiddenoff", "algorithm:minima
 
 -- Don't highlight long lines
 opt.synmaxcol = 250
+
+-- Set completeopt to have better completion experience
+opt.completeopt = "menuone,noselect"
