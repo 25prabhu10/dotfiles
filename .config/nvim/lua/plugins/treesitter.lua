@@ -5,19 +5,31 @@ return {
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
-      { "JoosepAlviste/nvim-ts-context-commentstring", lazy = true },
+      {
+        "JoosepAlviste/nvim-ts-context-commentstring",
+        lazy = true,
+        config = function()
+          ---@diagnostic disable-next-line: missing-fields
+          require("ts_context_commentstring").setup {
+            enable_autocmd = false,
+          }
+        end,
+      },
     },
     cmd = { "TSUpdateSync" },
     opts = {
-      highlight = { enable = true },
-      indent = { enable = true },
       ensure_installed = {
         "bash",
         "c",
         "cpp",
         "css",
+        "csv",
+        "diff",
+        "go",
         "html",
+        "http",
         "javascript",
+        "jsdoc",
         "json",
         "lua",
         "luadoc",
@@ -27,22 +39,42 @@ return {
         "python",
         "query",
         "regex",
+        "rust",
         "scss",
+        "sql",
+        "templ",
+        "toml",
         "tsx",
         "typescript",
+        "vue",
         "vim",
         "vimdoc",
+        "xml",
         "yaml",
+      },
+      -- Autoinstall languages that are not installed (default: false)
+      auto_install = false,
+      highlight = {
+        enable = true,
+        -- Or use a function for more flexibility, e.g. to disable slow treesitter highlight for large files
+        disable = function(_, buf)
+          local max_filesize = 100 * 1024 -- 100 KB
+          local ok, stats = pcall(vim.loop.fs_stat, vim.api.nvim_buf_get_name(buf))
+          if ok and stats and stats.size > max_filesize then
+            return true
+          end
+        end,
       },
       incremental_selection = {
         enable = true,
         keymaps = {
-          init_selection = "<M-w>",
-          node_incremental = "<M-w>",
-          node_decremental = "<M-C-w>",
-          scope_incremental = "<M-e>",
+          init_selection = "<M-w>", -- maps in normal mode to init the node/scope selection
+          node_incremental = "<M-w>", -- increment to the upper name parent
+          node_decremental = "<M-C-w>", -- decrement to the previous node
+          scope_incremental = "<M-e>", -- increment to the upper scope (as defined in `locals.scm`)
         },
       },
+      indent = { enable = true },
       context_commentstring = {
         enable = true,
         enable_autocmd = false,
@@ -134,12 +166,32 @@ return {
         swap = {
           enable = true,
           swap_next = {
-            ["<leader>cn"] = { query = "@parameter.inner", desc = "Swap with next parameter" },
+            ["<Leader>cn"] = { query = "@parameter.inner", desc = "Swap with next parameter" },
           },
           swap_previous = {
-            ["<leader>cp"] = { query = "@parameter.inner", desc = "Swap with previous parameter" },
+            ["<Leader>cp"] = { query = "@parameter.inner", desc = "Swap with previous parameter" },
           },
         },
+        -- refactor = {
+        --   highlight_definitions = { enable = true },
+        --   highlight_current_scope = { enable = false },
+        --
+        --   smart_rename = {
+        --     enable = false,
+        --     keymaps = {
+        --       -- mapping to rename reference under cursor
+        --       smart_rename = "grr",
+        --     },
+        --   },
+        --
+        --   navigation = {
+        --     enable = false,
+        --     keymaps = {
+        --       goto_definition = "gnd", -- mapping to go to definition of symbol under cursor
+        --       list_definitions = "gnD", -- mapping to list all definitions in current file
+        --     },
+        --   },
+        -- },
         -- playground = {
         --   enable = true,
         --   disable = {},
@@ -161,17 +213,26 @@ return {
       },
     },
     config = function(_, opts)
-      if type(opts.ensure_installed) == "table" then
-        local added = {}
-        opts.ensure_installed = vim.tbl_filter(function(lang)
-          if added[lang] then
-            return false
-          end
-          added[lang] = true
-          return true
-        end, opts.ensure_installed)
-      end
-      require("nvim-treesitter.configs").setup(opts)
+      -- if type(opts.ensure_installed) == "table" then
+      --   local added = {}
+      --   opts.ensure_installed = vim.tbl_filter(function(lang)
+      --     if added[lang] then
+      --       return false
+      --     end
+      --     added[lang] = true
+      --     return true
+      --   end, opts.ensure_installed)
+      -- end
+
+      vim.defer_fn(function()
+        require("nvim-treesitter.configs").setup(opts)
+        vim.opt.foldmethod = "expr" -- Tree-sitter based folding
+        vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+      end, 0)
     end,
+  },
+  {
+    "nvim-treesitter/nvim-treesitter-context",
+    opts = { max_lines = 3 },
   },
 }

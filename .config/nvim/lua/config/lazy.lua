@@ -14,7 +14,7 @@ end
 
 vim.opt.rtp:prepend(lazypath)
 
-require("lazy").setup {
+require("lazy").setup({
   spec = { import = "plugins" },
   performance = {
     cache = {
@@ -52,7 +52,27 @@ require("lazy").setup {
       },
     },
   },
-}
+}, {
+  ui = {
+    -- If you have a Nerd Font, set icons to an empty table which will use the
+    -- default lazy.nvim defined Nerd Font icons otherwise define a unicode icons table
+    icons = {
+      cmd = "⌘",
+      config = "🛠",
+      event = "📅",
+      ft = "📂",
+      init = "⚙",
+      keys = "🗝",
+      plugin = "🔌",
+      runtime = "💻",
+      require = "🌙",
+      source = "📄",
+      start = "🚀",
+      task = "📌",
+      lazy = "💤 ",
+    },
+  },
+})
 
 -- Disable builtin vim
 --vim.g.loaded_gzip = 1

@@ -1,3 +1,5 @@
+local util = require "util"
+
 -- Remap leader key
 vim.g.mapleader = " "
 vim.g.maplocalleader = ","
@@ -49,8 +51,7 @@ map("n", "<Leader>P", '"+P', { desc = "Paste to system clipboard" })
 map("v", "p", '"_dP', { desc = "Paste over currently selected text without yanking it" })
 
 -- Delete without yank
-map("n", "<Leader>d", '"_d', { desc = "Delete without yank" })
-map("v", "<Leader>d", '"_d', { desc = "Delete without yank" })
+map({ "n", "v" }, "<Leader>d", '"_d', { desc = "Delete without yank" })
 map("n", "x", '"_x', { desc = "Delete letter without yank" })
 
 -- Buffers
@@ -65,36 +66,16 @@ map("n", "<Leader><Tab>n", "<Cmd>tabn<CR>", { desc = "Go to next tab" })
 map("n", "<Leader><Tab>p", "<Cmd>tabp<CR>", { desc = "Go to previous tab" })
 
 -- Move to window using the <ctrl> hjkl keys
--- map("n", "<C-h>", "<C-w>h", { desc = "Go to left window", remap = true })
--- map("n", "<C-j>", "<C-w>j", { desc = "Go to lower window", remap = true })
--- map("n", "<C-k>", "<C-w>k", { desc = "Go to upper window", remap = true })
--- map("n", "<C-l>", "<C-w>l", { desc = "Go to right window", remap = true })
+map("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
+map("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
+map("n", "<C-k>", "<C-w>k", { desc = "Go to upper window" })
+map("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
 
 -- Resize window using <ctrl> arrow keys (respecting `v:count`)
-map(
-  "n",
-  "<C-Up>",
-  '"<Cmd>resize +" . v:count1 . "<CR>"',
-  { expr = true, replace_keycodes = false, desc = "Increase window height" }
-)
-map(
-  "n",
-  "<C-Down>",
-  '"<Cmd>resize -" . v:count1 . "<CR>"',
-  { expr = true, replace_keycodes = false, desc = "Decrease window height" }
-)
-map(
-  "n",
-  "<C-Left>",
-  '"<Cmd>vertical resize -" . v:count1 . "<CR>"',
-  { expr = true, replace_keycodes = false, desc = "Decrease window width" }
-)
-map(
-  "n",
-  "<C-Right>",
-  '"<Cmd>vertical resize +" . v:count1 . "<CR>"',
-  { expr = true, replace_keycodes = false, desc = "Increase window width" }
-)
+map("n", "<C-Up>", '"<Cmd>resize +" . v:count1 . "<CR>"', { expr = true, replace_keycodes = false, desc = "Increase window height" })
+map("n", "<C-Down>", '"<Cmd>resize -" . v:count1 . "<CR>"', { expr = true, replace_keycodes = false, desc = "Decrease window height" })
+map("n", "<C-Left>", '"<Cmd>vertical resize -" . v:count1 . "<CR>"', { expr = true, replace_keycodes = false, desc = "Decrease window width" })
+map("n", "<C-Right>", '"<Cmd>vertical resize +" . v:count1 . "<CR>"', { expr = true, replace_keycodes = false, desc = "Increase window width" })
 
 -- GOTO next or previous local errors in local list
 -- nnoremap <Leader>j <Cmd>lnext<CR>zz
@@ -130,13 +111,10 @@ map({ "i", "v", "n", "s" }, "<C-s>", "<Cmd>w<CR><Esc>", { desc = "Save file" })
 
 -- Spelling Check
 map("n", "<LocalLeader>s", function()
+  ---@diagnostic disable-next-line
   vim.opt_local.spell = not vim.opt_local.spell:get()
-
-  if vim.opt_local.spell:get() then
-    print "Enabled Spell Check"
-  else
-    print "Disabled Spell Check"
-  end
+  ---@diagnostic disable-next-line: param-type-mismatch
+  print("Setting `spell` check to: " .. tostring(vim.opt_local.spell:get()))
 end, { desc = "Toggle spell check" })
 
 -- Change `cwd`
@@ -145,7 +123,33 @@ end, { desc = "Toggle spell check" })
 -- Execute selected lines
 map("v", "<Leader>cx", "yPgv:!", { desc = "Execute selected lines" })
 
--- Format document
-map("n", "<Leader>fd", function()
-  vim.lsp.buf.format { async = true }
-end, { desc = "Format current buffer with LSP" })
+-- Exit terminal mode in the builtin terminal with a shortcut that is a bit easier
+-- for people to discover, Otherwise, you normally need to press <C-\><C-n>, which
+-- is not what someone will guess without a bit more experience
+--
+-- NOTE: This won't in all terminal emulators/tmux/etc. Try your can mapping
+-- or just use <C-\><C-n> to exit terminal mode
+map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
+-- Clear highlight on search on perssing <Esc> in normal mode
+map("n", "<Esc>", "<Cmd>nohlsearch<CR>", { desc = "Escape and clear hlsearch" })
+
+-- Diagnostics
+-- See `:help vim.diagnostic.*` for documentation on any of the below
+-- functions
+map("n", "[d", function()
+  vim.diagnostic.goto_prev {
+    severity = util.get_highest_error_severity(),
+    wrap = true,
+    float = true,
+  }
+end, { desc = "Goto prev diagnostic" })
+map("n", "]d", function()
+  vim.diagnostic.goto_next {
+    severity = util.get_highest_error_severity(),
+    wrap = true,
+    float = true,
+  }
+end, { desc = "Goto next diagnostic" })
+map("n", "<Leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
+map("n", "<Leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })

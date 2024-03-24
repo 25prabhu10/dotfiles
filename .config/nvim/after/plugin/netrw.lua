@@ -8,7 +8,7 @@
 
 vim.g.netrw_banner = 0 --remove banner
 
-vim.g.netrw_liststyle = 3 --folders list style
+-- vim.g.netrw_liststyle = 3 --folders list style
 
 -- vim.g.netrw_winsize = 80 --split size
 
@@ -16,5 +16,5 @@ vim.g.netrw_liststyle = 3 --folders list style
 
 -- vim.g.netrw_preview = 1
 
-vim.opt_local.number = true
-vim.opt_local.relativenumber = true
+-- vim.opt_local.number = true
+-- vim.opt_local.relativenumber = true

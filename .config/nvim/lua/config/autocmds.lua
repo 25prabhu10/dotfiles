@@ -6,6 +6,7 @@ local autocmd = vim.api.nvim_create_autocmd
 -- Highlight on yank
 autocmd("TextYankPost", {
   group = augroup "highlight_yank",
+  desc = "Highlight on yank",
   pattern = "*",
   callback = function()
     vim.highlight.on_yank {
@@ -20,11 +21,13 @@ autocmd("TextYankPost", {
 -- Resize splits if window got resized
 autocmd({ "VimResized" }, {
   group = augroup "resize_splits",
+  desc = "Resize splits",
   callback = function()
     vim.cmd "tabdo wincmd ="
   end,
 })
 
+-- Remove formatoptions
 autocmd({ "BufWinEnter" }, {
   group = augroup "remove_format_options",
   desc = "Don't add auto comment for new string",
@@ -36,6 +39,7 @@ autocmd({ "BufWinEnter" }, {
 -- Go to last loc when opening a buffer
 autocmd("BufReadPost", {
   group = augroup "last_loc",
+  desc = "Go to the last loc when opening a buffer",
   callback = function()
     local mark = vim.api.nvim_buf_get_mark(0, '"')
     local lcount = vim.api.nvim_buf_line_count(0)
@@ -44,6 +48,26 @@ autocmd("BufReadPost", {
     end
   end,
 })
+
+-- Show cursor line only in active window
+-- autocmd({ "InsertLeave", "WinEnter" }, {
+--   callback = function()
+--     local ok, cl = pcall(vim.api.nvim_win_get_var, 0, "auto-cursorline")
+--     if ok and cl then
+--       vim.wo.cursorline = true
+--       vim.api.nvim_win_del_var(0, "auto-cursorline")
+--     end
+--   end,
+-- })
+-- autocmd({ "InsertLeave", "WinEnter" }, {
+--   callback = function()
+--     local cl = vim.wo.cursorline
+--     if cl then
+--       vim.api.nvim_win_set_var(0, "auto-cursorline", cl)
+--       vim.wo.cursorline = false
+--     end
+--   end,
+-- })
 
 -- File templates
 autocmd({ "BufNewFile" }, {

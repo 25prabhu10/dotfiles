@@ -2,6 +2,8 @@ return {
   -- Autocompletion
   {
     "hrsh7th/nvim-cmp",
+    version = false, -- last release is way too old
+    event = "InsertEnter",
     dependencies = {
       -- Snippet Engine & its associated nvim-cmp source
       {
@@ -25,7 +27,6 @@ return {
       "hrsh7th/cmp-path",
       --Plug 'hrsh7th/cmp-cmdline'
     },
-    event = "InsertEnter",
     config = function()
       -- Autocompletion setup
       local kind_icons = {
@@ -58,23 +59,25 @@ return {
 
       local luasnip = require "luasnip"
 
+      luasnip.config.setup {}
+
       -- This will expand the current item or jump to the next item within the
       -- snippet.
-      vim.keymap.set({ "i", "s" }, "<C-k>", function()
-        if luasnip.expand_or_jumpable() then
-          luasnip.expand_or_jump()
-        end
-      end, { silent = true, desc = "Expand or Jump in snippet" })
-
-      -- This always moves to the previous item within the snippet
-      vim.keymap.set({ "i", "s" }, "<C-j>", function()
-        if luasnip.jumpable(-1) then
-          luasnip.jump(-1)
-        end
-      end, { silent = true, desc = "Jump back in snippet" })
+      -- vim.keymap.set({ "i", "s" }, "<C-k>", function()
+      --   if luasnip.expand_or_jumpable() then
+      --     luasnip.expand_or_jump()
+      --   end
+      -- end, { silent = true, desc = "Expand or Jump in snippet" })
+      --
+      -- -- This always moves to the previous item within the snippet
+      -- vim.keymap.set({ "i", "s" }, "<C-j>", function()
+      --   if luasnip.jumpable(-1) then
+      --     luasnip.jump(-1)
+      --   end
+      -- end, { silent = true, desc = "Jump back in snippet" })
 
       local cmp = require "cmp"
-      ---@diagnostic disable-next-line missing-fields
+
       cmp.setup {
         sources = {
           { name = "nvim_lsp" },
@@ -83,33 +86,46 @@ return {
           { name = "path" },
           --{ name = "nvim_lua" },
         },
-        mapping = {
-          ["<C-e>"] = cmp.mapping.abort(),
+        completion = { completeopt = "menu,menuone,noinsert" },
+        mapping = cmp.mapping.preset.insert {
+          -- ["<C-e>"] = cmp.mapping.abort(),
           ["<C-n>"] = cmp.mapping.select_next_item(),
           ["<C-p>"] = cmp.mapping.select_prev_item(),
-          ["<C-u>"] = cmp.mapping.scroll_docs(-4),
-          ["<C-d>"] = cmp.mapping.scroll_docs(4),
-          ["<C-y>"] = cmp.mapping(
-            cmp.mapping.confirm {
-              behavior = cmp.ConfirmBehavior.Insert,
-              select = true,
-            },
-            { "i", "c" }
-          ),
-          ["<C-Space>"] = cmp.mapping {
-            i = cmp.mapping.complete(),
-            c = function(
-              _ --[[fallback]]
-            )
-              if cmp.visible() then
-                if not cmp.confirm { select = true } then
-                  return
-                end
-              else
-                cmp.complete()
-              end
-            end,
-          },
+          -- ["<C-u>"] = cmp.mapping.scroll_docs(-4),
+          -- ["<C-d>"] = cmp.mapping.scroll_docs(4),
+          ["<C-y>"] = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Insert, select = true },
+          -- ["<C-y>"] = cmp.mapping(
+          --   cmp.mapping.confirm {
+          --     behavior = cmp.ConfirmBehavior.Insert,
+          --     select = true,
+          --   },
+          --   { "i", "c" }
+          -- ),
+          ["<C-Space>"] = cmp.mapping.complete {},
+          -- ["<C-Space>"] = cmp.mapping {
+          --   i = cmp.mapping.complete(),
+          --   c = function(
+          --     _ --[[fallback]]
+          --   )
+          --     if cmp.visible() then
+          --       if not cmp.confirm { select = true } then
+          --         return
+          --       end
+          --     else
+          --       cmp.complete()
+          --     end
+          --   end,
+          -- },
+          ["<C-l>"] = cmp.mapping(function()
+            if luasnip.expand_or_locally_jumpable() then
+              luasnip.expand_or_jump()
+            end
+          end, { "i", "s" }),
+          ["<C-h>"] = cmp.mapping(function()
+            if luasnip.locally_jumpable(-1) then
+              luasnip.jump(-1)
+            end
+          end, { "i", "s" }),
         },
         snippet = {
           expand = function(args)
@@ -134,13 +150,10 @@ return {
             return item
           end,
         },
-        -- window = {
-        --   completion = cmp.config.window.bordered(),
-        --   documentation = cmp.config.window.bordered(),
-        -- },
-        -- experimental = {
-        --   ghost_text = true,
-        -- },
+        window = {
+          completion = cmp.config.window.bordered(),
+          documentation = cmp.config.window.bordered(),
+        },
       }
     end,
   },

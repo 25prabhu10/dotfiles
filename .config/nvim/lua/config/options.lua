@@ -29,6 +29,7 @@ opt.updatecount = 0 -- Don't try to write swap files after some number of update
 -- The same indent as the line you're currently on. Useful for README, etc.
 opt.autoindent = true
 opt.smartindent = true -- Insert indents automatically
+opt.breakindent = true
 
 opt.expandtab = true
 opt.tabstop = 4 -- Number of spaces tabs count for
@@ -37,11 +38,9 @@ opt.shiftwidth = 4 -- Normal mode indentation commands use 4 spaces
 opt.shiftround = true -- Round indent to a multiple of `shiftwidth`
 
 opt.foldenable = false -- Do not fold on file opening
-opt.foldmethod = "expr" -- Tree-sitter based folding
-opt.foldexpr = "nvim_treesitter#foldexpr()"
 
-opt.scrolloff = 4 -- Lines of context
-opt.sidescrolloff = 4 -- Columns of context
+opt.scrolloff = 10 -- Lines of context
+opt.sidescrolloff = 10 -- Columns of context
 
 opt.wrap = false -- Disable soft wrapping
 
@@ -50,7 +49,7 @@ opt.splitright = true -- Put new windows right of current
 
 -- Show "invisible" characters
 opt.list = true
-opt.listchars = { tab = "»·", trail = "·", nbsp = "·", extends = "❯", precedes = "❮" }
+opt.listchars = { tab = "» ", trail = "·", nbsp = "_", extends = "❯", precedes = "❮" }
 opt.showbreak = "↪"
 
 opt.hlsearch = true -- Highlight searches
@@ -142,7 +141,7 @@ opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
 
 opt.shortmess:append { W = true, I = true, c = true }
 if vim.fn.has "nvim-0.9.0" == 1 then
-  --opt.splitkeep = "screen"
+  opt.splitkeep = "screen" -- Reduce scroll during window split
   opt.shortmess:append { C = true }
 end
 
@@ -153,3 +152,10 @@ opt.synmaxcol = 250
 
 -- Set completeopt to have better completion experience
 opt.completeopt = "menuone,noselect"
+
+-- Add custom filetypes
+vim.filetype.add { extension = { templ = "templ" } }
+
+if vim.fn.has "nvim-0.10" == 1 then
+  opt.smoothscroll = true
+end

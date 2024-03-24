@@ -11,13 +11,17 @@ require "config.usercmds"
 -- Plugin manager
 require "config.lazy"
 
-vim.cmd.colorscheme "catppuccin" -- Set colour scheme
+-- Function that checks if colour scheme exists and sets it
+local function set_color_scheme(name)
+  local status, _ = pcall(function()
+    vim.cmd("colorscheme " .. name)
+  end)
+  if not status then
+    vim.notify_once("Color Scheme `" .. name .. "` not found", vim.log.levels.ERROR)
+  end
+end
 
---local status, _ = pcall(vim.cmd, "colorscheme vimasd")
---if not status then
---print("Colorscheme not found!")
---return
---end
+set_color_scheme "catppuccin"
 
 -- TODO: Checkout plugins
 -- "Eandrju/cellular-automaton.nvim"
