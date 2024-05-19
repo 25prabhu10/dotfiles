@@ -49,6 +49,17 @@ autocmd("BufReadPost", {
   end,
 })
 
+-- Set local settings for terminal buffers
+autocmd("TermOpen", {
+  group = augroup "custom-term-open",
+  desc = "Set local settings for terminal buffer",
+  callback = function()
+    vim.opt_local.number = false
+    vim.opt_local.relativenumber = false
+    vim.opt_local.scrolloff = 0
+  end,
+})
+
 -- Show cursor line only in active window
 -- autocmd({ "InsertLeave", "WinEnter" }, {
 --   callback = function()

@@ -11,7 +11,7 @@ return {
         {
           "<leader>de",
           function()
-            require("dapui").eval()
+            require("dapui").eval() -- eval(nil, {enter=true})
           end,
           desc = "Eval",
           mode = { "n", "v" },

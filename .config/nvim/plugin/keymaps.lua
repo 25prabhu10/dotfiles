@@ -1,8 +1,4 @@
-local util = require "util"
-
--- Remap leader key
-vim.g.mapleader = " "
-vim.g.maplocalleader = ","
+local util = require "pk.util"
 
 -- Local function
 local function map(mode, lhs, rhs, opts)
@@ -104,7 +100,7 @@ map("n", "<Leader>O", "O<Esc>j", { desc = "Add an empty line below" })
 map("n", "Q", "@q")
 
 -- Open Netrw
-map("n", "<LocalLeader>e", vim.cmd.Ex, { desc = "Open file explorer" })
+-- map("n", "<LocalLeader>e", vim.cmd.Lexplore, { desc = "Open file explorer" })
 
 -- Save file
 map({ "i", "v", "n", "s" }, "<C-s>", "<Cmd>w<CR><Esc>", { desc = "Save file" })
@@ -130,6 +126,15 @@ map("v", "<Leader>cx", "yPgv:!", { desc = "Execute selected lines" })
 -- NOTE: This won't in all terminal emulators/tmux/etc. Try your can mapping
 -- or just use <C-\><C-n> to exit terminal mode
 map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
+
+-- Open a terminal at the bottom of the screen with a fixed height.
+map("n", "<C-`>", function()
+  vim.cmd.new()
+  vim.cmd.wincmd "J"
+  vim.api.nvim_win_set_height(0, 12)
+  vim.wo.winfixheight = true
+  vim.cmd.term()
+end, { desc = "Open terminal at the bottom" })
 
 -- Clear highlight on search on perssing <Esc> in normal mode
 map("n", "<Esc>", "<Cmd>nohlsearch<CR>", { desc = "Escape and clear hlsearch" })

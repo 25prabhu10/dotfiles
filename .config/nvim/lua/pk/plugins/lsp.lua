@@ -54,7 +54,7 @@ return {
       },
     },
     config = function()
-      require("plugins.lsp.config").setup()
+      require("pk.lsp").setup()
     end,
   },
   {
@@ -82,6 +82,7 @@ return {
             return { "isort", "black" }
           end
         end,
+        markdown = { { "prettierd", "prettier" } },
         javascript = { { "prettierd", "prettier" } },
         javascriptreact = { { "prettierd", "prettier" } },
         typescript = { { "prettierd", "prettier" } },

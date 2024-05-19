@@ -65,7 +65,7 @@ opt.showmode = false -- Don't show mode since we have a status line
 
 opt.autoread = true -- Auto Read if file updated externally
 
-opt.colorcolumn = { 80 } -- Vertical line on column 80
+--opt.colorcolumn = { 80 } -- Vertical line on column 80
 opt.cursorline = true -- Enable highlighting of the current line
 
 -- opt.clipboard = "unnamedplus" -- Copy paste between vim and everything else
@@ -106,7 +106,7 @@ opt.wildignore:append { "Cargo.lock", "Cargo.Bazel.lock" }
 
 opt.inccommand = "split" -- Show live replace
 opt.matchpairs:append { "<:>" }
-opt.updatetime = 250 -- Faster completion
+opt.updatetime = 100 -- Faster completion
 opt.timeoutlen = 300
 vim.wo.signcolumn = "yes"
 
@@ -131,6 +131,8 @@ opt.formatoptions = vim.opt.formatoptions
   + "l" -- Long lines are not broken in insert mode
 -- - "a" -- Auto formatting is BAD.
 -- - "t" -- Don't auto format my code. Linters can do that.
+-- Don't have `o` add a comment
+-- opt.formatoptions:remove "o"
 
 if vim.fn.executable "rg" then
   opt.grepformat = "%f:%l:%c:%m,%f:%l:%m"

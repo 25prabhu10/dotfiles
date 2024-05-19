@@ -1,5 +1,5 @@
 local mason_lspconfig = require "mason-lspconfig"
-local util = require "util"
+local util = require "pk.util"
 
 local M = {}
 
