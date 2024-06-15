@@ -1,5 +1,4 @@
 local mason_lspconfig = require "mason-lspconfig"
-local util = require "pk.util"
 
 local M = {}
 
@@ -81,15 +80,15 @@ function M.setup()
       local client = vim.lsp.get_client_by_id(event.data.client_id)
 
       -- Enable completion triggered by <c-x><c-o>
-      if client.server_capabilities.completionProvider then
-        vim.api.nvim_buf_set_option(event.buf, "omnifunc", "v:lua.vim.lsp.omnifunc")
+      if client and client.server_capabilities.completionProvider then
+        vim.api.nvim_set_option_value("omnifunc", "v:lua.vim.lsp.omnifunc", { buf = event.buf })
       end
-      if client.server_capabilities.definitionProvider then
-        vim.api.nvim_buf_set_option(event.buf, "tagfunc", "v:lua.vim.lsp.tagfunc")
+      if client and client.server_capabilities.definitionProvider then
+        vim.api.nvim_set_option_value("tagfunc", "v:lua.vim.lsp.tagfunc", { buf = event.buf })
       end
 
       -- Set autocommands conditionally on server_capabilities
-      if client.server_capabilities.documentHighlightProvider then
+      if client and client.server_capabilities.documentHighlightProvider then
         vim.api.nvim_create_autocmd({ "CursorHold", "CursorHoldI" }, {
           buffer = event.buf,
           callback = vim.lsp.buf.document_highlight,
@@ -108,7 +107,9 @@ function M.setup()
         -- vim.notify_once(msg, vim.log.levels.TRACE)
         -- else
         -- if assign function if ... is empty
-        client.handlers[methodName] = ... and fn(...) or fn
+        if client then
+          client.handlers[methodName] = ... and fn(...) or fn
+        end
         -- end
       end
 
@@ -120,7 +121,7 @@ function M.setup()
           return
         end
 
-        if vim.tbl_islist(result) then
+        if vim.islist(result) then
           vim.lsp.util.jump_to_location(result[1], "utf-8")
         else
           vim.lsp.util.jump_to_location(result, "utf-8")
@@ -142,7 +143,7 @@ function M.setup()
       -- See `:help vim.lsp.*` for documentation on any of the below functions
 
       -- See `:help K` for why this keymap
-      map("K", vim.lsp.buf.hover, "Hover documentation")
+      -- map("K", vim.lsp.buf.hover, "Hover documentation")
       map("<C-k>", vim.lsp.buf.signature_help, "Signature documentation")
 
       map("<F2>", vim.lsp.buf.rename, "Rename")

@@ -5,16 +5,6 @@ return {
     event = { "BufReadPost", "BufNewFile" },
     dependencies = {
       "nvim-treesitter/nvim-treesitter-textobjects",
-      {
-        "JoosepAlviste/nvim-ts-context-commentstring",
-        lazy = true,
-        config = function()
-          ---@diagnostic disable-next-line: missing-fields
-          require("ts_context_commentstring").setup {
-            enable_autocmd = false,
-          }
-        end,
-      },
     },
     cmd = { "TSUpdateSync" },
     opts = {
@@ -75,10 +65,6 @@ return {
         },
       },
       indent = { enable = true },
-      context_commentstring = {
-        enable = true,
-        enable_autocmd = false,
-      },
       textobjects = {
         select = {
           enable = true,

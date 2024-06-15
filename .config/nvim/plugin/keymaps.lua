@@ -142,19 +142,19 @@ map("n", "<Esc>", "<Cmd>nohlsearch<CR>", { desc = "Escape and clear hlsearch" })
 -- Diagnostics
 -- See `:help vim.diagnostic.*` for documentation on any of the below
 -- functions
-map("n", "[d", function()
-  vim.diagnostic.goto_prev {
-    severity = util.get_highest_error_severity(),
-    wrap = true,
-    float = true,
-  }
-end, { desc = "Goto prev diagnostic" })
-map("n", "]d", function()
-  vim.diagnostic.goto_next {
-    severity = util.get_highest_error_severity(),
-    wrap = true,
-    float = true,
-  }
-end, { desc = "Goto next diagnostic" })
+-- map("n", "[d", function()
+--   vim.diagnostic.goto_prev {
+--     severity = util.get_highest_error_severity(),
+--     wrap = true,
+--     float = true,
+--   }
+-- end, { desc = "Goto prev diagnostic" })
+-- map("n", "]d", function()
+--   vim.diagnostic.goto_next {
+--     severity = util.get_highest_error_severity(),
+--     wrap = true,
+--     float = true,
+--   }
+-- end, { desc = "Goto next diagnostic" })
 map("n", "<Leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 map("n", "<Leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })

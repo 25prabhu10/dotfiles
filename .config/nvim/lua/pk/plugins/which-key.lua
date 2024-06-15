@@ -1,11 +1,7 @@
 return {
   "folke/which-key.nvim",
   event = "VeryLazy",
-  init = function()
-    vim.o.timeout = true
-    vim.o.timeoutlen = 500
-  end,
-  config = function(_, opts)
+  config = function()
     -- disable hints for certain operators
     -- local presets = require "which-key.plugins.presets"
     -- presets.operators["v"] = nil
@@ -13,9 +9,17 @@ return {
     -- presets.operators["d"] = nil
     -- presets.operators["y"] = nil
 
+    vim.o.timeout = true
+    vim.o.timeoutlen = 500
+
     local wk = require "which-key"
 
-    wk.setup(opts)
+    wk.setup {
+      window = {
+        border = "rounded",
+      },
+    }
+
     wk.register {
       ["]"] = { name = "+next" },
       ["["] = { name = "+prev" },
