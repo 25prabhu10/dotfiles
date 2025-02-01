@@ -3,7 +3,7 @@ return {
   -- { "morhetz/gruvbox" },
   -- { "ellisonleao/gruvbox.nvim", lazy = true, config = true },
 
-  -- { "rose-pine/neovim", name = "rose-pine", lazy = true },
+  --{ "rose-pine/neovim", name = "rose-pine", lazy = true },
 
   -- Theme inspired by Atom
   -- {
@@ -13,27 +13,27 @@ return {
   --     vim.cmd.colorscheme "onedark"
   --   end,
   -- },
-  -- tokyonight
-  {
-    "folke/tokyonight.nvim",
-    lazy = true,
-    init = function()
-      -- Load the colorscheme here.
-      -- Like many other themes, this one has different styles, and you could load
-      -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
-      -- vim.cmd.colorscheme 'tokyonight-night'
 
-      -- You can configure highlights by doing something like
-      vim.cmd.hi "Comment gui=none"
-    end,
-    opts = { style = "night" },
-  },
+  -- {
+  --   "folke/tokyonight.nvim",
+  --   lazy = true,
+  --   init = function()
+  --     -- Load the colorscheme here.
+  --     -- Like many other themes, this one has different styles, and you could load
+  --     -- any other, such as 'tokyonight-storm', 'tokyonight-moon', or 'tokyonight-day'.
+  --     -- vim.cmd.colorscheme 'tokyonight-night'
+  --
+  --     -- You can configure highlights by doing something like
+  --     vim.cmd.hi "Comment gui=none"
+  --   end,
+  --   opts = { style = "night" },
+  -- },
   -- kanagawa
-  {
-    "rebelot/kanagawa.nvim",
-    lazy = true,
-  },
-  -- catppuccin
+  -- {
+  --   "rebelot/kanagawa.nvim",
+  --   lazy = true,
+  -- },
+
   {
     "catppuccin/nvim",
     lazy = false,
@@ -41,7 +41,7 @@ return {
     name = "catppuccin",
     opts = {
       transparent_background = true,
-      -- flavour = "mocha", -- latte, frappe, macchiato, mocha
+      flavour = "mocha", -- latte, frappe, macchiato, mocha
       -- dim_inactive = {
       --   enable = true, -- dims the background color of inactive window
       --   shade = "dark",
@@ -55,7 +55,7 @@ return {
         -- harpoon = false,
         -- indent_blankline = { enabled = true },
         -- lsp_trouble = true,
-        mason = true,
+        --mason = true,
         -- native_lsp = {
         --   enabled = true,
         --   underlines = {

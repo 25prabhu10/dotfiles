@@ -1,9 +1,11 @@
-local util = require "pk.util"
-
--- Local function
+-- Key mapping function
+---@param mode string|string[]: Mode short-name
+---@param lhs string: Left-hand side
+---@param rhs string|function: Right-hand side
+---@param opts? vim.keyma.set.Opts: Options
 local function map(mode, lhs, rhs, opts)
   opts = opts or {}
-  opts.silent = opts.silent ~= false
+  opts.silent = opts.silent or true
   if opts.remap and not vim.g.vscode then
     opts.remap = nil
   end
@@ -17,9 +19,15 @@ map({ "n", "v" }, "<Space>", "<Nop>", { silent = true })
 -- Map kj to esc in insert mode
 map("i", "kj", "<Esc>", { desc = "Escape!!!" })
 
+-- Source current file
+map("n", "<LocalLeader><LocalLeader>x", "<Cmd>source %<CR>", { desc = "Source config file" })
+
 -- Cursor movement when word wrap is on
 map({ "n", "x" }, "j", "v:count == 0 ? 'gj' : 'j'", { expr = true, silent = true })
 map({ "n", "x" }, "k", "v:count == 0 ? 'gk' : 'k'", { expr = true, silent = true })
+
+-- `qq` to record, `Q` to replay
+map("n", "Q", "@q")
 
 -- Move Lines
 map("n", "<A-j>", "<Cmd>m .+1<CR>==", { desc = "Move down" })
@@ -62,10 +70,10 @@ map("n", "<Leader><Tab>n", "<Cmd>tabn<CR>", { desc = "Go to next tab" })
 map("n", "<Leader><Tab>p", "<Cmd>tabp<CR>", { desc = "Go to previous tab" })
 
 -- Move to window using the <ctrl> hjkl keys
-map("n", "<C-h>", "<C-w>h", { desc = "Go to left window" })
-map("n", "<C-j>", "<C-w>j", { desc = "Go to lower window" })
-map("n", "<C-k>", "<C-w>k", { desc = "Go to upper window" })
-map("n", "<C-l>", "<C-w>l", { desc = "Go to right window" })
+map("n", "<C-h>", "<C-w><C-h>", { desc = "Move focus to the left window" })
+map("n", "<C-l>", "<C-w><C-l>", { desc = "Move focus to the right window" })
+map("n", "<C-j>", "<C-w><C-j>", { desc = "Move focus to the lower window" })
+map("n", "<C-k>", "<C-w><C-k>", { desc = "Move focus to the upper window" })
 
 -- Resize window using <ctrl> arrow keys (respecting `v:count`)
 map("n", "<C-Up>", '"<Cmd>resize +" . v:count1 . "<CR>"', { expr = true, replace_keycodes = false, desc = "Increase window height" })
@@ -96,20 +104,17 @@ map("n", "N", "Nzzzv")
 map("n", "<Leader>o", "o<Esc>j", { desc = "Add an empty line above" })
 map("n", "<Leader>O", "O<Esc>j", { desc = "Add an empty line below" })
 
--- `qq` to record, `Q` to replay
-map("n", "Q", "@q")
-
 -- Open Netrw
 -- map("n", "<LocalLeader>e", vim.cmd.Lexplore, { desc = "Open file explorer" })
 
 -- Save file
-map({ "i", "v", "n", "s" }, "<C-s>", "<Cmd>w<CR><Esc>", { desc = "Save file" })
+--map({ "i", "v", "n", "s" }, "<C-s>", "<Cmd>w<CR><Esc>", { desc = "Save file" })
 
 -- Spelling Check
 map("n", "<LocalLeader>s", function()
   ---@diagnostic disable-next-line
   vim.opt_local.spell = not vim.opt_local.spell:get()
-  ---@diagnostic disable-next-line: param-type-mismatch
+  ---@diagnostic disable-next-line: param-type-mismatch, undefined-field
   print("Setting `spell` check to: " .. tostring(vim.opt_local.spell:get()))
 end, { desc = "Toggle spell check" })
 
@@ -130,10 +135,10 @@ map("t", "<Esc><Esc>", "<C-\\><C-n>", { desc = "Exit terminal mode" })
 -- Open a terminal at the bottom of the screen with a fixed height.
 map("n", "<C-`>", function()
   vim.cmd.new()
-  vim.cmd.wincmd "J"
-  vim.api.nvim_win_set_height(0, 12)
-  vim.wo.winfixheight = true
   vim.cmd.term()
+  vim.cmd.wincmd "J"
+  vim.api.nvim_win_set_height(0, 15)
+  vim.wo.winfixheight = true
 end, { desc = "Open terminal at the bottom" })
 
 -- Clear highlight on search on perssing <Esc> in normal mode
@@ -157,4 +162,4 @@ map("n", "<Esc>", "<Cmd>nohlsearch<CR>", { desc = "Escape and clear hlsearch" })
 --   }
 -- end, { desc = "Goto next diagnostic" })
 map("n", "<Leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
-map("n", "<Leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostics list" })
+map("n", "<Leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic [Q]uickfix list" })
