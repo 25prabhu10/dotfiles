@@ -24,8 +24,8 @@ style = "Italic"
 family = "JetBrainsMono Nerd Font"
 style = "Regular"
 
-[shell]
-program = "/usr/bin/zsh"
+[terminal]
+shell = "/usr/bin/zsh"
 
 [window]
 startup_mode = "Maximized"
