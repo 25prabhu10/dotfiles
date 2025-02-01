@@ -1,6 +1,6 @@
 -- :help options
 
-vim.opt.termguicolors = true -- True color support
+vim.opt.termguicolors = true -- True colour support
 
 vim.opt.mouse = "a" -- Mouse support
 
