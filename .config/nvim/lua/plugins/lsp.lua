@@ -79,6 +79,11 @@ return {
             vim.lsp.inlay_hint.enable(not vim.lsp.inlay_hint.is_enabled { bufnr = args.buf })
           end
 
+          if client.name == "ruff" then
+            -- Disable hover in favor of Pyright
+            client.server_capabilities.hoverProvider = false
+          end
+
           -- Global Handlers for LSP
           ---@param methodName string: The method name
           ---@param fn function: The function to call
@@ -121,6 +126,21 @@ return {
       })
 
       local servers = {
+        clangd = {
+          capabilities = {
+            offsetEncoding = { "utf-16" },
+          },
+          cmd = {
+            "clangd",
+            "--background-index",
+            "--suggest-missing-includes",
+            "--clang-tidy",
+            "--header-insertion=iwyu",
+            "--completion-style=detailed",
+            "--function-arg-placeholders",
+            "--fallback-style=llvm",
+          },
+        },
         lua_ls = {
           settings = {
             Lua = {
@@ -132,6 +152,20 @@ return {
               },
               format = {
                 enable = false,
+              },
+            },
+          },
+        },
+        pyright = {
+          settings = {
+            pyright = {
+              -- Using Ruff's import organizer
+              disableOrganizeImports = true,
+            },
+            python = {
+              analysis = {
+                -- Ignore all files for analysis to exclusively use Ruff for linting
+                ignore = { "*" },
               },
             },
           },
@@ -156,6 +190,10 @@ return {
             -- certain features of an LSP (for example, turning off formatting for ts_ls)
             server.capabilities = vim.tbl_deep_extend("force", {}, require("blink.cmp").get_lsp_capabilities(server.capabilities), server.capabilities or {})
             require("lspconfig")[server_name].setup(server)
+
+            if server_name == "clangd" then
+              vim.keymap.set("n", "<Leader>ch", "<cmd>ClangdSwitchSourceHeader<cr>", { desc = "Switch Source/Header (C/C++)" })
+            end
           end,
         },
       }
@@ -190,10 +228,13 @@ return {
       formatters_by_ft = {
         lua = { "stylua" },
         -- Conform can also run multiple formatters sequentially
-        -- python = { "isort", "black" },
-        --
-        -- You can use 'stop_after_first' to run the first available formatter from the list
-        -- javascript = { "prettierd", "prettier", stop_after_first = true },
+        python = { "ruff_format" },
+        javascript = { "prettier", "prettierd", stop_after_first = true },
+        typescript = { "prettier", "prettierd", stop_after_first = true },
+        markdown = { "prettier", "prettierd", stop_after_first = true },
+        vue = { "prettier", "prettierd", stop_after_first = true },
+        cpp = { "clang-format" },
+        c = { "clang-format" },
       },
     },
   },

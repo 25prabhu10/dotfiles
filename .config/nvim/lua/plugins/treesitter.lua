@@ -31,6 +31,7 @@ return {
             "markdown",
             "markdown_inline",
             "nginx",
+            "proto",
             "python",
             "query",
             "regex",
