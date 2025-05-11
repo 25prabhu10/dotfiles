@@ -1,7 +1,7 @@
 return {
   -- fuzzy finder
   "nvim-telescope/telescope.nvim",
-  branch = "0.1.x",
+  --branch = "0.1.x",
   dependencies = {
     "nvim-lua/plenary.nvim",
 
@@ -133,61 +133,63 @@ return {
 
     -- See `:help telescope.builtin`
     local builtin = require "telescope.builtin"
+    local map = require("config.local-lib").map
 
     -- Files
-    vim.keymap.set("n", "<C-p>", builtin.find_files, { desc = "Find files" })
-    vim.keymap.set("n", "<Leader>fo", builtin.oldfiles, { desc = "Find recently opened files" })
-    vim.keymap.set("n", "<Leader><Space>", builtin.buffers, { desc = "Find current buffers" })
+    map("n", "<C-p>", builtin.find_files, { desc = "Find files" })
+    map("n", "<Leader>fo", builtin.oldfiles, { desc = "[F]ind [O]ldfiles" })
+    map("n", "<Leader><Space>", builtin.buffers, { desc = "[F]ind [B]uffers" })
+
+    -- Text
+    map("n", "<Leader>/", builtin.live_grep, { desc = "Find word" })
+    map("n", "<Leader>fw", builtin.grep_string, { desc = "Find word under the cursor" })
+    map("n", "<Leader>f/", function()
+      builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown { winblend = 10, previewer = false })
+    end, { desc = "Find in current file" })
+    map("n", "<Leader>fr", builtin.resume, { desc = "[S]earch [R]esume" })
 
     -- Git
-    vim.keymap.set("n", "<Leader>ggs", function()
-      if require("util").check_git_workspace() then
+    map("n", "<Leader>ggs", function()
+      if require("config.local-lib").check_git_workspace() then
         builtin.git_status()
       end
-    end, { desc = "Git Status" })
-    vim.keymap.set("n", "<Leader>ggc", function()
-      if require("util").check_git_workspace() then
+    end, { desc = "[G]it [S]tatus" })
+    map("n", "<Leader>ggc", function()
+      if require("config.local-lib").check_git_workspace() then
         builtin.git_commits()
       end
-    end, { desc = "Git Commits" })
-    vim.keymap.set("n", "<Leader>ggb", function()
-      if require("util").check_git_workspace() then
+    end, { desc = "[G]it [C]ommits" })
+    map("n", "<Leader>ggb", function()
+      if require("config.local-lib").check_git_workspace() then
         builtin.git_branches()
       end
-    end, { desc = "Git Branches" })
-    vim.keymap.set("n", "<Leader>ggf", function()
-      if require("util").check_git_workspace() then
+    end, { desc = "[G]it [B]ranches" })
+    map("n", "<Leader>ggf", function()
+      if require("config.local-lib").check_git_workspace() then
         builtin.git_files()
       end
-    end, { desc = "Find Git tracked Files" })
-
-    -- Find words
-    vim.keymap.set("n", "<Leader>/", builtin.live_grep, { desc = "Find word" })
-    vim.keymap.set("n", "<Leader>fw", builtin.grep_string, { desc = "Find word under the cursor" })
-    vim.keymap.set("n", "<Leader>f/", function()
-      builtin.current_buffer_fuzzy_find(require("telescope.themes").get_dropdown { winblend = 10, previewer = false })
-    end, { desc = "Find word under the cursor" })
-    vim.keymap.set("n", "<Leader>fr", builtin.resume, { desc = "[S]earch [R]esume" })
+    end, { desc = "[G]it [F]iles" })
 
     -- LSP
-    vim.keymap.set("n", "<Leader>gr", builtin.lsp_references, { desc = "Goto references" })
-    vim.keymap.set("n", "<Leader>gd", builtin.lsp_definitions, { desc = "Goto definition" })
-    vim.keymap.set("n", "<Leader>gD", builtin.lsp_type_definitions, { desc = "Goto declaration" })
-    vim.keymap.set("n", "<Leader>gI", builtin.lsp_implementations, { desc = "Goto Implementation" })
-    vim.keymap.set("n", "<Leader>ds", builtin.lsp_document_symbols, { desc = "Document symbols" })
-    vim.keymap.set("n", "<Leader>ws", builtin.lsp_dynamic_workspace_symbols, { desc = "Workspace symbols" })
-    vim.keymap.set("n", "<Leader>sd", "<Cmd>Telescope diagnostics bufnr=0<CR>", { desc = "Search document diagnostics" })
-    vim.keymap.set("n", "<Leader>sD", builtin.diagnostics, { desc = "Search workspace Diagnostics" })
+    map("n", "<Leader>gr", builtin.lsp_references, { desc = "[G]oto [R]eferences" })
+    map("n", "<Leader>gd", builtin.lsp_definitions, { desc = "[G]oto [D]efinition" })
+    map("n", "<Leader>gD", builtin.lsp_type_definitions, { desc = "[G]oto Type [D]eclaration" })
+    map("n", "<Leader>gI", builtin.lsp_implementations, { desc = "[G]oto [I]mplementation" })
+    map("n", "<Leader>fs", builtin.lsp_document_symbols, { desc = "[F]ind Document [S]ymbols" })
+    map("n", "<Leader>ws", builtin.lsp_dynamic_workspace_symbols, { desc = "[W]orkspace [S]ymbols" })
+    map("n", "<Leader>sd", "<Cmd>Telescope diagnostics bufnr=0<CR>", { desc = "[D]ocument [D]iagnostics" })
+    map("n", "<Leader>sD", builtin.diagnostics, { desc = "[W]orkspace [D]iagnostics" })
 
     -- Others
-    vim.keymap.set("n", "<Leader>so", builtin.vim_options, { desc = "Search vim options" })
-    vim.keymap.set("n", "<Leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
-    vim.keymap.set("n", "<Leader>ss", builtin.builtin, { desc = "[S]earch [S]elect Telescope" })
-    vim.keymap.set("n", "<Leader>sk", builtin.keymaps, { desc = "Search key maps" })
-    vim.keymap.set("n", "<Leader>sm", builtin.man_pages, { desc = "Search in man pages" })
-    vim.keymap.set("n", "<Leader>s:", builtin.command_history, { desc = "Command history" })
-    -- Shortcut for searching your neovim configuration files
-    vim.keymap.set("n", "<leader>sn", function()
+    map("n", "<Leader>so", builtin.vim_options, { desc = "[S]earch Vim [O]ptions" })
+    map("n", "<Leader>sh", builtin.help_tags, { desc = "[S]earch [H]elp" })
+    map("n", "<Leader>ss", builtin.builtin, { desc = "[S]earch [S]elect Telescope" })
+    map("n", "<Leader>sk", builtin.keymaps, { desc = "[S]earch [K]eymaps" })
+    map("n", "<Leader>sm", builtin.man_pages, { desc = "[S]earch [M]anpages" })
+    map("n", "<Leader>s:", builtin.command_history, { desc = "Command history" })
+
+    -- Shortcut for searching your Neovim configuration files
+    map("n", "<leader>sn", function()
       builtin.find_files { cwd = vim.fn.stdpath "config" }
     end, { desc = "[S]earch [N]eovim files" })
   end,

@@ -6,7 +6,7 @@ return {
   { "nvim-lua/plenary.nvim", lazy = true },
 
   -- To surround and fix repeat
-  -- GOAT
+  -- GOAT tpope
   { "tpope/vim-surround" },
   { "tpope/vim-repeat", event = "VeryLazy" },
 

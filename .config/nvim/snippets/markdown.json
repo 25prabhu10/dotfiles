@@ -1,0 +1,40 @@
+{
+  "Info container": {
+    "prefix": "vin",
+    "body": ["::: info ${1}", "${2:content}", ":::"],
+    "description": "Vitepress info container (https://vitepress.dev/guide/markdown#custom-containers)"
+  },
+  "Tip container": {
+    "prefix": "vti",
+    "body": ["::: tip ${1}", "${2:content}", ":::"],
+    "description": "Vitepress tip container (https://vitepress.dev/guide/markdown#custom-containers)"
+  },
+  "Warning container": {
+    "prefix": "vwa",
+    "body": ["::: warning ${1}", "${2:content}", ":::"],
+    "description": "Vitepress warning container (https://vitepress.dev/guide/markdown#custom-containers)"
+  },
+  "Danger container": {
+    "prefix": "vda",
+    "body": ["::: danger ${1}", "${2:content}", ":::"],
+    "description": "Vitepress danger container (https://vitepress.dev/guide/markdown#custom-containers)"
+  },
+  "Details container": {
+    "prefix": "vde",
+    "body": ["::: details ${1}", "${2:content}", ":::"],
+    "description": "Vitepress details container (https://vitepress.dev/guide/markdown#custom-containers)"
+  },
+  "Front matter": {
+    "prefix": "vfm",
+    "body": [
+      "---",
+      "title: ${TM_FILENAME_BASE/[_-]/ /gm}",
+      "description: ${2:description}",
+      "date: $CURRENT_YEAR-$CURRENT_MONTH-$CURRENT_DATE",
+      "---",
+      "",
+      "# ${TM_FILENAME_BASE/[_-]/ /g}"
+    ],
+    "description": "Vitepress front matter (https://vitepress.dev/reference/frontmatter-config)"
+  }
+}

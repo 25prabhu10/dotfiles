@@ -6,7 +6,7 @@ vim.opt.mouse = "a" -- Mouse support
 
 -- Attempt to determine the type of a file based on its name and possibly its
 -- contents. Use this to allow intelligent auto-indenting for each file type,
--- and for plugins that are file type specific.
+-- and for plugins that are file type specific
 --filetype plugin indent on
 
 -- This adds the current directory to the :Find files feature (in-built)
@@ -15,7 +15,7 @@ vim.opt.path:append "**"
 --"set dictionary+=/usr/share/dict/words
 
 -- This stops Vim from redrawing the screen during complex operations and
--- results in much smoother looking plugins.
+-- results in much smoother looking plugins
 vim.opt.lazyredraw = true
 
 -- No swap and No backup files
@@ -46,14 +46,12 @@ vim.opt.foldenable = false -- Do not fold on file opening
 vim.opt.scrolloff = 10 -- Lines of context
 vim.opt.sidescrolloff = 10 -- Columns of context
 
---vim.opt.wrap = false -- Disable soft wrapping
-
 vim.opt.splitbelow = true -- Put new windows below current
 vim.opt.splitright = true -- Put new windows right of current
 
 -- Show "invisible" characters
 vim.opt.list = true
-vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "_", extends = "❯", precedes = "❮" }
+vim.opt.listchars = { tab = "» ", trail = "·", nbsp = "␣", extends = "❯", precedes = "❮" }
 vim.opt.showbreak = "↪"
 
 vim.wo.relativenumber = true -- Relative line numbers
@@ -63,13 +61,12 @@ vim.opt.showmode = false -- Don't show mode since we have a status line
 
 vim.opt.autoread = true -- Auto Read if file updated externally
 
---opt.colorcolumn = { 80 } -- Vertical line on column 80
 vim.opt.cursorline = true -- Enable highlighting of the current line
 
--- vim.schedule(function()
--- 	vim.opt.clipboard = "unnamedplus" -- Copy paste between vim and everything else
--- end)
-vim.opt.clipboard = ""
+vim.schedule(function()
+  -- vim.opt.clipboard = "unnamedplus" -- Copy paste between vim and everything else
+  vim.opt.clipboard = ""
+end)
 
 vim.opt.spell = true
 vim.opt.spelllang = "en_gb"
@@ -129,12 +126,12 @@ vim.opt.formatoptions = vim.opt.formatoptions
   + "q" -- Allow formatting comments w/ gq
   - "o" -- O and o, don't continue comments
   - "r" -- Don't insert comment after <Enter>
-  + "n" -- Indent past the formatlistpat, not underneath it.
-  + "j" -- Auto-remove comments if possible.
+  + "n" -- Indent past the formatlistpat, not underneath it
+  + "j" -- Auto-remove comments if possible
   - "2" -- Not in gradeschool anymore
   + "l" -- Long lines are not broken in insert mode
--- - "a" -- Auto formatting is BAD.
--- - "t" -- Don't auto format my code. Linters can do that.
+-- - "a" -- Auto formatting is BAD
+-- - "t" -- Don't auto format my code. Linters can do that
 -- Don't have `o` add a comment
 -- opt.formatoptions:remove "o"
 
@@ -158,3 +155,5 @@ vim.opt.synmaxcol = 250
 --vim.filetype.add { extension = { templ = "templ" } }
 
 vim.opt.smoothscroll = true
+
+vim.opt.confirm = true -- Confirm before closing unsaved buffers

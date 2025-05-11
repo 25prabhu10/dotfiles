@@ -6,7 +6,7 @@ local autocmd = vim.api.nvim_create_autocmd
 -- Highlight on yank
 autocmd("TextYankPost", {
   group = augroup "highlight_yank",
-  desc = "Highlight on yanking (copying) text",
+  desc = "Highlight when yanking (copying) text",
   pattern = "*",
   callback = function()
     vim.highlight.on_yank {
@@ -26,7 +26,7 @@ autocmd({ "VimResized" }, {
   end,
 })
 
--- Remove formatoptions
+-- Remove format options
 autocmd({ "BufWinEnter" }, {
   group = augroup "remove_format_options",
   desc = "Don't add auto comment for new string",
@@ -35,7 +35,7 @@ autocmd({ "BufWinEnter" }, {
   end,
 })
 
--- Go to last loc when opening a buffer
+-- Go to last location when opening a buffer
 autocmd("BufReadPost", {
   group = augroup "last_loc",
   desc = "Go to the last loc when opening a buffer",
@@ -80,49 +80,49 @@ autocmd("TermOpen", {
 -- })
 
 -- File templates
-autocmd({ "BufNewFile" }, {
-  group = augroup "skeleton_sh",
-  pattern = "*.sh",
-  command = "0r ~/.config/nvim/skeletons/bash.sh",
-})
+-- autocmd({ "BufNewFile" }, {
+--   group = augroup "skeleton_sh",
+--   pattern = "*.sh",
+--   command = "0r ~/.config/nvim/skeletons/bash.sh",
+-- })
 
-autocmd({ "BufNewFile" }, {
-  group = augroup "skeleton_md",
-  pattern = "*.md",
-  command = "0r ~/.config/nvim/skeletons/markdown.md",
-})
+-- autocmd({ "BufNewFile" }, {
+--   group = augroup "skeleton_md",
+--   pattern = "*.md",
+--   command = "0r ~/.config/nvim/skeletons/markdown.md",
+-- })
 
-autocmd({ "BufNewFile" }, {
-  group = augroup "skeleton_md_new",
-  pattern = "*.md",
-  callback = function()
-    local l
-    if vim.fn.line "$" > 20 then
-      l = 20
-    else
-      l = vim.fn.line "$"
-    end
-    vim.fn.execute("1," .. l .. "g/date: /s/date: .*/date: " .. vim.fn.strftime "%Y-%m-%d")
-    vim.fn.execute("1," .. l .. "g/title: /s/title: .*/title: " .. vim.fn.expand "%:t:r")
-    vim.fn.execute("1," .. l .. "g/# /s/# .*/# " .. vim.fn.expand "%:t:r")
-  end,
-})
-
-autocmd({ "BufWritePre", "FileWritePre" }, {
-  group = augroup "skeleton_md_update",
-  pattern = "*.md",
-  callback = function()
-    local save_cursor = vim.fn.getpos "."
-    local l
-    if vim.fn.line "$" > 20 then
-      l = 20
-    else
-      l = vim.fn.line "$"
-    end
-    vim.fn.execute("1," .. l .. "g/lastmod: /s/lastmod: .*/lastmod: " .. vim.fn.strftime "%Y-%m-%d")
-    vim.fn.setpos(".", save_cursor)
-  end,
-})
+-- autocmd({ "BufNewFile" }, {
+--   group = augroup "skeleton_md_new",
+--   pattern = "*.md",
+--   callback = function()
+--     local l
+--     if vim.fn.line "$" > 20 then
+--       l = 20
+--     else
+--       l = vim.fn.line "$"
+--     end
+--     vim.fn.execute("1," .. l .. "g/date: /s/date: .*/date: " .. vim.fn.strftime "%Y-%m-%d")
+--     vim.fn.execute("1," .. l .. "g/title: /s/title: .*/title: " .. vim.fn.expand "%:t:r")
+--     vim.fn.execute("1," .. l .. "g/# /s/# .*/# " .. vim.fn.expand "%:t:r")
+--   end,
+-- })
+--
+-- autocmd({ "BufWritePre", "FileWritePre" }, {
+--   group = augroup "skeleton_md_update",
+--   pattern = "*.md",
+--   callback = function()
+--     local save_cursor = vim.fn.getpos "."
+--     local l
+--     if vim.fn.line "$" > 20 then
+--       l = 20
+--     else
+--       l = vim.fn.line "$"
+--     end
+--     vim.fn.execute("1," .. l .. "g/lastmod: /s/lastmod: .*/lastmod: " .. vim.fn.strftime "%Y-%m-%d")
+--     vim.fn.setpos(".", save_cursor)
+--   end,
+-- })
 
 -- close some filetypes with <q>
 -- vim.api.nvim_create_autocmd("FileType", {

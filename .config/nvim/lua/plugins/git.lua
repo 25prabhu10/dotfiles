@@ -2,7 +2,7 @@ return {
   -- {
   --   "tpope/vim-fugitive",
   --   cmd = { "Git", "GBrowse", "Gdiffsplit", "Gvdiffsplit" },
-  --   event = "BufRead",
+  --   event = { 'BufReadPre', 'BufNewFile' },
   --   config = function()
   --     vim.keymap.set("n", "<Leader>ggl", "<Cmd>Git log %<CR>", { desc = "Git log of current buffer" })
   --     vim.keymap.set("n", "<Leader>ggL", "<Cmd>Git l<CR>", { desc = "Git log" })
@@ -21,9 +21,10 @@ return {
   --     -- vim.keymap.set("n", "<Leader>ggC", "<Cmd>Git commit --amend<CR>", { desc = "" })
   --   end,
   -- },
-  "github/copilot.vim",
+  { "github/copilot.vim", event = "InsertEnter" },
   -- {
   --   "lewis6991/gitsigns.nvim",
+  --   event = { 'BufReadPre', 'BufNewFile' },
   --   config = function()
   --     require("gitsigns").setup {
   --       signs = {

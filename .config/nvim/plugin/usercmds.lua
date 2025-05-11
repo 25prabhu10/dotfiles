@@ -29,16 +29,18 @@ vim.api.nvim_create_user_command("DiffOrig", function()
   wp_scratch_buf(start, scratch, "q")
 end, { desc = "Diff current buffer with the file on disk" })
 
+-- Sort current buffer by second column
 vim.api.nvim_create_user_command("MySort", "%!sort -k2nr", { force = true })
 
-vim.api.nvim_create_user_command("AutoFormatToggle", function(args)
-  local __bufnr = vim.api.nvim_get_current_buf()
-  if args.bang then
-    -- AutoFormatToggle! will disable formatting just for this buffer
-    vim.b[__bufnr].disable_autoformat = not vim.b[__bufnr].disable_autoformat
-  else
-    vim.b[__bufnr].disable_autoformat = not vim.b[__bufnr].disable_autoformat
-    vim.g.disable_autoformat = not vim.g.disable_autoformat
-  end
-  print("Setting `autoformatting` to: " .. tostring(not vim.b[__bufnr].disable_autoformat))
-end, { desc = "Toggle autoformatting", bang = true })
+-- Sort current buffer by first column
+-- vim.api.nvim_create_user_command("AutoFormatToggle", function(args)
+--   local __bufnr = vim.api.nvim_get_current_buf()
+--   if args.bang then
+--     -- AutoFormatToggle! will disable formatting just for this buffer
+--     vim.b[__bufnr].disable_autoformat = not vim.b[__bufnr].disable_autoformat
+--   else
+--     vim.b[__bufnr].disable_autoformat = not vim.b[__bufnr].disable_autoformat
+--     vim.g.disable_autoformat = not vim.g.disable_autoformat
+--   end
+--   print("Setting `autoformatting` to: " .. tostring(not vim.b[__bufnr].disable_autoformat))
+-- end, { desc = "Toggle autoformatting", bang = true })
