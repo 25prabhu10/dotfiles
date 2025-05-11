@@ -1,10 +1,11 @@
-# Get editor completions based on the config schema
+# Get editor completions based on the configuration schema
 "$schema" = 'https://starship.rs/config-schema.json'
 
-command_timeout = 1000
+# Timeout for commands executed by starship (in milliseconds)
+command_timeout = 1000 # 500 default
 
 # Inserts a blank line between shell prompts
-add_newline = true
+#add_newline = true
 
 [aws]
 disabled = true
