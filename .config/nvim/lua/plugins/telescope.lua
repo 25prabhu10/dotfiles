@@ -17,108 +17,48 @@ return {
     },
     "nvim-telescope/telescope-ui-select.nvim",
     -- { "nvim-telescope/telescope-smart-history.nvim" },
-    -- { "kkharji/sqlite.lua" },
   },
   config = function()
+    local telescopeConfig = require "telescope.config"
+
+    -- Clone the default Telescope configuration
+    local vimgrep_arguments = { unpack(telescopeConfig.values.vimgrep_arguments) }
+
+    -- I want to search in hidden/dot files.
+    table.insert(vimgrep_arguments, "--hidden")
+    -- I don't want to search in the `.git` directory.
+    table.insert(vimgrep_arguments, "--glob")
+    table.insert(vimgrep_arguments, "!**/.git/*")
+    -- Trim the indentation at the beginning of presented line
+    table.insert(vimgrep_arguments, "--trim")
+
     require("telescope").setup {
+      defaults = {
+        -- `hidden = true` is not supported in text grep commands.
+        vimgrep_arguments = vimgrep_arguments,
+        path_display = { "truncate" },
+        dynamic_preview_title = true,
+      },
       pickers = {
         find_files = {
           theme = "ivy",
+          find_command = {
+            "fd",
+            "--type",
+            "f",
+            "--strip-cwd-prefix",
+            "--hidden",
+            "--color",
+            "never",
+            "--follow",
+            "--exclude",
+            ".git",
+          },
         },
         help_tags = {
           theme = "ivy",
         },
       },
-      --   defaults = {
-      --     layout_strategy = "horizontal",
-      --     layout_config = {
-      --       horizontal = {
-      --         prompt_position = "top",
-      --         preview_width = 0.5,
-      --       },
-      --       width = 0.8,
-      --       height = 0.8,
-      --       preview_cutoff = 120,
-      --     },
-      --     sorting_strategy = "ascending",
-      --     winblend = 0,
-      --     vimgrep_arguments = {
-      --       "rg",
-      --       "--color=never",
-      --       "--no-heading",
-      --       "--with-filename",
-      --       "--line-number",
-      --       "--column",
-      --       "--smart-case",
-      --       "--trim", -- add this value
-      --     },
-      --     mappings = {
-      --       i = {
-      --         -- map actions.which_key to <C-h> (default: <C-/>)
-      --         -- actions.which_key shows the mappings for your picker,
-      --         -- e.g. git_{create, delete, ...}_branch for the git_branches picker
-      --         --["<C-h>"] = "which_key"
-      --         ["<C-k>"] = function(...)
-      --           return require("telescope.actions").cycle_history_next(...)
-      --         end,
-      --         ["<C-j>"] = function(...)
-      --           return require("telescope.actions").cycle_history_prev(...)
-      --         end,
-      --       },
-      --     },
-      --     path_display = { "truncate" },
-      --     -- file_ignore_patterns = { "node_modules" },
-      --   },
-      --   file_previewer = require("telescope.previewers").cat.new,
-      --   grep_previewer = require("telescope.previewers").vimgrep.new,
-      --   qflist_previewer = require("telescope.previewers").qflist.new,
-      --   pickers = {
-      --     find_files = {
-      --       prompt_prefix = "🔍",
-      --       find_command = {
-      --         "fd",
-      --         "--type",
-      --         "f",
-      --         "--hidden",
-      --         "--color",
-      --         "never",
-      --         "--strip-cwd-prefix",
-      --         "--exclude",
-      --         ".git",
-      --       },
-      --       -- find_command = { "rg", "--files", "--hidden", "--glob", "!**/.git/*" },
-      --     },
-      --     live_grep = {
-      --       -- previewer = false,
-      --       -- fzf_separator = "|>",
-      --       -- winblend = 10,
-      --       -- shorten_path = false,
-      --       results_title = false,
-      --       preview_title = false,
-      --       layout_config = {
-      --         preview_width = 0.5,
-      --       },
-      --     },
-      --     git_status = {
-      --       prompt_prefix = "󰊢  ",
-      --       show_untracked = true,
-      --       initial_mode = "normal",
-      --     },
-      --     git_commits = {
-      --       prompt_prefix = "󰊢  ",
-      --       initial_mode = "normal",
-      --       results_title = "git log (current buffer)",
-      --     },
-      --     git_branches = {
-      --       prompt_prefix = "󰊢  ",
-      --       initial_mode = "normal",
-      --     },
-      --     buffers = {
-      --       sort_lastused = true,
-      --       sort_mru = true,
-      --       -- theme = "dropdown",
-      --     },
-      --   },
       extensions = {
         fzf = { fuzzy = true, override_generic_sorter = true, override_file_sorter = true, case_mode = "smart_case" },
         ["ui-select"] = {

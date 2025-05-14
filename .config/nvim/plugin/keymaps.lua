@@ -63,8 +63,6 @@ map({ "n", "v" }, "<Leader>d", '"_d', { desc = "Delete (no yank)" })
 map("n", "x", '"_x', { desc = "Delete char (no yank)" })
 
 -- Buffer navigation
-map("n", "]b", "<Cmd>bnext<CR>", { desc = "Next buffer" })
-map("n", "[b", "<Cmd>bprevious<CR>", { desc = "Prev buffer" })
 map("n", "<LocalLeader>q", "<Cmd>bd<CR>", { desc = "Close current buffer" })
 
 -- Tab navigation
@@ -141,9 +139,6 @@ map("n", "<Leader>t", function()
   vim.api.nvim_win_set_height(0, 15)
   vim.wo.winfixheight = true
 end, { desc = "Open terminal (bottom)" })
-
--- Open diagnostics in a floating window
-map("n", "<Leader>e", vim.diagnostic.open_float, { desc = "Open floating diagnostic message" })
 
 -- Open diagnostics in location list
 map("n", "<Leader>q", vim.diagnostic.setloclist, { desc = "Open diagnostic Quickfix list" })

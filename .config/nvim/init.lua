@@ -10,7 +10,7 @@ vim.g.maplocalleader = ","
 -- Bootstrap lazy.nvim
 require "config.lazy"
 
--- Function that checks if colour scheme exists and sets it
+-- Set colorscheme
 vim.cmd "colorscheme gruvbox"
 
 -- Install plugins

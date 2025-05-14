@@ -144,7 +144,6 @@ vim.opt.sessionoptions = { "buffers", "curdir", "tabpages", "winsize" }
 
 vim.opt.shortmess:append { W = true, I = true, c = true }
 vim.opt.splitkeep = "screen" -- Reduce scroll during window split
-vim.opt.shortmess:append { C = true }
 
 vim.opt.diffopt = { "internal", "filler", "closeoff", "hiddenoff", "algorithm:minimal" }
 
