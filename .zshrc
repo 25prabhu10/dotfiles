@@ -143,11 +143,11 @@ pdfcompress ()
 #source /usr/share/nvm/install-nvm-exec
 
 # fzf support
-source /usr/share/fzf/key-bindings.zsh
-source /usr/share/fzf/completion.zsh
+# Set up fzf key bindings and fuzzy completion
+source <(fzf --zsh)
 # Setting fd as the default source for fzf
-export FZF_DEFAULT_COMMAND='fd --type file --follow --hidden --color=always --exclude .git'
-export FZF_DEFAULT_OPTS="--ansi"
+export FZF_DEFAULT_COMMAND='fd --type f --strip-cwd-prefix --hidden --follow --exclude .git'
+export FZF_DEFAULT_OPTS="--ansi --tmux 75%,75%"
 # To apply the command to CTRL-T as well
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
